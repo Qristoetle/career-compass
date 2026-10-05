@@ -1,0 +1,2042 @@
+{
+  "meta": {
+    "generated_at": "2026-03-18 11:12:17",
+    "version": "v3 — AI驱动，基于真实数据集",
+    "ai_generated": true,
+    "total_jobs": 10,
+    "total_nodes": 50,
+    "total_edges": 80,
+    "vertical_edge_count": 40,
+    "lateral_edge_count": 40,
+    "data_source": "基于 4213 条真实招聘JD统计分析"
+  },
+  "vertical_paths": {
+    "Java开发工程师": [
+      {
+        "level": 1,
+        "level_name": "Java初级开发工程师/应届",
+        "typical_years": "在校期间/0年",
+        "salary_range": "6k-10k",
+        "key_milestone": "独立完成模块开发并通过测试，掌握Spring Boot基础项目搭建。",
+        "data_basis": "参考数据集薪资分布“5-10k”区间及样本JD中对基础编码能力的要求。"
+      },
+      {
+        "level": 2,
+        "level_name": "Java开发工程师",
+        "typical_years": "1-3年",
+        "salary_range": "10k-16k",
+        "key_milestone": "独立负责核心模块开发与数据库设计，主导小型项目或功能迭代。",
+        "data_basis": "参考数据集平均薪资低端11.8k及“10-15k”高占比区间，样本JD中要求3年经验。"
+      },
+      {
+        "level": 3,
+        "level_name": "Java高级开发工程师",
+        "typical_years": "3-5年",
+        "salary_range": "16k-25k",
+        "key_milestone": "主导系统架构设计，解决高并发或复杂技术难题，具备带1-2人经验。",
+        "data_basis": "参考数据集“15-20k”高占比区间及“20-30k”部分，样本JD要求技术攻关能力。"
+      },
+      {
+        "level": 4,
+        "level_name": "Java技术专家/架构师",
+        "typical_years": "5-8年",
+        "salary_range": "25k-40k",
+        "key_milestone": "主导公司级技术架构演进，输出可复用的技术组件或平台，培养团队。",
+        "data_basis": "参考数据集“20-30k”区间向上延伸，样本JD中对系统设计、性能优化的高阶要求。"
+      },
+      {
+        "level": 5,
+        "level_name": "首席架构师/技术总监",
+        "typical_years": "8年+",
+        "salary_range": "40k-70k+",
+        "key_milestone": "制定公司技术战略，主导重大技术决策，技术团队规模管理30人以上。",
+        "data_basis": "超出数据集范围，代表行业顶尖水平，基于技术管理角色及战略影响力设定。"
+      }
+    ],
+    "软件测试工程师": [
+      {
+        "level": 1,
+        "level_name": "软件测试助理/应届生",
+        "typical_years": "在校期间/应届",
+        "salary_range": "5k-8k",
+        "key_milestone": "独立完成简单模块功能测试，缺陷有效提交率>90%。",
+        "data_basis": "数据集5-10k低端，结合应届生市场起薪。"
+      },
+      {
+        "level": 2,
+        "level_name": "初级软件测试工程师",
+        "typical_years": "0-2年",
+        "salary_range": "8k-12k",
+        "key_milestone": "独立负责中型项目全流程测试，主导编写测试用例>200条。",
+        "data_basis": "数据集平均薪资7.6k-11.4k，5-10k及10-15k区间中位。"
+      },
+      {
+        "level": 3,
+        "level_name": "中级软件测试工程师",
+        "typical_years": "2-4年",
+        "salary_range": "12k-18k",
+        "key_milestone": "引入自动化/性能测试，用例覆盖率提升30%，主导专项测试。",
+        "data_basis": "数据集10-15k高端及15-20k中位，代表熟练工市场价值。"
+      },
+      {
+        "level": 4,
+        "level_name": "高级软件测试工程师/测试专家",
+        "typical_years": "4-7年",
+        "salary_range": "18k-28k",
+        "key_milestone": "建立团队测试框架/流程，缺陷预防率提升，主导复杂系统质量保障。",
+        "data_basis": "数据集15-20k高端及20-30k区间，对应资深专家岗。"
+      },
+      {
+        "level": 5,
+        "level_name": "测试架构师/测试总监",
+        "typical_years": "7年+",
+        "salary_range": "28k-45k+",
+        "key_milestone": "规划公司级质量体系，测试效率提升50%以上，培养测试梯队。",
+        "data_basis": "适度超出数据集20-30k范围，代表行业顶尖管理与技术角色。"
+      }
+    ],
+    "C/C++开发工程师": [
+      {
+        "level": 1,
+        "level_name": "C/C++初级开发工程师/应届生",
+        "typical_years": "0-1年",
+        "salary_range": "5k-10k",
+        "key_milestone": "独立完成模块开发，修复至少5个复杂Bug，通过代码评审。",
+        "data_basis": "数据集薪资分布中，5-10k区间有76个岗位，对应入门级。"
+      },
+      {
+        "level": 2,
+        "level_name": "C/C++中级开发工程师",
+        "typical_years": "2-4年",
+        "salary_range": "12k-20k",
+        "key_milestone": "主导核心模块设计，性能优化提升30%以上，指导1名初级工程师。",
+        "data_basis": "数据集平均薪资区间12.2k-22.5k，10-15k及15-20k为最大分布区间（共208个岗位）。"
+      },
+      {
+        "level": 3,
+        "level_name": "C/C++高级开发工程师/技术专家",
+        "typical_years": "4-7年",
+        "salary_range": "20k-35k",
+        "key_milestone": "主导系统架构设计，成功交付2个以上大型项目，获得技术专利或发表技术文章。",
+        "data_basis": "数据集20-30k有19个岗位，30k以上有1个，向上延伸至高级专家水平。"
+      },
+      {
+        "level": 4,
+        "level_name": "C/C++架构师/技术负责人",
+        "typical_years": "7-10年",
+        "salary_range": "35k-60k",
+        "key_milestone": "规划并落地公司级技术平台，团队规模10人以上，技术决策影响产品路线。",
+        "data_basis": "超出数据集范围，基于行业顶尖水平及大型企业（数据集10000人以上占155个）架构师薪酬。"
+      },
+      {
+        "level": 5,
+        "level_name": "首席架构师/技术总监",
+        "typical_years": "10年+",
+        "salary_range": "60k+ (年薪100万+)",
+        "key_milestone": "定义行业技术标准，主导千万级用户产品技术体系，培养出3名以上架构师。",
+        "data_basis": "远超数据集范围，代表行业顶尖水平，对应头部企业核心技术决策层薪酬。"
+      }
+    ],
+    "前端开发工程师": [
+      {
+        "level": 1,
+        "level_name": "前端开发助理/初级工程师",
+        "typical_years": "应届/0-1年",
+        "salary_range": "5-10k",
+        "key_milestone": "独立完成简单模块开发，掌握Vue/React任一框架并完成1-2个项目",
+        "data_basis": "数据集显示67条JD薪资在5-10k区间，对应入门及初级岗位"
+      },
+      {
+        "level": 2,
+        "level_name": "前端开发工程师",
+        "typical_years": "1-3年",
+        "salary_range": "10-15k",
+        "key_milestone": "独立负责中型项目前端全流程，主导技术选型，产出可复用组件",
+        "data_basis": "数据集48条JD薪资在10-15k区间，为市场主流中级工程师薪资"
+      },
+      {
+        "level": 3,
+        "level_name": "高级前端开发工程师",
+        "typical_years": "3-5年",
+        "salary_range": "15-25k",
+        "key_milestone": "主导复杂项目架构设计，建立团队开发规范，具备性能深度优化经验",
+        "data_basis": "数据集19条JD在15-20k，6条在20-30k，综合推算高级工程师区间"
+      },
+      {
+        "level": 4,
+        "level_name": "前端专家/技术负责人",
+        "typical_years": "5-8年",
+        "salary_range": "25-40k",
+        "key_milestone": "规划前端技术体系，主导跨团队技术方案，培养3人以上团队",
+        "data_basis": "基于数据集高端20-30k（6条）向上延伸，代表资深专家水平"
+      },
+      {
+        "level": 5,
+        "level_name": "前端架构师/技术总监",
+        "typical_years": "8年+",
+        "salary_range": "40k+",
+        "key_milestone": "制定公司级前端技术战略，产出行业影响力方案或开源项目，管理10人以上团队",
+        "data_basis": "超出数据集范围（30k以上为0），代表行业顶尖水平及管理岗位"
+      }
+    ],
+    "硬件测试工程师": [
+      {
+        "level": 1,
+        "level_name": "硬件测试实习生/助理工程师",
+        "typical_years": "在校期间/应届",
+        "salary_range": "4k-6k",
+        "key_milestone": "独立完成标准测试用例执行，准确记录数据并提交测试报告。",
+        "data_basis": "参考数据集薪资分布5k以下及6.5k均值下限，为入门级薪资。"
+      },
+      {
+        "level": 2,
+        "level_name": "硬件测试工程师",
+        "typical_years": "0-2年",
+        "salary_range": "6k-9k",
+        "key_milestone": "独立负责模块测试，能设计简单测试用例并定位常见硬件问题。",
+        "data_basis": "对应数据集平均薪资区间6.5k-9.7k及分布主体5-10k。"
+      },
+      {
+        "level": 3,
+        "level_name": "资深硬件测试工程师",
+        "typical_years": "2-4年",
+        "salary_range": "9k-13k",
+        "key_milestone": "主导新产品全流程测试，独立制定测试计划并完成可靠性/环境等专项测试。",
+        "data_basis": "参考数据集10-15k分布，为经验丰富工程师薪资。"
+      },
+      {
+        "level": 4,
+        "level_name": "硬件测试专家/主管",
+        "typical_years": "4-7年",
+        "salary_range": "13k-18k",
+        "key_milestone": "建立测试体系与规范，主导替代料/成本优化等专项，指导3人以上团队。",
+        "data_basis": "参考数据集15-20k分布并适度上浮，对应团队技术负责人。"
+      },
+      {
+        "level": 5,
+        "level_name": "硬件测试经理/架构师",
+        "typical_years": "7年+",
+        "salary_range": "18k-30k+",
+        "key_milestone": "规划公司级硬件质量与测试战略，主导前沿技术预研，管理10人以上跨职能团队。",
+        "data_basis": "超出数据集范围，代表行业顶尖水平，参考一线城市及大型企业薪资。"
+      }
+    ],
+    "实施工程师": [
+      {
+        "level": 1,
+        "level_name": "实施助理/应届生",
+        "typical_years": "0-1年",
+        "salary_range": "5-7k",
+        "key_milestone": "独立完成1个小型项目的数据建库与用户培训，文档通过验收。",
+        "data_basis": "基于数据集薪资分布“5k以下”及“5-10k”低端，结合样本JD对实习/应届生的描述。"
+      },
+      {
+        "level": 2,
+        "level_name": "初级实施工程师",
+        "typical_years": "1-3年",
+        "salary_range": "7-10k",
+        "key_milestone": "独立负责1-2个中型项目模块实施，掌握2种以上数据采集协议或行业软件。",
+        "data_basis": "基于数据集薪资分布“5-10k”中高端及平均薪资区间（6.4k-10.8k）中位数。"
+      },
+      {
+        "level": 3,
+        "level_name": "中级实施工程师/项目骨干",
+        "typical_years": "3-5年",
+        "salary_range": "10-15k",
+        "key_milestone": "主导完成3个以上完整项目交付，能独立完成售前技术方案与售后问题闭环。",
+        "data_basis": "基于数据集薪资分布“10-15k”区间，对应样本中要求“2年以上经验、主导实施”的岗位。"
+      },
+      {
+        "level": 4,
+        "level_name": "高级实施工程师/实施专家",
+        "typical_years": "5-8年",
+        "salary_range": "15-25k",
+        "key_milestone": "形成特定行业（如医疗、工业）解决方案，主导大型项目（合同额>100万）技术实施。",
+        "data_basis": "基于数据集薪资分布“15-20k”及“20-30k”区间向上延伸，对应样本中售前/行业专家角色。"
+      },
+      {
+        "level": 5,
+        "level_name": "实施总监/解决方案架构师",
+        "typical_years": "8年+",
+        "salary_range": "25-50k+",
+        "key_milestone": "负责产品线或区域全部项目实施体系，年交付项目总额超千万，培养5人以上骨干团队。",
+        "data_basis": "超出数据集范围，基于行业顶尖水平及样本中管理、战略职责的合理推演。"
+      }
+    ],
+    "技术支持工程师": [
+      {
+        "level": 1,
+        "level_name": "技术支持助理/应届生",
+        "typical_years": "0-1年",
+        "salary_range": "5-7k",
+        "key_milestone": "独立完成标准产品安装调试，能处理60%以上常见故障",
+        "data_basis": "数据集薪资分布5-10k低端及6.7k均值推算"
+      },
+      {
+        "level": 2,
+        "level_name": "技术支持工程师",
+        "typical_years": "1-3年",
+        "salary_range": "7-10k",
+        "key_milestone": "独立负责区域项目交付，客户满意度>90%，可培训新员工",
+        "data_basis": "数据集薪资分布5-10k中高端及6.7k-11.4k均值区间"
+      },
+      {
+        "level": 3,
+        "level_name": "高级技术支持工程师",
+        "typical_years": "3-5年",
+        "salary_range": "10-15k",
+        "key_milestone": "主导复杂项目技术方案，解决90%以上疑难问题，可进行售前支持",
+        "data_basis": "数据集薪资分布10-15k区间及11.4k均值上限"
+      },
+      {
+        "level": 4,
+        "level_name": "技术支持专家/团队主管",
+        "typical_years": "5-8年",
+        "salary_range": "15-25k",
+        "key_milestone": "管理3-5人团队，建立知识库与SOP，将重复问题率降低30%",
+        "data_basis": "数据集薪资分布15-20k及20-30k区间，向上合理延伸"
+      },
+      {
+        "level": 5,
+        "level_name": "技术支持总监/高级专家",
+        "typical_years": "8年+",
+        "salary_range": "25-40k+",
+        "key_milestone": "制定部门技术战略，主导产品改进，将客户流失率降低15%以上",
+        "data_basis": "超出数据集范围，代表行业顶尖水平及管理岗位薪酬"
+      }
+    ],
+    "质量管理工程师": [
+      {
+        "level": 1,
+        "level_name": "质检员/质量检验员",
+        "typical_years": "0-1年",
+        "salary_range": "5-8k",
+        "key_milestone": "独立执行IQC/IPQC/FQC/OQC等至少两项检验流程，准确率>99%。",
+        "data_basis": "数据集薪资分布中“5-10k”的低位区间，对应初级执行岗位。"
+      },
+      {
+        "level": 2,
+        "level_name": "质量工程师",
+        "typical_years": "2-4年",
+        "salary_range": "8-15k",
+        "key_milestone": "独立主导完成至少3次8D报告，并成功关闭客诉或制程重大异常。",
+        "data_basis": "数据集平均薪资区间（7.8k-11.8k）及“10-15k”分布，为典型核心岗位。"
+      },
+      {
+        "level": 3,
+        "level_name": "高级质量工程师/质量主管",
+        "typical_years": "4-7年",
+        "salary_range": "15-25k",
+        "key_milestone": "主导建立或优化一个模块（如供应商、制程、体系）的质量管理体系并落地。",
+        "data_basis": "数据集“15-20k”及“20-30k”分布，代表资深专家或初级管理岗。"
+      },
+      {
+        "level": 4,
+        "level_name": "质量经理",
+        "typical_years": "7-10年",
+        "salary_range": "25-40k",
+        "key_milestone": "负责整个工厂或事业部的质量体系，年度质量成本降低10%或客户投诉率下降20%。",
+        "data_basis": "基于第3级向上延伸，代表中型以上企业部门负责人水平。"
+      },
+      {
+        "level": 5,
+        "level_name": "质量总监/首席质量官",
+        "typical_years": "10年+",
+        "salary_range": "40k+",
+        "key_milestone": "制定公司级质量战略，成功导入卓越绩效模式或通过国家级质量奖评审。",
+        "data_basis": "超出数据集范围，代表行业顶尖水平，负责企业质量战略与文化建设。"
+      }
+    ],
+    "项目经理": [
+      {
+        "level": 1,
+        "level_name": "项目助理/专员",
+        "typical_years": "0-2年",
+        "salary_range": "5-8k",
+        "key_milestone": "独立完成至少1个小型项目（如：单一模块交付）的全流程辅助工作。",
+        "data_basis": "数据集薪资分布中，5-10k区间占比最高（53%），此级对应其低端。"
+      },
+      {
+        "level": 2,
+        "level_name": "初级项目经理",
+        "typical_years": "2-4年",
+        "salary_range": "8-12k",
+        "key_milestone": "独立负责并成功交付1个完整项目（预算<50万或周期<6个月），客户满意度达标。",
+        "data_basis": "数据集10-15k区间（13%）及平均薪资上限（10.8k），此级对应其主流区间。"
+      },
+      {
+        "level": 3,
+        "level_name": "项目经理",
+        "typical_years": "4-7年",
+        "salary_range": "12-18k",
+        "key_milestone": "主导并成功交付至少2个复杂项目（预算>100万或跨部门协作），达成核心商业目标。",
+        "data_basis": "数据集15-20k区间（6%）及20-30k（1%），此级对应其高端及向上延伸。"
+      },
+      {
+        "level": 4,
+        "level_name": "高级项目经理/项目总监",
+        "typical_years": "7年+",
+        "salary_range": "18-30k",
+        "key_milestone": "管理项目组合（3个以上并行项目），年度总预算超500万，并成功培养出2名初级项目经理。",
+        "data_basis": "基于数据集20-30k（1%）及行业顶尖水平合理延伸。"
+      },
+      {
+        "level": 5,
+        "level_name": "资深项目专家/PMO负责人",
+        "typical_years": "10年+",
+        "salary_range": "30k+",
+        "key_milestone": "建立或优化公司级项目管理体系（PMO），主导战略级项目（预算>1000万），显著提升组织交付效率。",
+        "data_basis": "超出数据集范围（30k以上为0），代表行业顶尖水平及大型企业核心管理岗。"
+      }
+    ],
+    "IT运营专员": [
+      {
+        "level": 1,
+        "level_name": "IT运营助理/专员（初级）",
+        "typical_years": "0-2年",
+        "salary_range": "5k-7k",
+        "key_milestone": "独立负责单一平台（如电商店铺/社群）日常运营，熟练使用后台工具。",
+        "data_basis": "基于数据集平均薪资低端5.3k及“5k以下”占比最高（59条）推算。"
+      },
+      {
+        "level": 2,
+        "level_name": "IT运营专员（中级）",
+        "typical_years": "2-4年",
+        "salary_range": "7k-10k",
+        "key_milestone": "独立策划并执行小型运营活动，使关键指标（如用户活跃/转化率）提升10%以上。",
+        "data_basis": "基于数据集“5-10k”区间（85条）及平均薪资高端8.1k推算。"
+      },
+      {
+        "level": 3,
+        "level_name": "高级IT运营专员/主管",
+        "typical_years": "4-7年",
+        "salary_range": "10k-15k",
+        "key_milestone": "建立数据监控体系并主导流程优化，成功降低运营成本或提升团队效率15%以上。",
+        "data_basis": "基于数据集“10-15k”区间（6条）及行业惯例向上延伸。"
+      },
+      {
+        "level": 4,
+        "level_name": "IT运营经理",
+        "typical_years": "7年+",
+        "salary_range": "15k-25k",
+        "key_milestone": "负责完整业务线运营策略，带领团队达成年度业绩目标，成功孵化1-2个新运营项目。",
+        "data_basis": "超出数据集范围，参考中大型企业（1000人以上）经理级市场薪资。"
+      },
+      {
+        "level": 5,
+        "level_name": "高级IT运营经理/总监",
+        "typical_years": "7年+（资深）",
+        "salary_range": "25k-40k+",
+        "key_milestone": "制定公司级运营战略与标准化体系，所辖业务年增长率或市场份额实现显著突破（如20%+）。",
+        "data_basis": "代表行业顶尖水平，参考大型平台（万人以上）总监级薪资及股权激励。"
+      }
+    ]
+  },
+  "lateral_paths": {
+    "Java开发工程师": [
+      {
+        "target": "软件测试工程师",
+        "difficulty": "较易",
+        "reason": "Java开发对系统逻辑理解深，能快速掌握测试方法；开发转测试是常见路径",
+        "required_skills": [
+          "测试用例设计",
+          "接口测试（Postman）",
+          "自动化测试基础（pytest/JUnit）"
+        ],
+        "transition_period": "3-6个月",
+        "tips": "建议先做白盒测试/开发自测，再逐步向独立测试岗过渡"
+      },
+      {
+        "target": "项目经理",
+        "difficulty": "中等",
+        "reason": "Java开发积累了项目执行经验和技术判断力，是技术型PM的天然路径",
+        "required_skills": [
+          "PMP项目管理认证",
+          "项目计划制定",
+          "需求管理",
+          "风险识别与控制"
+        ],
+        "transition_period": "6-12个月",
+        "tips": "考取PMP证书后薪资通常提升20-30%，建议3-5年开发经验后转型"
+      },
+      {
+        "target": "实施工程师",
+        "difficulty": "较易",
+        "reason": "Java开发具备代码理解和系统调试能力，是实施岗位的核心竞争力",
+        "required_skills": [
+          "系统部署与配置",
+          "数据库操作（SQL）",
+          "客户沟通与培训",
+          "文档编写"
+        ],
+        "transition_period": "2-4个月",
+        "tips": "实施岗位出差多但压力小于开发，适合追求工作生活平衡的开发者"
+      },
+      {
+        "target": "技术支持工程师",
+        "difficulty": "较易",
+        "reason": "开发背景使技术支持能快速定位和解决技术问题，是技术支持的核心优势",
+        "required_skills": [
+          "产品知识积累",
+          "客户服务意识",
+          "问题排查方法论",
+          "工单管理系统"
+        ],
+        "transition_period": "1-3个月",
+        "tips": "此路径技术压力降低，但需要提升沟通耐心；适合转型过渡期"
+      }
+    ],
+    "软件测试工程师": [
+      {
+        "target": "Java开发工程师",
+        "difficulty": "中等",
+        "reason": "测试人员对系统逻辑有全面理解，具备成为后端开发的思维基础",
+        "required_skills": [
+          "Java编程（Spring Boot）",
+          "数据库开发（MySQL）",
+          "RESTful API设计",
+          "Git工作流"
+        ],
+        "transition_period": "10-15个月",
+        "tips": "建议先做测试开发（SDET），以测试开发身份逐步向纯开发靠拢"
+      },
+      {
+        "target": "质量管理工程师",
+        "difficulty": "较易",
+        "reason": "软件测试与质量管理核心理念相通，技能高度互补",
+        "required_skills": [
+          "质量管理体系（ISO9001）",
+          "质量数据分析",
+          "流程改进方法（PDCA）",
+          "质量报告编写"
+        ],
+        "transition_period": "4-8个月",
+        "tips": "考取CQE（质量工程师认证）有助于快速进入质量管理领域"
+      },
+      {
+        "target": "项目经理",
+        "difficulty": "中等",
+        "reason": "测试工程师参与完整项目生命周期，对项目风险和质量管控有深刻理解",
+        "required_skills": [
+          "PMP认证",
+          "项目计划与执行",
+          "跨团队沟通协调",
+          "测试质量指标体系"
+        ],
+        "transition_period": "6-12个月",
+        "tips": "测试背景的PM在质量管控上有天然优势，适合技术型项目管理岗"
+      },
+      {
+        "target": "IT运营专员",
+        "difficulty": "较易",
+        "reason": "测试人员具备严谨的逻辑分析能力和用户视角，是运营工作的核心素质",
+        "required_skills": [
+          "数据分析（Excel/SQL）",
+          "用户行为分析",
+          "运营活动策划",
+          "内容审核经验"
+        ],
+        "transition_period": "3-6个月",
+        "tips": "游戏测试转游戏运营是业内最常见路径，行业知识可直接复用"
+      }
+    ],
+    "C/C++开发工程师": [
+      {
+        "target": "硬件测试工程师",
+        "difficulty": "较易",
+        "reason": "C/C++开发积累的底层系统知识和调试经验，是硬件测试的核心技术基础",
+        "required_skills": [
+          "硬件测试仪器使用",
+          "测试方案设计",
+          "信号分析基础",
+          "测试报告编写"
+        ],
+        "transition_period": "3-6个月",
+        "tips": "嵌入式方向C++开发转硬件测试最自然，两者技术栈高度重叠"
+      },
+      {
+        "target": "Java开发工程师",
+        "difficulty": "中等",
+        "reason": "C/C++的编程基础扎实，学习Java语法成本低；但需补充Java生态知识",
+        "required_skills": [
+          "Java语法与特性",
+          "Spring Boot框架",
+          "JVM调优基础",
+          "Maven/Gradle构建工具"
+        ],
+        "transition_period": "4-8个月",
+        "tips": "C++开发者学Java上手很快，重点在补充Web开发和中间件知识"
+      },
+      {
+        "target": "质量管理工程师",
+        "difficulty": "中等",
+        "reason": "C/C++开发对系统性能和可靠性要求高，与质量管理思维高度契合",
+        "required_skills": [
+          "质量检测流程",
+          "FMEA失效分析",
+          "6Sigma基础",
+          "质量管理体系"
+        ],
+        "transition_period": "6-10个月",
+        "tips": "嵌入式/汽车电子方向的C++开发转质量管理在制造业非常受欢迎"
+      },
+      {
+        "target": "技术支持工程师",
+        "difficulty": "较易",
+        "reason": "C/C++的底层调试能力使技术支持能快速定位复杂技术问题",
+        "required_skills": [
+          "产品知识体系",
+          "客户问题诊断流程",
+          "技术文档编写",
+          "远程支持工具"
+        ],
+        "transition_period": "2-4个月",
+        "tips": "工业设备、嵌入式产品的技术支持岗特别看重C/C++背景"
+      }
+    ],
+    "前端开发工程师": [
+      {
+        "target": "Java开发工程师",
+        "difficulty": "中等",
+        "reason": "前端已有完整的Web知识，补充后端语言和数据库即可打通全栈",
+        "required_skills": [
+          "Java/Python后端语言",
+          "Spring Boot框架",
+          "MySQL数据库设计",
+          "RESTful API设计"
+        ],
+        "transition_period": "6-12个月",
+        "tips": "建议从Node.js切入，语言语法与JS接近，学习曲线最平缓"
+      },
+      {
+        "target": "IT运营专员",
+        "difficulty": "较易",
+        "reason": "前端对用户体验有深刻理解，是互联网运营的核心竞争力",
+        "required_skills": [
+          "数据分析（SQL/Excel）",
+          "用户行为分析",
+          "内容运营策略",
+          "A/B测试方法"
+        ],
+        "transition_period": "3-6个月",
+        "tips": "前端转增长运营/用户运营薪资相近，但工作强度和压力通常更低"
+      },
+      {
+        "target": "项目经理",
+        "difficulty": "中等",
+        "reason": "前端有技术背景，理解产品实现可行性，是技术型PM的优势",
+        "required_skills": [
+          "需求分析与文档撰写",
+          "原型工具（Axure/Figma）",
+          "跨部门沟通协调",
+          "项目进度管理"
+        ],
+        "transition_period": "6-12个月",
+        "tips": "互联网公司实习做项目助理是最佳过渡路径"
+      },
+      {
+        "target": "软件测试工程师",
+        "difficulty": "较易",
+        "reason": "前端开发熟悉UI交互逻辑，转型为测试工程师能快速建立用户视角测试思维",
+        "required_skills": [
+          "功能测试方法",
+          "UI自动化测试（Selenium）",
+          "测试用例设计",
+          "Bug管理工具"
+        ],
+        "transition_period": "3-5个月",
+        "tips": "前端背景做UI自动化测试有天然优势，是薪资提升较快的测试方向"
+      }
+    ],
+    "硬件测试工程师": [
+      {
+        "target": "质量管理工程师",
+        "difficulty": "较易",
+        "reason": "硬件测试与质量管理工作高度重叠，是最自然的横向发展方向",
+        "required_skills": [
+          "质量体系认证（ISO9001）",
+          "FMEA/8D分析方法",
+          "供应商审核",
+          "质量数据统计分析"
+        ],
+        "transition_period": "3-6个月",
+        "tips": "制造业/电子行业中硬件测试转质量管理是最常见的职业路径"
+      },
+      {
+        "target": "技术支持工程师",
+        "difficulty": "较易",
+        "reason": "硬件测试积累的产品知识和故障排查经验是技术支持的核心能力",
+        "required_skills": [
+          "售后服务流程",
+          "客户沟通技巧",
+          "远程诊断技术",
+          "维修知识（初级）"
+        ],
+        "transition_period": "2-4个月",
+        "tips": "消费电子/通信设备领域的技术支持特别需要硬件测试背景"
+      },
+      {
+        "target": "实施工程师",
+        "difficulty": "中等",
+        "reason": "硬件测试工程师熟悉设备部署和调试，与实施工程师的工作内容高度相关",
+        "required_skills": [
+          "系统集成与部署",
+          "客户培训能力",
+          "项目文档管理",
+          "跨地区出差适应性"
+        ],
+        "transition_period": "4-8个月",
+        "tips": "物联网/工业自动化方向的实施岗位特别欢迎硬件测试背景"
+      },
+      {
+        "target": "C/C++开发工程师",
+        "difficulty": "较难",
+        "reason": "硬件测试积累了底层硬件知识，补充C/C++开发能力可转嵌入式开发",
+        "required_skills": [
+          "C/C++编程",
+          "嵌入式系统开发",
+          "RTOS基础",
+          "硬件驱动开发"
+        ],
+        "transition_period": "12-18个月",
+        "tips": "需要系统学习编程，建议报考嵌入式培训班或读相关方向研究生"
+      }
+    ],
+    "实施工程师": [
+      {
+        "target": "项目经理",
+        "difficulty": "较易",
+        "reason": "实施经验是项目管理的核心基础，客户积累也是售前的重要资产",
+        "required_skills": [
+          "PMP项目管理认证",
+          "项目计划制定（甘特图）",
+          "风险管理",
+          "方案报价与商务谈判"
+        ],
+        "transition_period": "3-6个月",
+        "tips": "PMP证书是此方向最直接的敲门砖，考取后薪资通常提升20-30%"
+      },
+      {
+        "target": "技术支持工程师",
+        "difficulty": "较易",
+        "reason": "实施工程师在客户现场积累的问题处理经验与技术支持高度重叠",
+        "required_skills": [
+          "远程支持技术",
+          "工单管理系统",
+          "知识库建设",
+          "服务SLA管理"
+        ],
+        "transition_period": "1-3个月",
+        "tips": "技术支持比实施出差少，适合希望减少差旅的实施工程师"
+      },
+      {
+        "target": "质量管理工程师",
+        "difficulty": "中等",
+        "reason": "实施过程中积累的项目质量管控经验，与质量管理岗位要求高度匹配",
+        "required_skills": [
+          "质量管理体系（ISO）",
+          "流程审核与改进",
+          "质量问题分析（8D/PDCA）",
+          "客户满意度管理"
+        ],
+        "transition_period": "6-10个月",
+        "tips": "ToB软件实施背景在质量管理领域有独特优势"
+      },
+      {
+        "target": "IT运营专员",
+        "difficulty": "中等",
+        "reason": "实施工程师熟悉产品功能和用户需求，是互联网产品运营的重要基础",
+        "required_skills": [
+          "用户运营策略",
+          "数据分析工具（SQL/Excel）",
+          "内容运营",
+          "社区管理"
+        ],
+        "transition_period": "6-10个月",
+        "tips": "企业软件SaaS方向的客户成功/运营岗位特别适合实施工程师转型"
+      }
+    ],
+    "技术支持工程师": [
+      {
+        "target": "实施工程师",
+        "difficulty": "较易",
+        "reason": "技术支持和实施工作性质相近，都需要产品知识和客户沟通能力",
+        "required_skills": [
+          "系统部署与配置",
+          "项目文档管理",
+          "现场实施流程",
+          "客户培训技能"
+        ],
+        "transition_period": "2-4个月",
+        "tips": "实施工程师薪资通常高于技术支持10-20%，是技术支持最顺畅的晋升方向"
+      },
+      {
+        "target": "质量管理工程师",
+        "difficulty": "中等",
+        "reason": "技术支持积累的问题案例库和分析方法，是质量改进的重要数据来源",
+        "required_skills": [
+          "质量问题统计分析",
+          "PDCA改进方法",
+          "质量报告编写",
+          "ISO质量体系基础"
+        ],
+        "transition_period": "5-9个月",
+        "tips": "建议先在现岗位建立问题分析数据库，作为转型质量管理的作品集"
+      },
+      {
+        "target": "IT运营专员",
+        "difficulty": "较易",
+        "reason": "技术支持的用户问题处理经验与运营的用户服务思维高度契合",
+        "required_skills": [
+          "用户行为分析",
+          "内容运营（FAQ/帮助中心）",
+          "社区运营",
+          "数据分析基础"
+        ],
+        "transition_period": "3-6个月",
+        "tips": "游戏/互联网产品的技术支持转运营是高频路径，行业知识可直接复用"
+      },
+      {
+        "target": "项目经理",
+        "difficulty": "中等",
+        "reason": "技术支持具备跨部门协调和客户沟通经验，是项目管理的重要基础",
+        "required_skills": [
+          "PMP项目管理认证",
+          "项目计划工具（MS Project）",
+          "风险识别与应对",
+          "干系人管理"
+        ],
+        "transition_period": "8-14个月",
+        "tips": "考取PMP后可申请公司内部项目协调岗位，逐步过渡到项目经理"
+      }
+    ],
+    "质量管理工程师": [
+      {
+        "target": "软件测试工程师",
+        "difficulty": "中等",
+        "reason": "质量管理的测试思维与软件测试高度相通，IT化是质量工程师的热门转型方向",
+        "required_skills": [
+          "软件测试基础（功能/接口测试）",
+          "测试工具（Jira/TestRail）",
+          "自动化测试入门",
+          "编程基础（Python）"
+        ],
+        "transition_period": "6-12个月",
+        "tips": "互联网/软件行业的软件测试岗位薪资通常高于传统制造业质量管理"
+      },
+      {
+        "target": "项目经理",
+        "difficulty": "中等",
+        "reason": "质量管理工程师熟悉流程控制和风险管理，是项目管理的核心能力",
+        "required_skills": [
+          "PMP项目管理认证",
+          "项目计划制定",
+          "多方协调沟通",
+          "项目风险管理"
+        ],
+        "transition_period": "6-10个月",
+        "tips": "质量背景的PM在制造业/工程项目中有明显优势"
+      },
+      {
+        "target": "实施工程师",
+        "difficulty": "较易",
+        "reason": "质量管理的流程规范能力与实施工程师的现场交付工作高度互补",
+        "required_skills": [
+          "软件系统操作能力",
+          "客户培训技巧",
+          "现场问题处理",
+          "项目文档规范"
+        ],
+        "transition_period": "4-8个月",
+        "tips": "企业管理软件（ERP/MES）的实施岗位特别看重质量管理背景"
+      },
+      {
+        "target": "硬件测试工程师",
+        "difficulty": "较易",
+        "reason": "质量管理的检测方法与硬件测试工作重叠度高，技能可直接迁移",
+        "required_skills": [
+          "硬件测试仪器操作",
+          "测试方案设计",
+          "电子/通信基础知识",
+          "测试数据分析"
+        ],
+        "transition_period": "4-8个月",
+        "tips": "制造业质量工程师转电子产品硬件测试，薪资和发展空间通常有所提升"
+      }
+    ],
+    "项目经理": [
+      {
+        "target": "IT运营专员",
+        "difficulty": "较易",
+        "reason": "项目经理的统筹协调能力与运营管理高度契合，是互联网方向的常见转型",
+        "required_skills": [
+          "产品运营思维",
+          "数据分析（SQL/Excel）",
+          "用户增长策略",
+          "内容/社区管理"
+        ],
+        "transition_period": "3-6个月",
+        "tips": "互联网公司的产品运营岗位欢迎有项目管理背景的候选人"
+      },
+      {
+        "target": "实施工程师",
+        "difficulty": "较易",
+        "reason": "项目经理对项目交付流程熟悉，转型实施工程师可快速胜任现场交付",
+        "required_skills": [
+          "系统部署与配置",
+          "客户沟通与培训",
+          "现场问题应急处理",
+          "技术文档整理"
+        ],
+        "transition_period": "2-4个月",
+        "tips": "ToB软件公司的实施项目经理岗位是两者的结合，薪资有竞争力"
+      },
+      {
+        "target": "技术支持工程师",
+        "difficulty": "较易",
+        "reason": "项目经理的多方协调经验在技术支持场景中极有价值",
+        "required_skills": [
+          "产品知识积累",
+          "服务级别管理（SLA）",
+          "客户关系维护",
+          "问题升级处理机制"
+        ],
+        "transition_period": "2-3个月",
+        "tips": "大型软件厂商的高级技术支持/客户成功经理岗位，薪资与项目经理相当"
+      },
+      {
+        "target": "质量管理工程师",
+        "difficulty": "中等",
+        "reason": "项目经理熟悉质量管控和流程规范，具备转型质量管理的知识基础",
+        "required_skills": [
+          "质量体系认证（ISO）",
+          "质量审核方法",
+          "流程设计与优化",
+          "质量数据分析"
+        ],
+        "transition_period": "6-10个月",
+        "tips": "软件项目经理转型质量管理，可以专注于软件质量方向（CMM/CMMI）"
+      }
+    ],
+    "IT运营专员": [
+      {
+        "target": "项目经理",
+        "difficulty": "中等",
+        "reason": "运营专员积累的多方协调和数据分析能力，是项目管理的重要基础",
+        "required_skills": [
+          "PMP项目管理认证",
+          "项目计划与执行",
+          "需求分析",
+          "干系人沟通管理"
+        ],
+        "transition_period": "8-14个月",
+        "tips": "运营背景的PM在互联网产品项目中有独特优势，适合用户侧项目"
+      },
+      {
+        "target": "软件测试工程师",
+        "difficulty": "中等",
+        "reason": "运营专员对产品功能和用户体验有深刻理解，是测试工作的重要视角",
+        "required_skills": [
+          "功能测试基础",
+          "测试用例设计",
+          "Bug管理工具（Jira）",
+          "用户场景还原能力"
+        ],
+        "transition_period": "6-10个月",
+        "tips": "游戏运营转游戏测试是高频路径，产品知识可直接复用"
+      },
+      {
+        "target": "技术支持工程师",
+        "difficulty": "较易",
+        "reason": "运营专员积累了大量用户问题处理经验，与技术支持工作性质高度相近",
+        "required_skills": [
+          "技术问题处理流程",
+          "工单系统操作",
+          "产品深度知识",
+          "客户服务规范"
+        ],
+        "transition_period": "2-4个月",
+        "tips": "互联网产品的技术客服/用户成功岗位是两者的交叉点，入门门槛低"
+      },
+      {
+        "target": "实施工程师",
+        "difficulty": "中等",
+        "reason": "运营专员对产品使用有深入了解，是软件实施培训的核心素质",
+        "required_skills": [
+          "系统配置与部署基础",
+          "客户培训技能",
+          "业务流程梳理",
+          "项目跟进能力"
+        ],
+        "transition_period": "5-9个月",
+        "tips": "SaaS产品的客户成功/实施专员岗位特别欢迎运营背景的候选人"
+      }
+    ]
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": 0,
+        "label": "Java初级开发工程师/应届",
+        "job_family": "Java开发工程师",
+        "level": 1,
+        "salary_range": "6k-10k",
+        "years": "在校期间/0年",
+        "milestone": "独立完成模块开发并通过测试，掌握Spring Boot基础项目搭建。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 1,
+        "label": "Java开发工程师",
+        "job_family": "Java开发工程师",
+        "level": 2,
+        "salary_range": "10k-16k",
+        "years": "1-3年",
+        "milestone": "独立负责核心模块开发与数据库设计，主导小型项目或功能迭代。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 2,
+        "label": "Java高级开发工程师",
+        "job_family": "Java开发工程师",
+        "level": 3,
+        "salary_range": "16k-25k",
+        "years": "3-5年",
+        "milestone": "主导系统架构设计，解决高并发或复杂技术难题，具备带1-2人经验。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 3,
+        "label": "Java技术专家/架构师",
+        "job_family": "Java开发工程师",
+        "level": 4,
+        "salary_range": "25k-40k",
+        "years": "5-8年",
+        "milestone": "主导公司级技术架构演进，输出可复用的技术组件或平台，培养团队。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 4,
+        "label": "首席架构师/技术总监",
+        "job_family": "Java开发工程师",
+        "level": 5,
+        "salary_range": "40k-70k+",
+        "years": "8年+",
+        "milestone": "制定公司技术战略，主导重大技术决策，技术团队规模管理30人以上。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 5,
+        "label": "软件测试助理/应届生",
+        "job_family": "软件测试工程师",
+        "level": 1,
+        "salary_range": "5k-8k",
+        "years": "在校期间/应届",
+        "milestone": "独立完成简单模块功能测试，缺陷有效提交率>90%。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 6,
+        "label": "初级软件测试工程师",
+        "job_family": "软件测试工程师",
+        "level": 2,
+        "salary_range": "8k-12k",
+        "years": "0-2年",
+        "milestone": "独立负责中型项目全流程测试，主导编写测试用例>200条。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 7,
+        "label": "中级软件测试工程师",
+        "job_family": "软件测试工程师",
+        "level": 3,
+        "salary_range": "12k-18k",
+        "years": "2-4年",
+        "milestone": "引入自动化/性能测试，用例覆盖率提升30%，主导专项测试。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 8,
+        "label": "高级软件测试工程师/测试专家",
+        "job_family": "软件测试工程师",
+        "level": 4,
+        "salary_range": "18k-28k",
+        "years": "4-7年",
+        "milestone": "建立团队测试框架/流程，缺陷预防率提升，主导复杂系统质量保障。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 9,
+        "label": "测试架构师/测试总监",
+        "job_family": "软件测试工程师",
+        "level": 5,
+        "salary_range": "28k-45k+",
+        "years": "7年+",
+        "milestone": "规划公司级质量体系，测试效率提升50%以上，培养测试梯队。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 10,
+        "label": "C/C++初级开发工程师/应届生",
+        "job_family": "C/C++开发工程师",
+        "level": 1,
+        "salary_range": "5k-10k",
+        "years": "0-1年",
+        "milestone": "独立完成模块开发，修复至少5个复杂Bug，通过代码评审。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 11,
+        "label": "C/C++中级开发工程师",
+        "job_family": "C/C++开发工程师",
+        "level": 2,
+        "salary_range": "12k-20k",
+        "years": "2-4年",
+        "milestone": "主导核心模块设计，性能优化提升30%以上，指导1名初级工程师。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 12,
+        "label": "C/C++高级开发工程师/技术专家",
+        "job_family": "C/C++开发工程师",
+        "level": 3,
+        "salary_range": "20k-35k",
+        "years": "4-7年",
+        "milestone": "主导系统架构设计，成功交付2个以上大型项目，获得技术专利或发表技术文章。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 13,
+        "label": "C/C++架构师/技术负责人",
+        "job_family": "C/C++开发工程师",
+        "level": 4,
+        "salary_range": "35k-60k",
+        "years": "7-10年",
+        "milestone": "规划并落地公司级技术平台，团队规模10人以上，技术决策影响产品路线。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 14,
+        "label": "首席架构师/技术总监",
+        "job_family": "C/C++开发工程师",
+        "level": 5,
+        "salary_range": "60k+ (年薪100万+)",
+        "years": "10年+",
+        "milestone": "定义行业技术标准，主导千万级用户产品技术体系，培养出3名以上架构师。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 15,
+        "label": "前端开发助理/初级工程师",
+        "job_family": "前端开发工程师",
+        "level": 1,
+        "salary_range": "5-10k",
+        "years": "应届/0-1年",
+        "milestone": "独立完成简单模块开发，掌握Vue/React任一框架并完成1-2个项目",
+        "node_type": "vertical"
+      },
+      {
+        "id": 16,
+        "label": "前端开发工程师",
+        "job_family": "前端开发工程师",
+        "level": 2,
+        "salary_range": "10-15k",
+        "years": "1-3年",
+        "milestone": "独立负责中型项目前端全流程，主导技术选型，产出可复用组件",
+        "node_type": "vertical"
+      },
+      {
+        "id": 17,
+        "label": "高级前端开发工程师",
+        "job_family": "前端开发工程师",
+        "level": 3,
+        "salary_range": "15-25k",
+        "years": "3-5年",
+        "milestone": "主导复杂项目架构设计，建立团队开发规范，具备性能深度优化经验",
+        "node_type": "vertical"
+      },
+      {
+        "id": 18,
+        "label": "前端专家/技术负责人",
+        "job_family": "前端开发工程师",
+        "level": 4,
+        "salary_range": "25-40k",
+        "years": "5-8年",
+        "milestone": "规划前端技术体系，主导跨团队技术方案，培养3人以上团队",
+        "node_type": "vertical"
+      },
+      {
+        "id": 19,
+        "label": "前端架构师/技术总监",
+        "job_family": "前端开发工程师",
+        "level": 5,
+        "salary_range": "40k+",
+        "years": "8年+",
+        "milestone": "制定公司级前端技术战略，产出行业影响力方案或开源项目，管理10人以上团队",
+        "node_type": "vertical"
+      },
+      {
+        "id": 20,
+        "label": "硬件测试实习生/助理工程师",
+        "job_family": "硬件测试工程师",
+        "level": 1,
+        "salary_range": "4k-6k",
+        "years": "在校期间/应届",
+        "milestone": "独立完成标准测试用例执行，准确记录数据并提交测试报告。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 21,
+        "label": "硬件测试工程师",
+        "job_family": "硬件测试工程师",
+        "level": 2,
+        "salary_range": "6k-9k",
+        "years": "0-2年",
+        "milestone": "独立负责模块测试，能设计简单测试用例并定位常见硬件问题。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 22,
+        "label": "资深硬件测试工程师",
+        "job_family": "硬件测试工程师",
+        "level": 3,
+        "salary_range": "9k-13k",
+        "years": "2-4年",
+        "milestone": "主导新产品全流程测试，独立制定测试计划并完成可靠性/环境等专项测试。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 23,
+        "label": "硬件测试专家/主管",
+        "job_family": "硬件测试工程师",
+        "level": 4,
+        "salary_range": "13k-18k",
+        "years": "4-7年",
+        "milestone": "建立测试体系与规范，主导替代料/成本优化等专项，指导3人以上团队。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 24,
+        "label": "硬件测试经理/架构师",
+        "job_family": "硬件测试工程师",
+        "level": 5,
+        "salary_range": "18k-30k+",
+        "years": "7年+",
+        "milestone": "规划公司级硬件质量与测试战略，主导前沿技术预研，管理10人以上跨职能团队。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 25,
+        "label": "实施助理/应届生",
+        "job_family": "实施工程师",
+        "level": 1,
+        "salary_range": "5-7k",
+        "years": "0-1年",
+        "milestone": "独立完成1个小型项目的数据建库与用户培训，文档通过验收。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 26,
+        "label": "初级实施工程师",
+        "job_family": "实施工程师",
+        "level": 2,
+        "salary_range": "7-10k",
+        "years": "1-3年",
+        "milestone": "独立负责1-2个中型项目模块实施，掌握2种以上数据采集协议或行业软件。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 27,
+        "label": "中级实施工程师/项目骨干",
+        "job_family": "实施工程师",
+        "level": 3,
+        "salary_range": "10-15k",
+        "years": "3-5年",
+        "milestone": "主导完成3个以上完整项目交付，能独立完成售前技术方案与售后问题闭环。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 28,
+        "label": "高级实施工程师/实施专家",
+        "job_family": "实施工程师",
+        "level": 4,
+        "salary_range": "15-25k",
+        "years": "5-8年",
+        "milestone": "形成特定行业（如医疗、工业）解决方案，主导大型项目（合同额>100万）技术实施。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 29,
+        "label": "实施总监/解决方案架构师",
+        "job_family": "实施工程师",
+        "level": 5,
+        "salary_range": "25-50k+",
+        "years": "8年+",
+        "milestone": "负责产品线或区域全部项目实施体系，年交付项目总额超千万，培养5人以上骨干团队。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 30,
+        "label": "技术支持助理/应届生",
+        "job_family": "技术支持工程师",
+        "level": 1,
+        "salary_range": "5-7k",
+        "years": "0-1年",
+        "milestone": "独立完成标准产品安装调试，能处理60%以上常见故障",
+        "node_type": "vertical"
+      },
+      {
+        "id": 31,
+        "label": "技术支持工程师",
+        "job_family": "技术支持工程师",
+        "level": 2,
+        "salary_range": "7-10k",
+        "years": "1-3年",
+        "milestone": "独立负责区域项目交付，客户满意度>90%，可培训新员工",
+        "node_type": "vertical"
+      },
+      {
+        "id": 32,
+        "label": "高级技术支持工程师",
+        "job_family": "技术支持工程师",
+        "level": 3,
+        "salary_range": "10-15k",
+        "years": "3-5年",
+        "milestone": "主导复杂项目技术方案，解决90%以上疑难问题，可进行售前支持",
+        "node_type": "vertical"
+      },
+      {
+        "id": 33,
+        "label": "技术支持专家/团队主管",
+        "job_family": "技术支持工程师",
+        "level": 4,
+        "salary_range": "15-25k",
+        "years": "5-8年",
+        "milestone": "管理3-5人团队，建立知识库与SOP，将重复问题率降低30%",
+        "node_type": "vertical"
+      },
+      {
+        "id": 34,
+        "label": "技术支持总监/高级专家",
+        "job_family": "技术支持工程师",
+        "level": 5,
+        "salary_range": "25-40k+",
+        "years": "8年+",
+        "milestone": "制定部门技术战略，主导产品改进，将客户流失率降低15%以上",
+        "node_type": "vertical"
+      },
+      {
+        "id": 35,
+        "label": "质检员/质量检验员",
+        "job_family": "质量管理工程师",
+        "level": 1,
+        "salary_range": "5-8k",
+        "years": "0-1年",
+        "milestone": "独立执行IQC/IPQC/FQC/OQC等至少两项检验流程，准确率>99%。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 36,
+        "label": "质量工程师",
+        "job_family": "质量管理工程师",
+        "level": 2,
+        "salary_range": "8-15k",
+        "years": "2-4年",
+        "milestone": "独立主导完成至少3次8D报告，并成功关闭客诉或制程重大异常。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 37,
+        "label": "高级质量工程师/质量主管",
+        "job_family": "质量管理工程师",
+        "level": 3,
+        "salary_range": "15-25k",
+        "years": "4-7年",
+        "milestone": "主导建立或优化一个模块（如供应商、制程、体系）的质量管理体系并落地。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 38,
+        "label": "质量经理",
+        "job_family": "质量管理工程师",
+        "level": 4,
+        "salary_range": "25-40k",
+        "years": "7-10年",
+        "milestone": "负责整个工厂或事业部的质量体系，年度质量成本降低10%或客户投诉率下降20%。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 39,
+        "label": "质量总监/首席质量官",
+        "job_family": "质量管理工程师",
+        "level": 5,
+        "salary_range": "40k+",
+        "years": "10年+",
+        "milestone": "制定公司级质量战略，成功导入卓越绩效模式或通过国家级质量奖评审。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 40,
+        "label": "项目助理/专员",
+        "job_family": "项目经理",
+        "level": 1,
+        "salary_range": "5-8k",
+        "years": "0-2年",
+        "milestone": "独立完成至少1个小型项目（如：单一模块交付）的全流程辅助工作。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 41,
+        "label": "初级项目经理",
+        "job_family": "项目经理",
+        "level": 2,
+        "salary_range": "8-12k",
+        "years": "2-4年",
+        "milestone": "独立负责并成功交付1个完整项目（预算<50万或周期<6个月），客户满意度达标。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 42,
+        "label": "项目经理",
+        "job_family": "项目经理",
+        "level": 3,
+        "salary_range": "12-18k",
+        "years": "4-7年",
+        "milestone": "主导并成功交付至少2个复杂项目（预算>100万或跨部门协作），达成核心商业目标。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 43,
+        "label": "高级项目经理/项目总监",
+        "job_family": "项目经理",
+        "level": 4,
+        "salary_range": "18-30k",
+        "years": "7年+",
+        "milestone": "管理项目组合（3个以上并行项目），年度总预算超500万，并成功培养出2名初级项目经理。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 44,
+        "label": "资深项目专家/PMO负责人",
+        "job_family": "项目经理",
+        "level": 5,
+        "salary_range": "30k+",
+        "years": "10年+",
+        "milestone": "建立或优化公司级项目管理体系（PMO），主导战略级项目（预算>1000万），显著提升组织交付效率。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 45,
+        "label": "IT运营助理/专员（初级）",
+        "job_family": "IT运营专员",
+        "level": 1,
+        "salary_range": "5k-7k",
+        "years": "0-2年",
+        "milestone": "独立负责单一平台（如电商店铺/社群）日常运营，熟练使用后台工具。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 46,
+        "label": "IT运营专员（中级）",
+        "job_family": "IT运营专员",
+        "level": 2,
+        "salary_range": "7k-10k",
+        "years": "2-4年",
+        "milestone": "独立策划并执行小型运营活动，使关键指标（如用户活跃/转化率）提升10%以上。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 47,
+        "label": "高级IT运营专员/主管",
+        "job_family": "IT运营专员",
+        "level": 3,
+        "salary_range": "10k-15k",
+        "years": "4-7年",
+        "milestone": "建立数据监控体系并主导流程优化，成功降低运营成本或提升团队效率15%以上。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 48,
+        "label": "IT运营经理",
+        "job_family": "IT运营专员",
+        "level": 4,
+        "salary_range": "15k-25k",
+        "years": "7年+",
+        "milestone": "负责完整业务线运营策略，带领团队达成年度业绩目标，成功孵化1-2个新运营项目。",
+        "node_type": "vertical"
+      },
+      {
+        "id": 49,
+        "label": "高级IT运营经理/总监",
+        "job_family": "IT运营专员",
+        "level": 5,
+        "salary_range": "25k-40k+",
+        "years": "7年+（资深）",
+        "milestone": "制定公司级运营战略与标准化体系，所辖业务年增长率或市场份额实现显著突破（如20%+）。",
+        "node_type": "vertical"
+      }
+    ],
+    "edges": [
+      {
+        "source": 0,
+        "target": 1,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 1,
+        "target": 2,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 2,
+        "target": 3,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 3,
+        "target": 4,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 5,
+        "target": 6,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 6,
+        "target": 7,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 7,
+        "target": 8,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 8,
+        "target": 9,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 10,
+        "target": 11,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 11,
+        "target": 12,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 12,
+        "target": 13,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 13,
+        "target": 14,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 15,
+        "target": 16,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 16,
+        "target": 17,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 17,
+        "target": 18,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 18,
+        "target": 19,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 20,
+        "target": 21,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 21,
+        "target": 22,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 22,
+        "target": 23,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 23,
+        "target": 24,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 25,
+        "target": 26,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 26,
+        "target": 27,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 27,
+        "target": 28,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 28,
+        "target": 29,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 30,
+        "target": 31,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 31,
+        "target": 32,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 32,
+        "target": 33,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 33,
+        "target": 34,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 35,
+        "target": 36,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 36,
+        "target": 37,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 37,
+        "target": 38,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 38,
+        "target": 39,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 40,
+        "target": 41,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 41,
+        "target": 42,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 42,
+        "target": 43,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 43,
+        "target": 44,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 45,
+        "target": 46,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 46,
+        "target": 47,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 47,
+        "target": 48,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 48,
+        "target": 49,
+        "type": "vertical",
+        "label": "晋升"
+      },
+      {
+        "source": 1,
+        "target": 6,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "3-6个月",
+        "label": "转岗→软件测试工程师"
+      },
+      {
+        "source": 1,
+        "target": 41,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-12个月",
+        "label": "转岗→项目经理"
+      },
+      {
+        "source": 1,
+        "target": 26,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "2-4个月",
+        "label": "转岗→实施工程师"
+      },
+      {
+        "source": 1,
+        "target": 31,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "1-3个月",
+        "label": "转岗→技术支持工程师"
+      },
+      {
+        "source": 6,
+        "target": 1,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "10-15个月",
+        "label": "转岗→Java开发工程师"
+      },
+      {
+        "source": 6,
+        "target": 36,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "4-8个月",
+        "label": "转岗→质量管理工程师"
+      },
+      {
+        "source": 6,
+        "target": 41,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-12个月",
+        "label": "转岗→项目经理"
+      },
+      {
+        "source": 6,
+        "target": 46,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "3-6个月",
+        "label": "转岗→IT运营专员"
+      },
+      {
+        "source": 11,
+        "target": 21,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "3-6个月",
+        "label": "转岗→硬件测试工程师"
+      },
+      {
+        "source": 11,
+        "target": 1,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "4-8个月",
+        "label": "转岗→Java开发工程师"
+      },
+      {
+        "source": 11,
+        "target": 36,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-10个月",
+        "label": "转岗→质量管理工程师"
+      },
+      {
+        "source": 11,
+        "target": 31,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "2-4个月",
+        "label": "转岗→技术支持工程师"
+      },
+      {
+        "source": 16,
+        "target": 1,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-12个月",
+        "label": "转岗→Java开发工程师"
+      },
+      {
+        "source": 16,
+        "target": 46,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "3-6个月",
+        "label": "转岗→IT运营专员"
+      },
+      {
+        "source": 16,
+        "target": 41,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-12个月",
+        "label": "转岗→项目经理"
+      },
+      {
+        "source": 16,
+        "target": 6,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "3-5个月",
+        "label": "转岗→软件测试工程师"
+      },
+      {
+        "source": 21,
+        "target": 36,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "3-6个月",
+        "label": "转岗→质量管理工程师"
+      },
+      {
+        "source": 21,
+        "target": 31,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "2-4个月",
+        "label": "转岗→技术支持工程师"
+      },
+      {
+        "source": 21,
+        "target": 26,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "4-8个月",
+        "label": "转岗→实施工程师"
+      },
+      {
+        "source": 21,
+        "target": 11,
+        "type": "lateral",
+        "difficulty": "较难",
+        "transition_period": "12-18个月",
+        "label": "转岗→C/C++开发工程师"
+      },
+      {
+        "source": 26,
+        "target": 41,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "3-6个月",
+        "label": "转岗→项目经理"
+      },
+      {
+        "source": 26,
+        "target": 31,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "1-3个月",
+        "label": "转岗→技术支持工程师"
+      },
+      {
+        "source": 26,
+        "target": 36,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-10个月",
+        "label": "转岗→质量管理工程师"
+      },
+      {
+        "source": 26,
+        "target": 46,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-10个月",
+        "label": "转岗→IT运营专员"
+      },
+      {
+        "source": 31,
+        "target": 26,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "2-4个月",
+        "label": "转岗→实施工程师"
+      },
+      {
+        "source": 31,
+        "target": 36,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "5-9个月",
+        "label": "转岗→质量管理工程师"
+      },
+      {
+        "source": 31,
+        "target": 46,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "3-6个月",
+        "label": "转岗→IT运营专员"
+      },
+      {
+        "source": 31,
+        "target": 41,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "8-14个月",
+        "label": "转岗→项目经理"
+      },
+      {
+        "source": 36,
+        "target": 6,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-12个月",
+        "label": "转岗→软件测试工程师"
+      },
+      {
+        "source": 36,
+        "target": 41,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-10个月",
+        "label": "转岗→项目经理"
+      },
+      {
+        "source": 36,
+        "target": 26,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "4-8个月",
+        "label": "转岗→实施工程师"
+      },
+      {
+        "source": 36,
+        "target": 21,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "4-8个月",
+        "label": "转岗→硬件测试工程师"
+      },
+      {
+        "source": 41,
+        "target": 46,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "3-6个月",
+        "label": "转岗→IT运营专员"
+      },
+      {
+        "source": 41,
+        "target": 26,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "2-4个月",
+        "label": "转岗→实施工程师"
+      },
+      {
+        "source": 41,
+        "target": 31,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "2-3个月",
+        "label": "转岗→技术支持工程师"
+      },
+      {
+        "source": 41,
+        "target": 36,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-10个月",
+        "label": "转岗→质量管理工程师"
+      },
+      {
+        "source": 46,
+        "target": 41,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "8-14个月",
+        "label": "转岗→项目经理"
+      },
+      {
+        "source": 46,
+        "target": 6,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "6-10个月",
+        "label": "转岗→软件测试工程师"
+      },
+      {
+        "source": 46,
+        "target": 31,
+        "type": "lateral",
+        "difficulty": "较易",
+        "transition_period": "2-4个月",
+        "label": "转岗→技术支持工程师"
+      },
+      {
+        "source": 46,
+        "target": 26,
+        "type": "lateral",
+        "difficulty": "中等",
+        "transition_period": "5-9个月",
+        "label": "转岗→实施工程师"
+      }
+    ]
+  }
+}

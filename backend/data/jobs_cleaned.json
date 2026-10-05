@@ -1,0 +1,368 @@
+{
+  "meta": {
+    "source": "Anonymized portfolio sample",
+    "total": 12,
+    "note": "Full recruitment dataset excluded from public repository."
+  },
+  "jobs": [
+    {
+      "job_id": "demo-测试工程师",
+      "title": "测试工程师",
+      "location": {
+        "city": "天津",
+        "district": "西青区",
+        "raw": "天津-西青区"
+      },
+      "salary": {
+        "min": 5000.0,
+        "max": 8000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "5000-8000元",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "已上市",
+        "scale": "300-499人",
+        "description": ""
+      },
+      "industry": [
+        "计算机软件",
+        "IT服务",
+        "电子/半导体/集成电路"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-05-30",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-产品专员助理",
+      "title": "产品专员/助理",
+      "location": {
+        "city": "北京",
+        "district": "西城区",
+        "raw": "北京-西城区"
+      },
+      "salary": {
+        "min": 7000.0,
+        "max": 14000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "7000-14000元",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "未知",
+        "scale": "100-299人",
+        "description": ""
+      },
+      "industry": [
+        "计算机软件"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-05-07",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-储备干部",
+      "title": "储备干部",
+      "location": {
+        "city": "广州",
+        "district": "天河区",
+        "raw": "广州-天河区"
+      },
+      "salary": {
+        "min": 5000.0,
+        "max": 10000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "5000-10000元",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "未知",
+        "scale": "100-299人",
+        "description": ""
+      },
+      "industry": [
+        "通信/网络设备",
+        "运营商/增值服务"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-04-10",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-储备经理人",
+      "title": "储备经理人",
+      "location": {
+        "city": "上海",
+        "district": "浦东新区",
+        "raw": "上海-浦东新区"
+      },
+      "salary": {
+        "min": 8000.0,
+        "max": 15000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "8000-15000元",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "不需要融资",
+        "scale": "100-299人",
+        "description": ""
+      },
+      "industry": [
+        "企业服务",
+        "互联网",
+        "咨询服务",
+        "专业技术服务"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-07-27",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-大客户代表",
+      "title": "大客户代表",
+      "location": {
+        "city": "南京",
+        "district": "雨花台区",
+        "raw": "南京-雨花台区"
+      },
+      "salary": {
+        "min": 12000.0,
+        "max": 15000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "1.2-1.5万",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "未知",
+        "scale": "1000-9999人",
+        "description": ""
+      },
+      "industry": [
+        "互联网"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-05-13",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-档案管理",
+      "title": "档案管理",
+      "location": {
+        "city": "太原",
+        "district": "杏花岭区",
+        "raw": "太原-杏花岭区"
+      },
+      "salary": {
+        "min": 3000.0,
+        "max": 6000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "3000-6000元",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "未融资",
+        "scale": "100-299人",
+        "description": ""
+      },
+      "industry": [
+        "计算机硬件",
+        "计算机软件"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-05-26",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-风电工程师",
+      "title": "风电工程师",
+      "location": {
+        "city": "赤峰",
+        "district": "松山区",
+        "raw": "赤峰-松山区"
+      },
+      "salary": {
+        "min": 9000.0,
+        "max": 12000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "9000-12000元",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "未知",
+        "scale": "20人以下",
+        "description": ""
+      },
+      "industry": [
+        "工业自动化"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-07-23",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-管培生储备干部",
+      "title": "管培生/储备干部",
+      "location": {
+        "city": "深圳",
+        "district": "龙华区",
+        "raw": "深圳-龙华区"
+      },
+      "salary": {
+        "min": 8000.0,
+        "max": 15000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "8000-15000元",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "天使轮",
+        "scale": "20-99人",
+        "description": ""
+      },
+      "industry": [
+        "智能硬件"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-07-21",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-技术支持工程师",
+      "title": "技术支持工程师",
+      "location": {
+        "city": "苏州",
+        "district": "虎丘区",
+        "raw": "苏州-虎丘区"
+      },
+      "salary": {
+        "min": 9000.0,
+        "max": 12000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "9000-12000元",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "不需要融资",
+        "scale": "20-99人",
+        "description": ""
+      },
+      "industry": [
+        "咨询服务"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-03-15",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-科研人员",
+      "title": "科研人员",
+      "location": {
+        "city": "珠海",
+        "district": "香洲区",
+        "raw": "珠海-香洲区"
+      },
+      "salary": {
+        "min": 45000.0,
+        "max": 50000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "4.5-5万",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "未融资",
+        "scale": "20-99人",
+        "description": ""
+      },
+      "industry": [
+        "专业技术服务",
+        "人工智能",
+        "云计算/大数据",
+        "IT服务"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-07-09",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-猎头顾问",
+      "title": "猎头顾问",
+      "location": {
+        "city": "新乡",
+        "district": "红旗区",
+        "raw": "新乡-红旗区"
+      },
+      "salary": {
+        "min": 9000.0,
+        "max": 15000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "9000-15000元",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "已上市",
+        "scale": "1000-9999人",
+        "description": ""
+      },
+      "industry": [
+        "互联网金融/小额贷款"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-07-26",
+      "source_url": ""
+    },
+    {
+      "job_id": "demo-律师",
+      "title": "律师",
+      "location": {
+        "city": "北京",
+        "district": "海淀区",
+        "raw": "北京-海淀区"
+      },
+      "salary": {
+        "min": 20000.0,
+        "max": 30000.0,
+        "unit": "月",
+        "negotiable": false,
+        "raw": "2-3万",
+        "note": ""
+      },
+      "company": {
+        "name": "示例企业",
+        "type": "未融资",
+        "scale": "100-299人",
+        "description": ""
+      },
+      "industry": [
+        "咨询服务",
+        "互联网"
+      ],
+      "description": "公开作品集岗位样例；技能与职责请参考岗位画像。",
+      "updated_at": "2025-07-25",
+      "source_url": ""
+    }
+  ]
+}

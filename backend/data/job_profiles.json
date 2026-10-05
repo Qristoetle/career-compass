@@ -1,0 +1,1297 @@
+{
+  "meta": {
+    "total": 10,
+    "generated_by": "DeepSeek AI（基于数据集真实JD提炼，无手写内容）",
+    "generated_at": "2026-03-10 19:18:38",
+    "jd_sample_count": 30,
+    "source_jobs": "jobs_cleaned.json"
+  },
+  "profiles": {
+    "Java开发工程师": {
+      "profile_id": "P001",
+      "title": "Java开发工程师",
+      "dataset_titles": [
+        "Java"
+      ],
+      "data_source": "数据集真实JD提炼（507条样本，AI分析）",
+      "sample_count": 507,
+      "education_requirement": "本科及以上学历，计算机相关专业优先",
+      "experience_requirement": "2-3年以上开发经验，部分接受应届生或0经验",
+      "salary_stats": {
+        "avg_min": 11761,
+        "avg_max": 21787,
+        "range": "11k-21k",
+        "sample_count": 504,
+        "market_note": "薪资跨度较大，大厂及有经验者可达上限，应届生或转行者多位于中下限"
+      },
+      "top_cities": [
+        "深圳",
+        "武汉",
+        "南京",
+        "西安",
+        "济南"
+      ],
+      "company_scale_dist": {
+        "10000人以上": 304,
+        "20-99人": 82,
+        "1000-9999人": 43,
+        "100-299人": 36,
+        "500-999人": 19
+      },
+      "market_analysis": "市场需求旺盛，尤其集中于大型科技公司及互联网企业。技术栈以Java为核心，普遍要求掌握Spring生态、数据库及分布式技术。云服务、微服务、高并发经验成为重要加分项，竞争激烈，对基础扎实、学习能力强的人才需求迫切。",
+      "high_freq_keywords": [
+        "Java",
+        "Spring",
+        "MySQL",
+        "数据结构与算法",
+        "Linux",
+        "微服务",
+        "Redis",
+        "Spring Boot",
+        "数据库设计",
+        "分布式系统",
+        "高并发",
+        "容器/Docker",
+        "前端技术(HTML/CSS/JS)",
+        "Python",
+        "C++"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "精通Java及Spring生态，熟悉数据库、分布式中间件，具备扎实的计算机基础。",
+          "core_skills": [
+            "Java",
+            "Spring/Spring Boot",
+            "MySQL",
+            "Redis",
+            "MyBatis",
+            "Linux",
+            "数据结构与算法",
+            "Git"
+          ],
+          "bonus_skills": [
+            "Spring Cloud",
+            "微服务架构",
+            "Docker/Kubernetes",
+            "高并发设计",
+            "云服务经验"
+          ],
+          "scoring_criteria": "根据对核心技术的掌握深度、项目实践经验、解决复杂技术问题的能力进行综合评分。"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "多数未硬性要求，部分提及日语能力或英语四级。",
+          "recommended_certs": [
+            "日语能力证书（如N3）",
+            "大学英语四级/六级",
+            "Oracle Java认证",
+            "云计算相关认证"
+          ],
+          "scoring_criteria": "持有岗位明确要求的语言或专业证书可加分，非必需项。"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "要求能创造性解决技术难题，应用前沿技术提升产品竞争力。",
+          "indicators": [
+            "参与技术攻关次数",
+            "引入新技术解决业务问题的案例",
+            "对开源社区或技术研究的贡献"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 15,
+          "description": "强调热衷新技术，善于总结分享，具备快速学习和适应能力。",
+          "indicators": [
+            "新技术掌握速度",
+            "技术总结与分享频次",
+            "跨领域知识迁移能力"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "需承受项目进度压力、处理线上问题及可能的加班。",
+          "indicators": [
+            "项目高压期稳定性",
+            "线上故障应急处理表现",
+            "长期工作负荷承受度"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 10,
+          "description": "需良好沟通协作，与产品、测试等多团队配合，清晰表达技术方案。",
+          "indicators": [
+            "跨团队协作效率",
+            "技术文档编写质量",
+            "需求分析与沟通能力"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 10,
+          "description": "对应届生或转行者，相关实习或项目经历是重要评估依据。",
+          "indicators": [
+            "实习项目复杂度",
+            "在项目中承担的角色与贡献",
+            "实习期技术成长速度"
+          ]
+        }
+      }
+    },
+    "软件测试工程师": {
+      "profile_id": "P002",
+      "title": "软件测试工程师",
+      "dataset_titles": [
+        "软件测试",
+        "测试工程师"
+      ],
+      "data_source": "数据集真实JD提炼（793条样本，AI分析）",
+      "sample_count": 793,
+      "education_requirement": "专科及以上学历，计算机、软件工程、电子信息等相关理工科专业优先",
+      "experience_requirement": "有无经验均可，有相关硬件/软件/通信测试经验者优先",
+      "salary_stats": {
+        "avg_min": 7632,
+        "avg_max": 11411,
+        "range": "7k-11k",
+        "sample_count": 783,
+        "market_note": "薪资范围集中在7-11k，市场需求广泛，覆盖初级到中级岗位。"
+      },
+      "top_cities": [
+        "深圳",
+        "北京",
+        "上海",
+        "成都",
+        "西安"
+      ],
+      "company_scale_dist": {
+        "20-99人": 269,
+        "1000-9999人": 189,
+        "100-299人": 107,
+        "20人以下": 88,
+        "10000人以上": 83
+      },
+      "market_analysis": "市场需求集中在功能、性能、自动化测试，技术趋势涉及AI、硬件、通信产品测试。竞争程度中等，要求掌握测试理论、用例设计、脚本语言及特定领域知识。",
+      "high_freq_keywords": [
+        "测试用例",
+        "测试计划",
+        "功能测试",
+        "Python",
+        "自动化测试",
+        "性能测试",
+        "Linux",
+        "Shell",
+        "Selenium",
+        "JMeter",
+        "SQL",
+        "硬件测试",
+        "通信测试",
+        "缺陷管理"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "掌握测试理论、用例设计、测试执行与报告，熟悉自动化、性能测试工具及脚本语言。",
+          "core_skills": [
+            "测试用例设计",
+            "测试计划制定",
+            "功能测试",
+            "缺陷管理工具",
+            "Python",
+            "Linux/Shell",
+            "Selenium",
+            "JMeter"
+          ],
+          "bonus_skills": [
+            "AI/机器学习测试",
+            "硬件测试仪器",
+            "通信测试",
+            "自动化测试框架",
+            "性能测试工具"
+          ],
+          "scoring_criteria": "根据对核心测试流程、工具使用熟练度及脚本编写能力进行综合评分。"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "JD中未明确要求特定证书，但相关专业背景和技能认证是加分项。",
+          "recommended_certs": [
+            "ISTQB认证",
+            "软件评测师",
+            "网络工程师",
+            "相关领域技能认证"
+          ],
+          "scoring_criteria": "持有相关专业或技能认证者酌情加分，非必需项。"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "引入新测试方法工具，优化测试流程，参与产品改进建议。",
+          "indicators": [
+            "提出测试流程优化建议数量",
+            "引入或应用新测试工具/技术案例",
+            "参与产品设计评审并提供有效反馈"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 12,
+          "description": "主动学习新技术、工具，适应不同领域产品测试需求。",
+          "indicators": [
+            "掌握新测试工具/框架的速度",
+            "跨领域（如AI、硬件）知识学习与应用能力",
+            "技术分享与文档总结质量"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "应对项目进度压力、多任务并行及驻场/异地测试工作。",
+          "indicators": [
+            "在计划时间内完成测试任务的比例",
+            "处理线上问题或紧急缺陷的响应速度",
+            "适应异地出差或高强度项目的能力"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 13,
+          "description": "与开发、产品、客户跨部门协作，推动问题解决。",
+          "indicators": [
+            "缺陷描述与跟踪的清晰准确度",
+            "跨团队协作推动问题解决的效率",
+            "培训、文档编写与沟通表达能力"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 10,
+          "description": "有相关测试实习或项目经验者优先，应届生亦可培养。",
+          "indicators": [
+            "相关测试实习时长与项目参与度",
+            "实习期间输出的测试用例/报告质量",
+            "对测试流程和工具的实际操作熟练度"
+          ]
+        }
+      }
+    },
+    "C/C++开发工程师": {
+      "profile_id": "P003",
+      "title": "C/C++开发工程师",
+      "dataset_titles": [
+        "C/C++"
+      ],
+      "data_source": "数据集真实JD提炼（330条样本，AI分析）",
+      "sample_count": 330,
+      "education_requirement": "本科及以上学历，计算机、软件工程、通信、电子等相关理工科专业优先",
+      "experience_requirement": "多数要求有相关开发经验，部分接受应届生或半年以上经验，特定领域（如嵌入式、机器人、视觉）要求行业经验",
+      "salary_stats": {
+        "avg_min": 12187,
+        "avg_max": 22494,
+        "range": "12k-22k",
+        "sample_count": 323,
+        "market_note": "薪资跨度较大，与经验、技术栈及所在城市强相关，一线城市及大厂薪资更具竞争力。"
+      },
+      "top_cities": [
+        "上海",
+        "北京",
+        "成都",
+        "深圳",
+        "南京"
+      ],
+      "company_scale_dist": {
+        "10000人以上": 155,
+        "20-99人": 73,
+        "100-299人": 41,
+        "1000-9999人": 27,
+        "300-499人": 16
+      },
+      "market_analysis": "市场需求集中在嵌入式、汽车软件（AUTOSAR）、机器人控制、图形图像、网络通信及云平台等领域。技术趋势包括国产化替代、虚拟化、AI集成及跨平台开发。竞争激烈，要求扎实的C/C++基础，并广泛结合Qt、Linux、特定领域协议及算法能力。",
+      "high_freq_keywords": [
+        "C/C++",
+        "Qt",
+        "Linux",
+        "嵌入式",
+        "数据结构与算法",
+        "多线程",
+        "网络协议",
+        "面向对象",
+        "Python",
+        "GUI开发",
+        "Windows",
+        "调试",
+        "系统设计",
+        "团队协作"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "精通C/C++语言，熟悉数据结构与算法，具备特定领域（嵌入式/图形/网络）开发能力。",
+          "core_skills": [
+            "C/C++",
+            "Qt",
+            "Linux",
+            "数据结构与算法",
+            "多线程编程",
+            "TCP/IP网络协议",
+            "面向对象设计",
+            "调试工具（如GDB/VS）"
+          ],
+          "bonus_skills": [
+            "Python",
+            "AUTOSAR",
+            "Docker/Kubernetes",
+            "FPGA/Verilog",
+            "深度学习框架（如PyTorch）"
+          ],
+          "scoring_criteria": "根据对核心编程语言、关键框架/平台的掌握深度，以及解决复杂技术问题的实际项目经验进行评分。"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "JD中未明确要求特定证书，更看重实际技能与项目经验。",
+          "recommended_certs": [
+            "无明确要求",
+            "（行业相关认证如嵌入式、网络等可作为加分）"
+          ],
+          "scoring_criteria": "持有与岗位领域高度相关的权威技术认证可获加分，非必需项。"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "需跟踪技术动态，参与架构设计优化，解决关键技术难题。",
+          "indicators": [
+            "参与技术方案设计与优化次数",
+            "解决关键技术难题的复杂度",
+            "将新技术应用于实践并产生效果"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 12,
+          "description": "要求快速掌握新技术，热衷前沿技术探索，善于总结分享。",
+          "indicators": [
+            "掌握新工具/框架的速度",
+            "技术博客、分享或专利产出",
+            "对新兴技术领域的了解深度"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "需应对项目进度压力、现场调试、高并发系统保障等挑战。",
+          "indicators": [
+            "在紧迫工期下保证交付质量",
+            "处理线上紧急问题的效率",
+            "适应出差和现场调试的频次与时长"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 13,
+          "description": "需与团队、客户及跨部门协作，进行技术沟通、文档编写与培训。",
+          "indicators": [
+            "技术文档编写清晰度",
+            "与团队及客户沟通解决问题的有效性",
+            "参与需求分析和技术评审的贡献度"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 10,
+          "description": "相关项目或实习经验是重要加分项，部分岗位对应届生开放。",
+          "indicators": [
+            "实习/项目与目标岗位的相关性",
+            "在项目中承担职责的复杂度",
+            "实习期间的问题解决与成果产出"
+          ]
+        }
+      }
+    },
+    "前端开发工程师": {
+      "profile_id": "P004",
+      "title": "前端开发工程师",
+      "dataset_titles": [
+        "前端开发"
+      ],
+      "data_source": "数据集真实JD提炼（205条样本，AI分析）",
+      "sample_count": 205,
+      "education_requirement": "本科及以上学历为主，部分接受大专或应届生",
+      "experience_requirement": "1-3年以上相关经验，部分接受应届生或实习生",
+      "salary_stats": {
+        "avg_min": 8146,
+        "avg_max": 12584,
+        "range": "8k-12k",
+        "sample_count": 196,
+        "market_note": "初级岗位薪资集中在8-12k，经验和技术深度是薪资关键变量。"
+      },
+      "top_cities": [
+        "北京",
+        "上海",
+        "成都",
+        "济南",
+        "深圳"
+      ],
+      "company_scale_dist": {
+        "20-99人": 94,
+        "100-299人": 30,
+        "1000-9999人": 24,
+        "10000人以上": 18,
+        "300-499人": 16
+      },
+      "market_analysis": "市场需求集中于掌握主流框架（Vue/React）和工程化能力的前端开发。技术趋势包括TypeScript、Node.js、跨端开发（小程序/Electron）和性能优化。竞争激烈，要求兼具扎实基础、框架应用、团队协作和持续学习能力。",
+      "high_freq_keywords": [
+        "JavaScript",
+        "HTML5",
+        "CSS3",
+        "Vue",
+        "React",
+        "Node.js",
+        "Webpack",
+        "TypeScript",
+        "前端框架",
+        "工程化",
+        "性能优化",
+        "跨端开发",
+        "组件化",
+        "团队协作",
+        "用户体验"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "精通HTML/CSS/JavaScript，掌握至少一种主流框架（Vue/React），熟悉前端工程化和性能优化。",
+          "core_skills": [
+            "JavaScript/ES6+",
+            "HTML5",
+            "CSS3",
+            "Vue.js",
+            "React",
+            "Node.js",
+            "Webpack/Vite"
+          ],
+          "bonus_skills": [
+            "TypeScript",
+            "小程序/uni-app",
+            "Electron",
+            "Three.js/WebGL",
+            "Ant Design/Element UI"
+          ],
+          "scoring_criteria": "根据技术栈掌握深度、项目复杂度、工程化实践和性能优化经验综合评分。"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "JD中未明确要求特定证书，更看重实际技能和项目经验。",
+          "recommended_certs": [
+            "计算机相关学历学位证书",
+            "前端框架官方认证（如Vue认证）",
+            "软考证书",
+            "知名技术平台认证"
+          ],
+          "scoring_criteria": "相关专业学历为基本项，技术认证或知名开源贡献可作为加分项。"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "要求跟进技术趋势，优化用户体验，参与技术选型和架构设计。",
+          "indicators": [
+            "参与前端技术选型或架构设计",
+            "有性能优化或用户体验提升案例",
+            "有开源项目或技术分享经历"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 12,
+          "description": "强调持续学习新技术、解决新问题的能力和好奇心。",
+          "indicators": [
+            "能快速掌握新框架或工具",
+            "有主动学习并应用新技术的案例",
+            "对技术趋势保持关注并分享"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "需承受开发进度、问题排查、多端适配及性能优化等多重压力。",
+          "indicators": [
+            "能在项目周期压力下保证代码质量",
+            "能独立排查和解决复杂技术问题",
+            "能处理多任务并行和紧急需求"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 13,
+          "description": "需与后端、产品、设计等多方协作，清晰沟通需求和问题。",
+          "indicators": [
+            "能清晰理解并传达产品需求",
+            "能与后端高效协作完成接口联调",
+            "具备团队内技术分享和文档编写能力"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 10,
+          "description": "部分岗位接受应届生或实习生，有相关项目经验者优先。",
+          "indicators": [
+            "有前端相关实习或项目经历",
+            "熟悉主流开发流程和工具",
+            "有独立完成功能模块的经验"
+          ]
+        }
+      }
+    },
+    "硬件测试工程师": {
+      "profile_id": "P005",
+      "title": "硬件测试工程师",
+      "dataset_titles": [
+        "硬件测试"
+      ],
+      "data_source": "数据集真实JD提炼（210条样本，AI分析）",
+      "sample_count": 210,
+      "education_requirement": "大专及以上，电子/通信/自动化/计算机相关专业",
+      "experience_requirement": "有相关经验者优先，部分接受应届生或实习生",
+      "salary_stats": {
+        "avg_min": 6431,
+        "avg_max": 9705,
+        "range": "6k-9k",
+        "sample_count": 207,
+        "market_note": "薪资集中于6-9k，经验与技能是决定薪资上限的关键因素。"
+      },
+      "top_cities": [
+        "深圳",
+        "东莞",
+        "焦作",
+        "西安",
+        "北京"
+      ],
+      "company_scale_dist": {
+        "20-99人": 103,
+        "100-299人": 39,
+        "10000人以上": 26,
+        "1000-9999人": 17,
+        "500-999人": 11
+      },
+      "market_analysis": "岗位需求集中在电子制造与物联网行业，强调功能、性能、可靠性及环境测试。技术趋势偏向自动化测试、替代料验证及嵌入式测试。竞争程度中等，对动手能力、测试仪器操作及基础电路知识有普遍要求。",
+      "high_freq_keywords": [
+        "功能测试",
+        "可靠性测试",
+        "环境测试",
+        "示波器",
+        "测试计划",
+        "测试报告",
+        "电路图",
+        "万用表",
+        "硬件缺陷",
+        "测试用例",
+        "电子负载",
+        "焊接",
+        "自动化测试",
+        "嵌入式"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "掌握硬件功能、性能、可靠性及环境测试，熟练使用各类测试仪器与工具。",
+          "core_skills": [
+            "示波器",
+            "万用表",
+            "电源/电子负载",
+            "信号发生器",
+            "频谱仪",
+            "焊接技能",
+            "电路图阅读",
+            "测试用例设计"
+          ],
+          "bonus_skills": [
+            "自动化测试脚本",
+            "Altium Designer/PADS",
+            "C/C++语言",
+            "射频测试",
+            "SI/PI测试"
+          ],
+          "scoring_criteria": "根据测试仪器操作熟练度、测试方案设计能力、问题定位与报告编写质量综合评分。"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "JD中未明确要求特定证书，但英语能力（如四级）是部分岗位的加分项。",
+          "recommended_certs": [
+            "大学英语四级/六级",
+            "相关行业培训证书",
+            "特定仪器操作认证"
+          ],
+          "scoring_criteria": "持有专业或语言证书可加分，非必需项。"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "需能改进测试流程、方法，并对测试工作提出见解。",
+          "indicators": [
+            "提出测试流程改进建议数量",
+            "参与测试工具/方法优化项目",
+            "独立设计创新性测试用例"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 12,
+          "description": "要求学习能力强，能快速适应新技术、新环境。",
+          "indicators": [
+            "掌握新测试仪器/工具的速度",
+            "适应不同产品线测试需求的时间",
+            "学习并应用新测试标准的能力"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "需适应研发阶段测试压力、问题跟踪及可能的临时出差。",
+          "indicators": [
+            "在项目周期内按时完成测试任务",
+            "处理并发测试问题的能力",
+            "适应加班或出差安排的灵活性"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 13,
+          "description": "需与研发、生产等部门协作，反馈问题并提供技术支持。",
+          "indicators": [
+            "测试问题沟通与跟踪的清晰度",
+            "跨部门联合测试的协作效率",
+            "测试报告与技术文档的撰写质量"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 10,
+          "description": "相关项目经验或实习经历是重要加分项，应届生可放宽。",
+          "indicators": [
+            "硬件测试相关实习时长",
+            "在校项目（如设计大赛）的深度与匹配度",
+            "实习期间独立完成测试任务的能力"
+          ]
+        }
+      }
+    },
+    "实施工程师": {
+      "profile_id": "P006",
+      "title": "实施工程师",
+      "dataset_titles": [
+        "实施工程师"
+      ],
+      "data_source": "数据集真实JD提炼（371条样本，AI分析）",
+      "sample_count": 371,
+      "education_requirement": "本科及以上学历为主，部分接受大专/中专，计算机、地理信息、测绘、自动化、化工、电子等相关专业优先",
+      "experience_requirement": "可接受优秀应届生或综合素质较佳者培养，部分要求1-3年相关行业或软件实施经验",
+      "salary_stats": {
+        "avg_min": 6430,
+        "avg_max": 10831,
+        "range": "6k-10k",
+        "sample_count": 368,
+        "market_note": "薪资集中于6-10k区间，368条样本显示实施工程师起薪中等，有出差补贴等福利"
+      },
+      "top_cities": [
+        "北京",
+        "上海",
+        "济南",
+        "深圳",
+        "广州"
+      ],
+      "company_scale_dist": {
+        "20-99人": 155,
+        "1000-9999人": 72,
+        "100-299人": 71,
+        "500-999人": 28,
+        "300-499人": 23
+      },
+      "market_analysis": "市场需求集中在工业互联网、物联网、安防、化工、智慧矿山等领域，强调现场实施与硬件结合，技术趋势向弱电自动化、MES、iPaaS平台发展，竞争程度中等，要求复合型技术人才。",
+      "high_freq_keywords": [
+        "出差",
+        "安装部署",
+        "客户培训",
+        "技术支持",
+        "文档编写",
+        "数据库",
+        "沟通能力",
+        "现场实施",
+        "弱电技术",
+        "自动化",
+        "物联网",
+        "系统调试",
+        "项目交付",
+        "问题解决"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "掌握软件安装部署、系统调试、数据库操作及特定行业软硬件知识，具备现场实施能力。",
+          "core_skills": [
+            "数据库（Oracle/MySQL/SQL Server）",
+            "ArcGIS/CASS",
+            "Windows/Linux系统操作",
+            "Office办公软件",
+            "软件安装部署",
+            "系统调试",
+            "弱电/自动化技术",
+            "网络通信基础"
+          ],
+          "bonus_skills": [
+            "Java/C#/Groovy编程",
+            "LabVIEW/PLC/DCS",
+            "iPaaS平台操作",
+            "HTML/前端技术",
+            "工业互联网平台"
+          ],
+          "scoring_criteria": "根据JD中明确要求的技术栈熟练度、实施项目复杂度及行业特定工具掌握程度评分。"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "部分JD提及行业证书优先，英语CET-4为常见语言能力证明。",
+          "recommended_certs": [
+            "英语四级（CET-4）",
+            "行业相关认证（如网络、数据库）",
+            "特定软件认证（如ArcGIS）",
+            "项目管理证书"
+          ],
+          "scoring_criteria": "持有岗位相关专业证书或语言证书可加分，无硬性要求时权重较低。"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "需根据客户需求设计解决方案，优化实施流程，对产品提出改进建议。",
+          "indicators": [
+            "独立设计技术解决方案的能力",
+            "优化测试流程或实施方法",
+            "收集并反馈产品优化建议"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 12,
+          "description": "要求快速学习新产品、新技术，适应不同行业和项目环境。",
+          "indicators": [
+            "快速掌握新产品及功能",
+            "学习并应用新技术（如AJAX、VUE）",
+            "适应不同行业业务知识"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "需适应频繁出差、项目现场压力、客户沟通压力及多任务处理。",
+          "indicators": [
+            "适应长期或频繁出差",
+            "承受项目交付时间压力",
+            "处理客户现场紧急问题"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 13,
+          "description": "需与客户、团队、研发高效沟通，进行培训、需求收集和关系维护。",
+          "indicators": [
+            "客户培训与技术讲解能力",
+            "跨部门（销售、研发）协调",
+            "现场客户需求沟通与关系维护"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 10,
+          "description": "接受应届生，有相关实习或项目经验者优先，特别是现场实施经验。",
+          "indicators": [
+            "软件实施或技术支持相关实习",
+            "项目现场驻场或出差经历",
+            "行业相关（化工、地理信息等）实践经验"
+          ]
+        }
+      }
+    },
+    "技术支持工程师": {
+      "profile_id": "P007",
+      "title": "技术支持工程师",
+      "dataset_titles": [
+        "技术支持工程师"
+      ],
+      "data_source": "数据集真实JD提炼（306条样本，AI分析）",
+      "sample_count": 306,
+      "education_requirement": "大专及以上学历，本科优先，自动化/机电/计算机/电气相关专业",
+      "experience_requirement": "经验不限，应届生/实习生可考虑，部分要求1年以上相关经验",
+      "salary_stats": {
+        "avg_min": 6721,
+        "avg_max": 11391,
+        "range": "6k-11k",
+        "sample_count": 305,
+        "market_note": "薪资跨度较大，与经验、出差频率及行业相关，自动化/工业领域需求稳定"
+      },
+      "top_cities": [
+        "北京",
+        "上海",
+        "杭州",
+        "广州",
+        "深圳"
+      ],
+      "company_scale_dist": {
+        "20-99人": 161,
+        "100-299人": 61,
+        "1000-9999人": 27,
+        "500-999人": 21,
+        "300-499人": 15
+      },
+      "market_analysis": "岗位需求集中在自动化、工业互联网、弱电安防领域，强调现场实施与售后支持。技术趋势偏向物联网、机器视觉及工业自动化集成。竞争程度中等，对出差适应性和现场问题解决能力要求高，专业匹配度是关键。",
+      "high_freq_keywords": [
+        "自动化",
+        "安装调试",
+        "现场技术支持",
+        "出差",
+        "CAD",
+        "PLC",
+        "弱电",
+        "售后维护",
+        "故障排除",
+        "工业互联网",
+        "客户沟通",
+        "方案制作",
+        "物联网",
+        "网络技术"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "掌握自动化设备安装调试、故障排除，熟悉工业控制系统及网络技术，具备现场实施能力。",
+          "core_skills": [
+            "PLC编程调试",
+            "CAD绘图",
+            "变频器/伺服系统",
+            "网络设备调试",
+            "弱电系统",
+            "工业机器人",
+            "AutoCAD",
+            "Linux系统"
+          ],
+          "bonus_skills": [
+            "C++/Windows编程",
+            "OpenCV/图像处理",
+            "机器视觉",
+            "虚拟化技术",
+            "数据库维护"
+          ],
+          "scoring_criteria": "根据技术熟练度、工具掌握深度及现场问题解决案例评分，重点考察自动化与工业系统实操能力。"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "JD未明确要求证书，但相关行业认证可作为加分项。",
+          "recommended_certs": [
+            "自动化工程师证书",
+            "网络工程师认证",
+            "PLC编程认证",
+            "安全相关证书"
+          ],
+          "scoring_criteria": "持有相关行业技术认证者加分，无硬性要求。"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "需根据客户需求制定解决方案，优化技术支持流程，提升效率。",
+          "indicators": [
+            "独立制定技术方案数量",
+            "流程优化建议采纳率",
+            "新技术应用成功案例"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 12,
+          "description": "快速学习新产品与技术，适应不同行业现场需求，持续更新知识。",
+          "indicators": [
+            "新技术掌握速度",
+            "跨行业适应能力",
+            "培训参与与知识更新频率"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "需适应频繁出差、现场高压环境及客户紧急问题处理。",
+          "indicators": [
+            "出差频率与时长适应度",
+            "紧急故障响应时间",
+            "客户投诉处理稳定性"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 13,
+          "description": "与客户、销售、研发等多方协调，清晰传达技术方案，维护客户关系。",
+          "indicators": [
+            "客户满意度反馈",
+            "跨部门协作效率",
+            "技术文档与方案表述清晰度"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 10,
+          "description": "应届生或实习生需有相关实习经历，能快速融入现场工作。",
+          "indicators": [
+            "相关技术实习时长",
+            "现场项目参与度",
+            "实习期问题解决实例"
+          ]
+        }
+      }
+    },
+    "质量管理工程师": {
+      "profile_id": "P008",
+      "title": "质量管理工程师",
+      "dataset_titles": [
+        "质量管理/测试"
+      ],
+      "data_source": "数据集真实JD提炼（55条样本，AI分析）",
+      "sample_count": 55,
+      "education_requirement": "大专/本科为主，部分接受高中/中专",
+      "experience_requirement": "1-5年相关行业经验，部分接受应届生",
+      "salary_stats": {
+        "avg_min": 7820,
+        "avg_max": 11785,
+        "range": "7k-11k",
+        "sample_count": 54,
+        "market_note": "薪资跨度较大，与经验、行业及企业规模强相关，制造业基础岗集中在7-9k。"
+      },
+      "top_cities": [
+        "深圳",
+        "成都",
+        "合肥",
+        "苏州",
+        "无锡"
+      ],
+      "company_scale_dist": {
+        "20-99人": 14,
+        "1000-9999人": 13,
+        "10000人以上": 10,
+        "100-299人": 5,
+        "500-999人": 5
+      },
+      "market_analysis": "市场需求集中在制造业（电子、机械、汽车）与供应链品控。技术趋势强调质量工具（8D、FMEA）与数据分析能力。竞争程度中等，要求兼具实操技能（检验工具）与体系管理（ISO）的复合型人才。",
+      "high_freq_keywords": [
+        "质量管理体系",
+        "8D报告",
+        "检验工具（卡尺/二次元）",
+        "供应商管理",
+        "客诉处理",
+        "数据分析",
+        "ISO/认可准则",
+        "过程控制（IPQC/FQC）",
+        "质量改进",
+        "文件编制",
+        "APQP/FMEA",
+        "团队协作",
+        "抗压能力",
+        "沟通协调"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "掌握质量工具（8D、FMEA）、检验测量、体系管理及数据分析，能独立处理客诉与制程异常。",
+          "core_skills": [
+            "8D报告",
+            "质量管理体系（ISO）",
+            "检验工具（卡尺/二次元）",
+            "过程质量控制（IPQC/OQC）",
+            "APQP",
+            "FMEA",
+            "数据分析（Excel/SPC）",
+            "供应商审核"
+          ],
+          "bonus_skills": [
+            "QFD功能展开",
+            "Cpk统计",
+            "LED/汽车行业知识",
+            "英语能力",
+            "软件QA"
+          ],
+          "scoring_criteria": "根据掌握质量工具数量与深度、独立处理客诉案例、体系搭建或维护经验、数据分析报告质量综合评分。"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "部分JD提及体系内审员或行业认证，非普遍硬性要求。",
+          "recommended_certs": [
+            "ISO 9001内审员",
+            "六西格玛绿带",
+            "IATF 16949（汽车行业）",
+            "质量工程师"
+          ],
+          "scoring_criteria": "持有相关行业或体系认证加分，无证书不扣分但影响竞争力。"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "能推动质量流程优化、提炼管理经验、研究推广新方法。",
+          "indicators": [
+            "主导或参与质量流程优化项目数",
+            "提出并被采纳的预防性改进建议数",
+            "完成质量技术方法研究或推广案例"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 12,
+          "description": "快速掌握新产品/工艺质量要求，学习新工具与标准。",
+          "indicators": [
+            "掌握新检验标准或工具的速度",
+            "跨行业/产品线质量管控的适应周期",
+            "参与内外部培训并通过考核的情况"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "应对客户投诉、生产异常、加班出差及多任务并行压力。",
+          "indicators": [
+            "高负荷下客诉处理及时率与满意度",
+            "紧急异常跟进闭环效率",
+            "长期加班或出差任务的稳定性"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 13,
+          "description": "高效内外部协调（客户、供应商、生产部门），推动问题解决。",
+          "indicators": [
+            "跨部门协作推动改善措施落地案例",
+            "客户/供应商沟通满意度反馈",
+            "质量会议主持与报告清晰度"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 10,
+          "description": "有相关行业（电子、机械、汽车）质检或质量实习经验优先。",
+          "indicators": [
+            "实习企业行业相关性",
+            "实习中参与具体质量活动（检验、数据收集、审核）",
+            "实习期表现或项目成果评价"
+          ]
+        }
+      }
+    },
+    "项目经理": {
+      "profile_id": "P009",
+      "title": "项目经理",
+      "dataset_titles": [
+        "项目经理/主管"
+      ],
+      "data_source": "数据集真实JD提炼（33条样本，AI分析）",
+      "sample_count": 33,
+      "education_requirement": "本科及以上学历为主，部分接受大专",
+      "experience_requirement": "2-3年以上项目管理经验，能独立承担项目",
+      "salary_stats": {
+        "avg_min": 9696,
+        "avg_max": 16770,
+        "range": "9k-16k",
+        "sample_count": 33,
+        "market_note": "薪资跨度较大，与行业、经验及城市相关，中大型公司需求稳定"
+      },
+      "top_cities": [
+        "北京",
+        "上海",
+        "武汉",
+        "西安",
+        "深圳"
+      ],
+      "company_scale_dist": {
+        "20-99人": 11,
+        "1000-9999人": 7,
+        "100-299人": 6,
+        "10000人以上": 6,
+        "20人以下": 2
+      },
+      "market_analysis": "项目经理需求广泛，覆盖IT、制造、半导体、政府项目等多个领域。强调全流程管理、跨部门协调与客户沟通。技术趋势上，对特定行业知识（如PLM、ERP、半导体设备）及项目管理工具的要求明确。竞争程度中等，具备行业经验+软技能者更具优势。",
+      "high_freq_keywords": [
+        "项目计划",
+        "进度管理",
+        "风险管理",
+        "资源协调",
+        "客户沟通",
+        "需求分析",
+        "招投标",
+        "验收交付",
+        "跨部门协作",
+        "团队管理",
+        "成本控制",
+        "方案设计",
+        "文档管理",
+        "行业知识"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "掌握项目管理全流程，能制定计划、控制进度成本质量，熟悉行业特定工具与流程。",
+          "core_skills": [
+            "项目管理流程",
+            "项目计划制定",
+            "进度与成本控制",
+            "风险管理",
+            "需求分析",
+            "招投标流程",
+            "跨部门资源协调",
+            "客户沟通与汇报"
+          ],
+          "bonus_skills": [
+            "PMP认证",
+            "特定行业知识（如半导体、ERP、PLM）",
+            "英语流利",
+            "CAD/ArcGIS等专业软件",
+            "熟悉IPD或敏捷开发流程"
+          ],
+          "scoring_criteria": "根据行业经验深度、工具熟练度、过往项目复杂度及成功案例进行综合评分。"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "部分JD明确要求PMP，多数为加分项。",
+          "recommended_certs": [
+            "PMP（项目管理专业人士资格认证）",
+            "行业相关认证（如特定ERP、PLM实施认证）",
+            "敏捷相关认证（如CSM、ACP）"
+          ],
+          "scoring_criteria": "持有PMP或行业高相关证书加分，无证书但经验丰富可酌情给分。"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "需在方案设计、风险应对及流程优化中展现创新思维。",
+          "indicators": [
+            "提出优化项目流程或交付方案的有效建议数量",
+            "成功预见并创新性解决项目重大风险的案例",
+            "主导或参与知识沉淀、最佳实践提炼的贡献度"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 12,
+          "description": "需快速学习行业知识、新技术及客户业务，适应多变需求。",
+          "indicators": [
+            "快速掌握新行业或新产品知识并应用于项目的时间",
+            "学习并应用新项目管理工具或方法的主动性",
+            "对政策、技术趋势的跟踪与理解深度"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "需应对项目进度压力、客户投诉、资源冲突及多项目并行。",
+          "indicators": [
+            "在项目延期或预算超支等高压下的问题解决效率",
+            "同时管理多个项目时的进度与质量把控能力",
+            "面对客户关键投诉或需求变更时的情绪稳定性与处理结果"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 13,
+          "description": "核心能力，需高效协调内外部资源，清晰传达信息。",
+          "indicators": [
+            "主持项目会议、汇报进展的清晰度与效率",
+            "协调研发、销售、客户等多方资源解决冲突的成功率",
+            "项目文档（方案、报告、纪要）的规范性与可读性"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 10,
+          "description": "应届或初级岗位看重相关实习或项目助理经验。",
+          "indicators": [
+            "有PMO、项目助理或行业相关实习经历时长（如6个月以上）",
+            "在实习中独立承担或主导的任务复杂度与完成质量",
+            "实习经历与目标岗位（如IT、制造、政府项目）的相关性"
+          ]
+        }
+      }
+    },
+    "IT运营专员": {
+      "profile_id": "P010",
+      "title": "IT运营专员",
+      "dataset_titles": [
+        "游戏运营",
+        "社区运营",
+        "运营助理/专员"
+      ],
+      "data_source": "数据集真实JD提炼（152条样本，AI分析）",
+      "sample_count": 152,
+      "education_requirement": "大专及以上学历为主，部分要求统招本科",
+      "experience_requirement": "接受无经验或经验不限，部分要求相关行业经验",
+      "salary_stats": {
+        "avg_min": 5257,
+        "avg_max": 8078,
+        "range": "5k-8k",
+        "sample_count": 151,
+        "market_note": "薪资集中在5-8k，多数岗位接受无经验，提供培训"
+      },
+      "top_cities": [
+        "郑州",
+        "北京",
+        "重庆",
+        "沈阳",
+        "深圳"
+      ],
+      "company_scale_dist": {
+        "20-99人": 50,
+        "100-299人": 35,
+        "10000人以上": 31,
+        "1000-9999人": 19,
+        "300-499人": 6
+      },
+      "market_analysis": "岗位需求分散，涵盖社群、游戏、数据、客户运营等多个方向。技术门槛较低，强调沟通、数据分析和执行力。竞争程度中等，大量岗位接受无经验新人，提供师徒带教培训。",
+      "high_freq_keywords": [
+        "沟通能力",
+        "数据分析",
+        "社群运营",
+        "客户维护",
+        "团队协作",
+        "办公软件",
+        "抖音/快手",
+        "游戏运营",
+        "用户维护",
+        "活动策划",
+        "数据统计",
+        "抗压能力",
+        "学习能力",
+        "责任心"
+      ],
+      "dimensions": {
+        "professional_skills": {
+          "score_weight": 40,
+          "description": "掌握基础办公软件，具备数据统计、社群/用户维护及平台运营能力",
+          "core_skills": [
+            "Office办公软件",
+            "数据统计与分析",
+            "社群运营工具",
+            "抖音/快手平台操作",
+            "客户关系管理",
+            "基础内容编辑"
+          ],
+          "bonus_skills": [
+            "短视频剪辑/拍摄",
+            "舆情监测工具",
+            "游戏平台操作",
+            "电商平台运营"
+          ],
+          "scoring_criteria": "根据对办公软件、数据分析、主流平台（如抖音）操作及用户维护的实际掌握程度评分"
+        },
+        "certificates": {
+          "score_weight": 5,
+          "description": "JD中极少明确要求证书，更看重实际能力",
+          "recommended_certs": [
+            "无明确要求",
+            "相关行业培训证明",
+            "计算机等级证书"
+          ],
+          "scoring_criteria": "持有与运营、数据分析或特定平台相关的证书可加分"
+        },
+        "innovation_ability": {
+          "score_weight": 10,
+          "description": "能优化运营策略，提出改进方案，提升用户活跃与转化",
+          "indicators": [
+            "提出并落地运营优化方案数量",
+            "活动策划创意与效果",
+            "流程优化建议采纳率"
+          ]
+        },
+        "learning_ability": {
+          "score_weight": 15,
+          "description": "强调快速学习产品知识、运营流程，适应轮岗与培训",
+          "indicators": [
+            "掌握新业务/工具的速度",
+            "培训考核通过率",
+            "轮岗期间适应与表现"
+          ]
+        },
+        "stress_resistance": {
+          "score_weight": 10,
+          "description": "需处理用户投诉、突发事件，适应外出、轮班及业绩压力",
+          "indicators": [
+            "突发事件处理及时性与效果",
+            "在业绩目标或用户投诉压力下的稳定性",
+            "适应外出、轮班工作制度的程度"
+          ]
+        },
+        "communication_ability": {
+          "score_weight": 12,
+          "description": "要求良好的跨部门、客户及用户沟通，具备团队协作精神",
+          "indicators": [
+            "跨部门协作任务完成度",
+            "客户/用户满意度反馈",
+            "团队项目参与贡献度"
+          ]
+        },
+        "internship_experience": {
+          "score_weight": 8,
+          "description": "有运营、客服、社群等相关实习经验优先，非必需",
+          "indicators": [
+            "相关岗位实习时长",
+            "实习期间项目成果",
+            "实习评价与推荐"
+          ]
+        }
+      }
+    }
+  }
+}
