@@ -72,3 +72,11 @@ npm run dev
 页面检查：先在 `frontend` 执行 `npm ci`，再安装 `tests/browser/requirements.txt`、执行 `python -m playwright install chromium`，回到仓库根目录执行 `python -m pytest tests/browser -q`。页面测试使用虚构数据，不调用真实模型；本机可通过 `PLAYWRIGHT_CHROMIUM_EXECUTABLE` 指定浏览器。
 
 [本轮维护与测试结果](docs/testing/2026-10-22-maintenance-results.md)。
+
+### 草稿和模型选择
+
+页面将填写信息、分析结果和报告自动保存在当前浏览器，7 天后过期；可使用“清除本机草稿”清除。草稿不会同步到其他设备，共用电脑使用后请清除；浏览器禁用存储或空间不足时会提示保存失败。
+
+模型选择仅影响当前标签页，刷新后保留。API 调用者可通过 `X-AI-Provider` 请求头选择已配置模型；`POST /api/ai/provider` 只校验选择，不再修改服务器的默认配置。
+
+报告生成支持 `POST /api/report/generate?stream=true` 返回逐行 JSON 事件，事件类型为 `section`、`complete` 或 `error`；不加参数仍返回原有 JSON。请求体可传 `section_keys` 指定需要重新生成的章节，页面将保留其他章节和手动编辑的内容。

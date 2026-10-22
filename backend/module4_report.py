@@ -8,10 +8,11 @@ module4_report.py — 模块4：职业报告生成
 """
 
 from fastapi import APIRouter, HTTPException, Response
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from validation import RequiredText
 from module3_match import normalize_match_result
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Literal
+from fastapi.responses import StreamingResponse
 import json, os, re, asyncio
 from datetime import datetime
 
@@ -40,6 +41,7 @@ def get_paths(job_name):
 
 
 class ReportRequest(BaseModel):
+    section_keys: Optional[List[Literal["executive_summary", "section1_career_exploration", "section2_career_goals", "section3_action_plan", "section4_competitive_strategy", "section5_resources", "conclusion"]]] = Field(default=None, min_length=1, max_length=7)
     student_info:    Dict
     student_profile: Dict
     target_job:      RequiredText
@@ -146,7 +148,31 @@ async def _gen_section(key: str, prompt: str, system: str, max_tokens: int, retr
 # POST /api/report/generate
 # ═══════════════════════════════════════════════════════════════════
 @router.post("/generate")
-async def generate_report(req: ReportRequest):
+async def generate_report(req: ReportRequest, stream: bool = False):
+    if not stream:
+        return await _generate_report(req)
+    async def events():
+        queue = asyncio.Queue()
+        async def work():
+            try:
+                result = await _generate_report(req, queue.put)
+                await queue.put({"type": "complete", "data": result})
+            except Exception:
+                await queue.put({"type": "error", "message": "报告生成失败，请稍后重试"})
+        task = asyncio.create_task(work())
+        try:
+            while True:
+                item = await queue.get()
+                yield json.dumps(item, ensure_ascii=False) + "\n"
+                if item["type"] in ("complete", "error"):
+                    break
+        finally:
+            task.cancel()
+            await asyncio.gather(task, return_exceptions=True)
+    return StreamingResponse(events(), media_type="application/x-ndjson", headers={"X-Accel-Buffering": "no", "Cache-Control": "no-cache"})
+
+
+async def _generate_report(req: ReportRequest, progress=None):
     vpath, lpath = get_paths(req.target_job)
     path_ctx  = json.dumps({"vertical": vpath, "lateral": lpath}, ensure_ascii=False)
     canonical_match = normalize_match_result(req.match_result) if req.match_result else None
@@ -233,14 +259,18 @@ async def generate_report(req: ReportRequest):
         """包装一层异常处理，确保单章失败不影响其他章节"""
         try:
             result = await _gen_section(key, score_instruction + prompt, system, max_tokens)
+            if progress:
+                await progress({"type": "section", "key": key, "ok": True})
             return key, result, None
         except Exception as e:
+            if progress:
+                await progress({"type": "section", "key": key, "ok": False})
             return key, f"[该章节生成失败，可点击重试或手动编辑]", str(e)[:80]
 
     # 并发执行
     results = await asyncio.gather(*[
         _safe_gen(key, prompt, max_tokens)
-        for key, max_tokens, prompt in section_tasks
+        for key, max_tokens, prompt in section_tasks if req.section_keys is None or key in req.section_keys
     ])
 
     for key, result, err in results:

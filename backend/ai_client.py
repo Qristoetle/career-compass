@@ -72,8 +72,11 @@ _AUTO_ORDER = ["deepseek", "claude", "qwen", "kimi", "glm"]
 # ══════════════════════════════════════════════════════════════════
 # Provider 解析
 # ══════════════════════════════════════════════════════════════════
+from contextvars import ContextVar
+request_provider = ContextVar("request_provider", default=None)
+
 def _get_provider() -> dict:
-    explicit = os.environ.get("AI_PROVIDER", "").strip().lower()
+    explicit = request_provider.get() or os.environ.get("AI_PROVIDER", "").strip().lower()
 
     if explicit:
         if explicit not in PROVIDERS:

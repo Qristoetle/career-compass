@@ -9,6 +9,54 @@ import "./responsive.css";
 
 const API = "/api";
 
+const DRAFT_KEY = "career-compass-draft-v1";
+function readDraft() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(DRAFT_KEY));
+    if (saved?.version !== 1 || !Number.isFinite(saved.savedAt) || Date.now() - saved.savedAt > 7 * 86400000 ||
+        !saved.studentData || typeof saved.studentData.name !== "string" || typeof saved.studentData.major !== "string") return null;
+    return saved;
+  } catch { return null; }
+}
+function modelHeaders() {
+  try {
+    const provider = sessionStorage.getItem("career-compass-model");
+    return provider ? { "X-AI-Provider": provider } : {};
+  } catch { return {}; }
+}
+async function generateReport(body, onProgress) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 180000);
+  try {
+    const response = await fetch(`${API}/report/generate?stream=true`, {
+      method: "POST", headers: { "Content-Type": "application/json", ...modelHeaders() },
+      body: JSON.stringify(body), signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(errorMessage((await response.json()).detail));
+    // Also accept older servers that return one JSON response.
+    if (!response.headers.get("content-type")?.includes("ndjson")) return await response.json();
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const { value, done } = await reader.read();
+      buffer += decoder.decode(value, { stream: !done });
+      const lines = buffer.split("\n"); buffer = lines.pop();
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        const event = JSON.parse(line);
+        if (event.type === "section") onProgress(event);
+        if (event.type === "error") throw new Error(event.message);
+        if (event.type === "complete") return event.data;
+      }
+      if (done) throw new Error("连接中断，请重试未完成章节");
+    }
+  } catch (error) {
+    if (error.name === "AbortError") throw new Error("报告生成超时，请重试");
+    throw error;
+  } finally { clearTimeout(timer); }
+}
+
 function errorMessage(detail, fallback = "请求失败，请重试") {
   if (typeof detail === "string") return detail;
   if (Array.isArray(detail)) return detail.map(item => {
@@ -44,7 +92,7 @@ async function api(path, opts = {}, timeoutMs = 30000) {
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const res = await fetch(`${API}${path}`, {
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...modelHeaders() },
       signal: controller.signal,
       ...opts,
     });
@@ -373,249 +421,25 @@ function Loading({ text = "AI 分析中…" }) {
   );
 }
 
-// ── [迁移自代码 1] 就业能力画像专用模拟进度加载 ──
-function ProfileLoading() {
-  const dims = [
-    { label: "专业技能", icon: "💻" }, { label: "证书资质", icon: "📜" },
-    { label: "创新能力", icon: "💡" }, { label: "学习能力", icon: "📚" },
-    { label: "抗压能力", icon: "🧠" }, { label: "沟通能力", icon: "🗣️" },
-    { label: "实习经历", icon: "🏢" }, { label: "就业意愿", icon: "🎯" },
-  ];
-  const [progresses, setProgresses] = useState(() => dims.map(() => 0));
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [tip, setTip] = useState("正在初始化分析模型…");
-  const tips = ["正在初始化分析模型…", "读取个人信息与技能数据…", "对照岗位标准进行评分…", "生成雷达图数据…", "整合分析结果…"];
-
-  useEffect(() => {
-    let idx = 0;
-    const tipTimer = setInterval(() => { idx = (idx + 1) % tips.length; setTip(tips[idx]); }, 2200);
-    return () => clearInterval(tipTimer);
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgresses(prev => {
-        const next = [...prev];
-        for (let i = 0; i < dims.length; i++) {
-          if (i < currentIdx) next[i] = 100;
-          else if (i === currentIdx) next[i] = Math.min(next[i] + Math.random() * 2.5 + 1.2, 100);
-          else next[i] = Math.min(next[i] + Math.random() * 0.4, 20);
-        }
-        return next;
-      });
-    }, 300);
-    return () => clearInterval(timer);
-  }, [currentIdx]);
-
-  useEffect(() => {
-    if (progresses[currentIdx] >= 100 && currentIdx < dims.length - 1) {
-      setTimeout(() => setCurrentIdx(i => i + 1), 200);
-    }
-  }, [progresses, currentIdx]);
-
-  const overall = Math.round(progresses.reduce((a, b) => a + b, 0) / dims.length);
-
-  return (
-    <div style={{ padding: "32px 24px", background: T.bg1, borderRadius: 14, border: `1px solid ${T.line2}`, marginBottom: 20 }}>
-      <div style={{ textAlign: "center", marginBottom: 28 }}>
-        <div style={{ width: 52, height: 52, borderRadius: "50%", background: `conic-gradient(${T.gold} ${overall * 3.6}deg, ${T.line2} 0deg)`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>
-          <div style={{ width: 40, height: 40, borderRadius: "50%", background: T.bg0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: T.gold }}>{overall}%</div>
-        </div>
-        <p style={{ fontSize: 15, fontWeight: 600, color: T.text1, marginBottom: 4 }}>AI 正在分析就业能力画像</p>
-        <p style={{ fontSize: 12, color: T.text2 }}>{tip}</p>
-      </div>
-      <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 20px" }}>
-        {dims.map((d, i) => (
-          <div key={d.label}>
-            <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-              <span style={{ fontSize: 12, color: progresses[i] >= 100 ? T.green : i === currentIdx ? T.gold : T.text2 }}>{d.icon} {d.label}</span>
-              <span style={{ fontSize: 11, color: T.text2 }}>{Math.round(progresses[i])}%</span>
-            </div>
-            <div style={{ height: 5, background: T.line2, borderRadius: 3, overflow: "hidden" }}>
-              <div style={{ height: "100%", width: `${progresses[i]}%`, background: progresses[i] >= 100 ? T.green : i === currentIdx ? T.gold : T.line2, transition: "width 0.12s ease" }} />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+const REPORT_SECTIONS = {
+  executive_summary: "执行摘要", section1_career_exploration: "职业探索",
+  section2_career_goals: "职业目标", section3_action_plan: "行动计划",
+  section4_competitive_strategy: "竞争策略", section5_resources: "资源推荐", conclusion: "结语",
+};
+function ProfileLoading() { return <Loading text="AI 正在分析能力画像，请稍候…" />; }
+function MatchLoading() { return <Loading text="AI 正在分析岗位匹配，请稍候…" />; }
+function ReportLoading({ progress, sections }) {
+  return <div style={{ padding: 24, background: T.bg1, borderRadius: 14, border: `1px solid ${T.line2}` }}>
+    <h3 style={{ color: T.goldL, marginBottom: 14 }}>正在生成职业报告</h3>
+    <progress aria-label="报告生成进度" max={sections.length} value={progress.length} style={{ width: "100%", marginBottom: 14 }} />
+    {sections.map(key => {
+      const item = progress.find(event => event.key === key);
+      return <p key={key} style={{ fontSize: 13, lineHeight: 2, color: item ? item.ok ? T.green : T.orange : T.text1 }}>
+        {REPORT_SECTIONS[key]}：{item ? item.ok ? "已完成" : "生成失败，可稍后重试" : "生成中…"}
+      </p>;
+    })}
+  </div>;
 }
-
-// ── [迁移自代码 1] 人岗匹配专用四维度模拟加载 ──
-function MatchLoading() {
-  const dims = [
-    { label: "基础要求", icon: "📋", weight: "25%" },
-    { label: "职业技能", icon: "⚙️", weight: "40%" },
-    { label: "职业素养", icon: "🌟", weight: "20%" },
-    { label: "发展潜力", icon: "🚀", weight: "15%" },
-  ];
-  const [progresses, setProgresses] = useState(() => dims.map(() => 0));
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [tip, setTip] = useState("正在加载岗位要求…");
-  const tips = ["正在加载岗位要求…", "对比基础条件…", "分析技能匹配度…", "评估职业素养…", "计算综合加权得分…"];
-
-  useEffect(() => {
-    let idx = 0;
-    const timer = setInterval(() => { idx = (idx + 1) % tips.length; setTip(tips[idx]); }, 2800);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgresses(prev => {
-        const next = [...prev];
-        for (let i = 0; i < dims.length; i++) {
-          if (i < currentIdx) next[i] = 100;
-          else if (i === currentIdx) next[i] = Math.min(next[i] + Math.random() * 2.2 + 1.0, 100);
-          else next[i] = Math.min(next[i] + Math.random() * 0.5, 20);
-        }
-        return next;
-      });
-    }, 300);
-    return () => clearInterval(timer);
-  }, [currentIdx]);
-
-  useEffect(() => {
-    if (progresses[currentIdx] >= 100 && currentIdx < dims.length - 1) {
-      setTimeout(() => setCurrentIdx(i => i + 1), 250);
-    }
-  }, [progresses, currentIdx]);
-
-  return (
-    <div style={{ padding: "32px 24px", background: T.bg1, borderRadius: 14, border: `1px solid ${T.line2}`, marginBottom: 20 }}>
-      <div style={{ textAlign: "center", marginBottom: 28 }}>
-        <p style={{ fontSize: 15, fontWeight: 600, color: T.text1, marginBottom: 4 }}>AI 正在进行四维度匹配分析</p>
-        <p style={{ fontSize: 12, color: T.text2 }}>{tip}</p>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        {dims.map((d, i) => (
-          <div key={d.label}>
-            <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-              <span style={{ fontSize: 13, color: progresses[i] >= 100 ? T.green : i === currentIdx ? T.cyan : T.text2 }}>{d.icon} {d.label} ({d.weight})</span>
-              <span style={{ fontSize: 11, color: T.text2 }}>{Math.round(progresses[i])}%</span>
-            </div>
-            <div style={{ height: 6, background: T.line2, borderRadius: 3, overflow: "hidden" }}>
-              <div style={{ height: "100%", width: `${progresses[i]}%`, background: progresses[i] >= 100 ? T.green : i === currentIdx ? T.cyan : T.line2, transition: "width 0.15s ease" }} />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ── [新增] 职业规划报告专用“文档构建”模拟加载 ──
-function ReportLoading() {
-  const sections = [
-    { label: "执行摘要", icon: "◎", desc: "提炼核心竞争优势与职业定位" },
-    { label: "职业探索", icon: "◉", desc: "分析行业趋势与岗位匹配深度" },
-    { label: "职业目标", icon: "◆", desc: "规划短期、中期及长期发展路径" },
-    { label: "行动计划", icon: "◈", desc: "制定具体的技能提升与实践时间表" },
-    { label: "竞争策略", icon: "◇", desc: "构建差异化核心竞争力与面试策略" },
-    { label: "资源推荐", icon: "✦", desc: "匹配最相关的课程、证书与项目资源" },
-  ];
-
-  const [progresses, setProgresses] = useState(() => sections.map(() => 0));
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [tip, setTip] = useState("正在检索全网行业基准数据…");
-
-  const tips = [
-    "正在检索全网行业基准数据…",
-    "整合人岗匹配分析模型…",
-    "调用深度学习模型生成个性化建议…",
-    "正在优化报告排版与视觉呈现…",
-    "最后核对行动计划的可行性…",
-  ];
-
-  // 文字提示轮播
-  useEffect(() => {
-    let idx = 0;
-    const timer = setInterval(() => {
-      idx = (idx + 1) % tips.length;
-      setTip(tips[idx]);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, []);
-
-  // 进度条逻辑
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgresses(prev => {
-        const next = [...prev];
-        for (let i = 0; i < sections.length; i++) {
-          if (i < currentIdx) {
-            next[i] = 100;
-          } else if (i === currentIdx) {
-            // 报告生成较慢，步进设置得小一点，模拟“撰写中”
-            next[i] = Math.min(next[i] + Math.random() * 1.8 + 0.8, 100);
-          } else {
-            next[i] = Math.min(next[i] + Math.random() * 0.3, 10);
-          }
-        }
-        return next;
-      });
-    }, 400);
-    return () => clearInterval(timer);
-  }, [currentIdx]);
-
-  useEffect(() => {
-    if (progresses[currentIdx] >= 100 && currentIdx < sections.length - 1) {
-      setTimeout(() => setCurrentIdx(i => i + 1), 400);
-    }
-  }, [progresses, currentIdx]);
-
-  const totalProgress = Math.round(progresses.reduce((a, b) => a + b, 0) / sections.length);
-
-  return (
-    <div style={{ padding: "40px 30px", background: T.bg1, borderRadius: 16, border: `1px solid ${T.gold}33`, marginBottom: 24, position: "relative", overflow: "hidden" }}>
-      {/* 装饰用扫描线 */}
-      <div style={{ position: "absolute", inset: 0, background: `linear-gradient(transparent, ${T.gold}05, transparent)`, height: "20%", width: "100%", animation: "scanline 3s linear infinite", pointerEvents: "none" }} />
-
-      <div style={{ textAlign: "center", marginBottom: 32, position: "relative" }}>
-        <h3 style={{ fontSize: 18, fontWeight: 700, color: T.gold, marginBottom: 8, letterSpacing: "1px" }}>AI 智能报告构建中</h3>
-        <p style={{ fontSize: 13, color: T.text1, height: 20 }}>{tip}</p>
-        <div style={{ fontSize: 32, fontWeight: 800, color: T.gold, marginTop: 16, fontFamily: "JetBrains Mono, monospace", opacity: 0.9 }}>
-          {totalProgress}%
-        </div>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        {sections.map((s, i) => {
-          const p = Math.round(progresses[i]);
-          const active = i === currentIdx;
-          const done = p >= 100;
-          return (
-            <div key={s.label} style={{ opacity: done || active ? 1 : 0.4, transition: "opacity 0.5s" }}>
-              <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 6 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <span style={{ fontSize: 18, color: done ? T.green : active ? T.gold : T.text2 }}>{s.icon}</span>
-                  <div>
-                    <span style={{ fontSize: 14, fontWeight: 600, color: done ? T.green : active ? T.text0 : T.text2 }}>{s.label}</span>
-                    {active && <span style={{ fontSize: 11, color: T.gold, marginLeft: 8, animation: "pulse 1.5s infinite" }}>撰写中...</span>}
-                  </div>
-                </div>
-                <span style={{ fontSize: 12, color: T.text2, fontFamily: "JetBrains Mono, monospace" }}>{p}%</span>
-              </div>
-              <div style={{ height: 4, background: T.bg3, borderRadius: 2, overflow: "hidden" }}>
-                <div style={{
-                  height: "100%", width: `${p}%`,
-                  background: done ? T.green : active ? `linear-gradient(90deg, ${T.gold}, ${T.goldL})` : T.bg3,
-                  boxShadow: active ? `0 0 10px ${T.gold}66` : "none",
-                  transition: "width 0.4s ease"
-                }} />
-              </div>
-              {active && <p style={{ fontSize: 11, color: T.text2, marginTop: 6, paddingLeft: 28 }}>正在生成：{s.desc}</p>}
-            </div>
-          );
-        })}
-      </div>
-      <p style={{ textAlign: "center", fontSize: 11, color: T.text2, marginTop: 32 }}>
-        基于 DeepSeek 深度思考模型，报告字数预计 2500+ 字
-      </p>
-    </div>
-  );
-}
-
 
 // 错误提示
 function ErrBanner({ msg, onRetry }) {
@@ -660,7 +484,7 @@ function ModelSelector() {
   const [tip, setTip] = useState("");
 
   useEffect(() => {
-    fetch("/api/ai/provider").then(r => r.json()).then(d => { if (d.provider) setCurrent(d.provider); }).catch(() => { });
+    fetch("/api/ai/provider", { headers: modelHeaders() }).then(r => r.json()).then(d => { if (d.provider) setCurrent(d.provider); }).catch(() => { });
   }, []);
 
   const switchModel = async (id) => {
@@ -673,6 +497,7 @@ function ModelSelector() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "切换失败");
+      sessionStorage.setItem("career-compass-model", data.provider);
       setCurrent(data.provider);
       setTip("✅ 已切换到 " + (MODELS.find(m => m.id === id)?.label || id));
     } catch (e) { setTip("❌ " + e.message); }
@@ -836,7 +661,7 @@ function Step1({ data, setData, onNext }) {
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const res = await fetch(`${API}/student/upload-resume`, { method: "POST", body: fd });
+      const res = await fetch(`${API}/student/upload-resume`, { method: "POST", headers: modelHeaders(), body: fd });
       const json = await res.json();
       if (!res.ok) throw new Error(json.detail || "解析失败");
       const d = json.parsed_data || {};
@@ -1184,13 +1009,13 @@ function Step2({ studentData, profile, setProfile, onNext }) {
 
       {!profile && !loading && (
         <Empty icon="🎯" text={`准备为 ${studentData.name || "您"} 生成专属能力画像`} sub="点击下方按钮，AI 将综合分析您填写的所有信息">
-          <Btn onClick={generate} variant="gold" size="lg" style={{ marginTop: 24 }}>生成我的能力画像</Btn>
+          <Btn onClick={() => generate()} variant="gold" size="lg" style={{ marginTop: 24 }}>生成我的能力画像</Btn>
         </Empty>
       )}
 
       {!loading && (
         <div style={{ display: "none" }}>
-          <Btn onClick={generate} variant="gold">生成能力画像</Btn>
+          <Btn onClick={() => generate()} variant="gold">生成能力画像</Btn>
         </div>
       )}
 
@@ -1291,7 +1116,7 @@ function Step2({ studentData, profile, setProfile, onNext }) {
           </Card>
 
           <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", paddingTop: 12, borderTop: `1px solid ${T.line}` }}>
-            <Btn onClick={generate} variant="ghost">↺ 重新生成</Btn>
+            <Btn onClick={() => generate()} variant="ghost">↺ 重新生成</Btn>
             <Btn onClick={onNext} variant="gold">下一步：探索岗位 →</Btn>
           </div>
         </div>
@@ -1299,7 +1124,7 @@ function Step2({ studentData, profile, setProfile, onNext }) {
 
       {!profile && !loading && (
         <div style={{ textAlign: "center", marginTop: 20 }}>
-          <Btn onClick={generate} variant="gold" size="lg">⚡ 生成我的能力画像</Btn>
+          <Btn onClick={() => generate()} variant="gold" size="lg">⚡ 生成我的能力画像</Btn>
         </div>
       )}
     </div>
@@ -2108,6 +1933,10 @@ function Step5({ studentData, profile, selectedJob, matchResult, report, setRepo
   const [editBuf, setEditBuf] = useState("");
   const [polishing, setPolishing] = useState(false);
   const [retryAction, setRetryAction] = useState(null);
+  const [progress, setProgress] = useState([]);
+  const [pendingSections, setPendingSections] = useState(Object.keys(REPORT_SECTIONS));
+  const alive = useRef(true);
+  useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
 
   const updateSection = (key, value) => {
     const [section, field] = key.split(".");
@@ -2116,26 +1945,28 @@ function Step5({ studentData, profile, selectedJob, matchResult, report, setRepo
       : { ...previous, [section]: value });
   };
 
-  const generate = async () => {
-    setLoading(true); setErr("");
+  const failedSections = report ? Object.keys(report).filter(key =>
+    typeof report[key] === "string" && report[key].startsWith("[该章节生成失败")) : [];
+  const generate = async (sectionKeys = null) => {
+    setLoading(true); setErr(""); setProgress([]);
+    setPendingSections(sectionKeys || Object.keys(REPORT_SECTIONS));
     setRetryAction(null);
     try {
-      const res = await api("/report/generate", {
-        method: "POST",
-        body: JSON.stringify({
-          student_info: { name: studentData.name, major: studentData.major, university: studentData.university || "", education_level: studentData.education_level || "本科", graduation_year: studentData.graduation_year || "2025" },
-          student_profile: profile || {},
-          target_job: selectedJob?.title || "",
-          match_result: matchResult || null,
-          career_goals: null,
-          personal_values: [],
-        }),
-      }, 180000);  // 7章串行约90-150秒，设180秒
-      setReport(res.report);
-      setReportWarning(res.has_errors ? "部分章节生成失败，已保留成功内容；可重新生成或手动补充。" : "");
-      setTab("summary");
-    } catch (e) { setErr(e.message); setRetryAction(() => generate); }
-    setLoading(false);
+      const res = await generateReport({
+        student_info: { name: studentData.name, major: studentData.major, university: studentData.university || "", education_level: studentData.education_level || "本科", graduation_year: studentData.graduation_year || String(new Date().getFullYear()) },
+        student_profile: profile || {}, target_job: selectedJob?.title || "",
+        match_result: matchResult || null, career_goals: null, personal_values: [],
+        ...(sectionKeys ? { section_keys: sectionKeys } : {}),
+      }, event => { if (alive.current) setProgress(previous => [...previous, event]); });
+      if (!alive.current) return;
+      setReport(previous => sectionKeys ? { ...previous, ...Object.fromEntries(sectionKeys.map(key => [key, res.report[key]])) } : res.report);
+      const remaining = sectionKeys ? failedSections.filter(key => !sectionKeys.includes(key)) : [];
+      setReportWarning(res.has_errors || remaining.length ? "部分章节生成失败，已保留成功内容；可重试失败章节或手动补充。" : "");
+      if (!sectionKeys) setTab("summary");
+    } catch (e) {
+      if (alive.current) { setErr(e.message); setRetryAction(() => () => generate(sectionKeys)); }
+    }
+    if (alive.current) setLoading(false);
   };
 
   const exportMd = async () => {
@@ -2144,7 +1975,7 @@ function Step5({ studentData, profile, selectedJob, matchResult, report, setRepo
       const timer = setTimeout(() => controller.abort(), 30000);
       const res = await fetch(`${API}/report/export/markdown`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...modelHeaders() },
         body: JSON.stringify({ report, student_name: studentData.name, target_job: selectedJob?.title }),
         signal: controller.signal,
       });
@@ -2166,7 +1997,7 @@ function Step5({ studentData, profile, selectedJob, matchResult, report, setRepo
       const timer = setTimeout(() => controller.abort(), 30000);
       const res = await fetch(`${API}/report/export/word`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...modelHeaders() },
         body: JSON.stringify({ report, student_name: studentData.name, target_job: selectedJob?.title }),
         signal: controller.signal,
       });
@@ -2280,17 +2111,25 @@ function Step5({ studentData, profile, selectedJob, matchResult, report, setRepo
         </div>
         {report && (
           <div className="action-group" style={{ display: "flex", gap: 8 }}>
-            <Btn onClick={generate} variant="ghost" size="sm">↺ 重新生成</Btn>
+            <Btn onClick={() => generate()} variant="ghost" size="sm">↺ 重新生成</Btn>
             <Btn onClick={exportMd} variant="ghost" size="sm">⬇ Markdown</Btn>
             <Btn onClick={exportWord} variant="gold" size="sm">⬇ Word</Btn>
           </div>
         )}
       </div>
 
-      {loading && <ReportLoading />}
+      {loading && <><ReportLoading progress={progress} sections={pendingSections} /><p role="status" style={{ color: T.goldL }}>
+        已完成 {progress.length} / {pendingSections.length} 个章节
+        {progress.some(item => !item.ok) ? "，部分章节待重试" : ""}
+      </p></>}
       <ErrBanner msg={err} onRetry={retryAction} />
 
-      {reportWarning && <p role="status" style={{ color: T.orange, fontSize: 13, lineHeight: 1.8 }}>{reportWarning}</p>}
+      {reportWarning && <div><p role="status" style={{ color: T.orange, fontSize: 13, lineHeight: 1.8 }}>{reportWarning}</p>
+        {failedSections.length > 0 && <div className="action-group" style={{ display: "flex", gap: 8 }}>
+          <Btn onClick={() => generate(failedSections)} disabled={loading}>重试失败章节</Btn>
+          {failedSections.length > 1 && failedSections.map(key => <Btn key={key} onClick={() => generate([key])} disabled={loading}>重试：{REPORT_SECTIONS[key]}</Btn>)}
+        </div>}
+      </div>}
 
       {!report && !loading && (
         <div>
@@ -2330,7 +2169,7 @@ function Step5({ studentData, profile, selectedJob, matchResult, report, setRepo
           </Card>
 
           <div style={{ textAlign: "center" }}>
-            <Btn onClick={generate} variant="gold" size="lg">◇ 生成我的职业规划报告</Btn>
+            <Btn onClick={() => generate()} variant="gold" size="lg">◇ 生成我的职业规划报告</Btn>
           </div>
         </div>
       )}
@@ -2641,7 +2480,7 @@ function Step5({ studentData, profile, selectedJob, matchResult, report, setRepo
           <div className="responsive-row" style={{ marginTop: 20, padding: "14px 20px", background: T.bg1, border: `1px solid ${T.line2}`, borderRadius: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontSize: 12, color: T.text2 }}>报告生成于 {report.generated_at} · 支持手动编辑和 AI 润色</span>
             <div className="action-group" style={{ display: "flex", gap: 8 }}>
-              <Btn onClick={generate} variant="ghost" size="sm">↺ 重新生成</Btn>
+              <Btn onClick={() => generate()} variant="ghost" size="sm">↺ 重新生成</Btn>
               <Btn onClick={exportMd} variant="ghost">⬇ Markdown</Btn>
               <Btn onClick={exportWord} variant="gold">⬇ 导出 Word 报告</Btn>
             </div>
@@ -2699,26 +2538,55 @@ function loadHistory() {
 }
 
 export default function CareerPlanner() {
-  const [step, setStep] = useState(1);
-  const [studentData, setStudentData] = useState(DEFAULT_STUDENT);
-  const [profile, setProfile] = useState(null);
-  const [selectedJob, setSelectedJob] = useState(null);
-  const [matchResult, setMatchResult] = useState(null);
-  const [report, setReport] = useState(null);
-  const [reportWarning, setReportWarning] = useState("");
+  const [clearEpoch, setClearEpoch] = useState(0);
+  const revision = useRef(0);
+  const renderRevision = revision.current;
+  const [draft] = useState(readDraft);
+  const [step, setStep] = useState(() => {
+    if (!draft) return 1;
+    const max = draft.matchResult ? 5 : draft.profile && draft.selectedJob ? 4 : draft.profile ? 3 : draft.studentData?.name?.trim() && draft.studentData?.major?.trim() ? 2 : 1;
+    return Math.max(1, Math.min(Number(draft.step) || 1, max));
+  });
+  const [studentData, setStudentData] = useState(draft?.studentData || DEFAULT_STUDENT);
+  const [profile, setProfile] = useState(draft?.profile || null);
+  const [selectedJob, setSelectedJob] = useState(draft?.selectedJob || null);
+  const [matchResult, setMatchResult] = useState(draft?.matchResult || null);
+  const [report, setReport] = useState(draft?.report || null);
+  const [reportWarning, setReportWarning] = useState(draft?.reportWarning || "");
+  const [draftError, setDraftError] = useState("");
+  useEffect(() => {
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({ version: 1, savedAt: Date.now(), step, studentData, profile, selectedJob, matchResult, report, reportWarning }));
+      setDraftError("");
+    } catch { setDraftError("浏览器无法保存草稿，刷新可能丢失进度；请先导出报告。"); }
+  }, [step, studentData, profile, selectedJob, matchResult, report, reportWarning]);
+  const discardDraft = () => {
+    revision.current += 1;
+    setClearEpoch(previous => previous + 1);
+    try { sessionStorage.removeItem(HISTORY_KEY); } catch { /* Storage may be disabled. */ }
+    try { localStorage.removeItem(DRAFT_KEY); } catch { /* Storage may be disabled. */ }
+    setStep(1); setStudentData({ ...DEFAULT_STUDENT }); setProfile(null);
+    setSelectedJob(null); setMatchResult(null); setReport(null); setReportWarning("");
+  };
 
   const clearReport = () => { setReport(null); setReportWarning(""); };
   const updateStudent = change => {
+    if (renderRevision !== revision.current) return;
+    revision.current += 1;
     setStudentData(previous => typeof change === "function" ? change(previous) : change);
     setProfile(null); setSelectedJob(null); setMatchResult(null); clearReport();
   };
   const updateProfile = value => {
+    if (renderRevision !== revision.current) return;
+    revision.current += 1;
     setProfile(value); setMatchResult(null); clearReport();
   };
   const updateJob = value => {
+    if (renderRevision !== revision.current) return;
+    revision.current += 1;
     setSelectedJob(value); setMatchResult(null); clearReport();
   };
-  const updateMatch = value => { setMatchResult(value); clearReport(); };
+  const updateMatch = value => { if (renderRevision !== revision.current) return; setMatchResult(value); clearReport(); };
   const maxStep = matchResult ? 5 : profile && selectedJob ? 4 : profile ? 3 : step === 2 ? 2 : 1;
 
   return (
@@ -2736,8 +2604,12 @@ export default function CareerPlanner() {
         <Header step={step} setStep={setStep} maxStep={maxStep} />
 
         <main style={{ maxWidth: 980, margin: "0 auto", padding: "28px 24px 60px" }}>
+          <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", marginBottom: 18, color: T.text1, fontSize: 12 }}>
+            <span>{draftError || "进度自动保存到本机，7 天后过期。共用设备使用后请清除。"}</span>
+            <button onClick={discardDraft} style={{ background: "transparent", color: T.goldL }}>清除本机草稿</button>
+          </div>
           {step === 1 && (
-            <Step1
+            <Step1 key={clearEpoch}
               data={studentData}
               setData={updateStudent}
               onNext={() => setStep(2)}
@@ -2777,9 +2649,9 @@ export default function CareerPlanner() {
               selectedJob={selectedJob}
               matchResult={matchResult}
               report={report}
-              setReport={setReport}
+              setReport={value => { if (renderRevision === revision.current) setReport(value); }}
               reportWarning={reportWarning}
-              setReportWarning={setReportWarning}
+              setReportWarning={value => { if (renderRevision === revision.current) setReportWarning(value); }}
             />
           )}
         </main>

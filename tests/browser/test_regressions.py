@@ -67,9 +67,10 @@ def app(browser, frontend_url):
         path = route.request.url.split('/api/', 1)[1].split('?', 1)[0]
         payload = route.request.post_data_json if route.request.post_data else None
         state['requests'].append((path, payload))
+        state.setdefault('headers', []).append((path, route.request.headers))
         status = 200
         if path == 'ai/provider':
-            data = {'provider': 'deepseek', 'key_set': True, 'name': 'DeepSeek', 'model': 'deepseek-chat'}
+            data = {'provider': (payload or {}).get('provider') or route.request.headers.get('x-ai-provider', 'deepseek'), 'key_set': True, 'name': 'DeepSeek', 'model': 'deepseek-chat'}
         elif path == 'ai/providers':
             data = {'providers': [{'id': 'deepseek', 'available': True, 'current': True}]}
         elif path == 'student/analyze':
@@ -97,14 +98,20 @@ def app(browser, frontend_url):
             return
         else:
             status, data = 404, {'detail': f'Unexpected test request: {path}'}
+        if path == 'report/generate' and state.get('report_stream'):
+            events = [{'type': 'section', 'key': key, 'ok': True} for key in data['report'] if key.startswith('section') or key in ('executive_summary', 'conclusion')]
+            events.append({'type': 'complete', 'data': data})
+            route.fulfill(status=200, content_type='application/x-ndjson', body='\n'.join(json.dumps(event, ensure_ascii=False) for event in events)+'\n')
+            return
         route.fulfill(status=status, content_type='application/json', body=json.dumps(data, ensure_ascii=False))
 
     page.route('**/api/**', api)
     page.route('https://fonts.googleapis.com/**', lambda route: route.abort())
     page.route('https://fonts.gstatic.com/**', lambda route: route.abort())
-    page.goto(frontend_url)
+    page.goto(frontend_url, wait_until="domcontentloaded", timeout=15000)
     yield page, state
     context.close()
+    assert not state["errors"]
 
 
 def button(page, name):
@@ -254,3 +261,70 @@ def test_polish_retry_does_not_regenerate_the_whole_report(app):
     button(page, '重试').click()
     expect(page.get_by_text('这是已经润色的测试执行摘要，保留原有结论和行动建议。', exact=True)).to_be_visible()
     assert len([p for p, _ in state['requests'] if p == 'report/generate']) == 1
+
+
+def test_draft_survives_reload_and_can_be_cleared(app):
+    page, _ = app
+    complete_report(page)
+    page.reload()
+    expect(button(page, '⬇ Word')).to_be_visible()
+    button(page, '清除本机草稿').click()
+    assert page.evaluate('sessionStorage.getItem("career_planner_history")') is None
+    expect(page.get_by_placeholder('张三', exact=True)).to_have_value('')
+    page.reload()
+    expect(page.get_by_placeholder('张三', exact=True)).to_have_value('')
+
+def test_failed_section_can_be_retried_without_replacing_report(app):
+    page, state = app
+    state['report_error'] = True
+    complete_report(page)
+    state['report_error'] = False
+    button(page, '重试失败章节').click()
+    expect(page.get_by_text('部分章节生成失败', exact=False)).to_have_count(0)
+    requests = [payload for path, payload in state['requests'] if path == 'report/generate']
+    assert requests[-1]['section_keys'] == ['section5_resources']
+
+
+def test_streamed_report_can_be_displayed_and_restored(app):
+    page, state = app
+    state['report_stream'] = True
+    complete_report(page)
+    page.reload()
+    expect(button(page, '⬇ Word')).to_be_visible()
+
+
+def test_model_choice_is_sent_with_analysis_and_survives_reload(app):
+    page, state = app
+    page.get_by_role('button', name=re.compile('DeepSeek V3')).first.click()
+    page.get_by_role('button', name=re.compile('通义千问')).click()
+    expect(page.get_by_role('button', name=re.compile('通义千问')).first).to_be_visible()
+    complete_profile(page)
+    assert [headers for path, headers in state['headers'] if path == 'student/analyze'][-1]['x-ai-provider'] == 'qwen'
+    page.reload()
+    expect(page.get_by_role('button', name=re.compile('通义千问')).first).to_be_visible()
+
+
+def test_expired_and_corrupt_drafts_do_not_break_initial_form(app):
+    page, _ = app
+    for saved in ['invalid-json', json.dumps({'version': 1, 'savedAt': 1, 'studentData': {'name': 'expired', 'major':'test'}, 'step':5})]:
+        page.evaluate('(value) => localStorage.setItem("career-compass-draft-v1", value)', saved)
+        page.reload()
+        expect(page.get_by_placeholder('张三', exact=True)).to_have_value('')
+
+
+def test_clearing_draft_ignores_late_profile_response(app):
+    page, _ = app
+    pending = []
+    page.route('**/api/student/analyze', lambda route: pending.append(route))
+    page.get_by_placeholder('张三', exact=True).fill('测试同学')
+    page.get_by_placeholder('计算机科学与技术', exact=True).fill('计算机科学与技术')
+    button(page, '下一步：生成能力画像 →').click()
+    button(page, '生成我的能力画像').click()
+    page.wait_for_timeout(100)
+    assert pending
+    button(page, '清除本机草稿').click()
+    pending[0].fulfill(status=200, content_type='application/json', body=json.dumps(FIXTURES['profile'], ensure_ascii=False))
+    page.wait_for_timeout(300)
+    saved = page.evaluate('JSON.parse(localStorage.getItem("career-compass-draft-v1"))')
+    assert saved['profile'] is None
+    assert saved['studentData']['name'] == ''

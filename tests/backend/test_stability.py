@@ -341,3 +341,68 @@ def test_report_rejects_no_substantive_content(modules, monkeypatch, content):
         run(report._gen_section("section1_career_exploration", "prompt", "system", 100, retries=1))
     checked = run(report.check_completeness({"section1_career_exploration": content}))
     assert "section1_career_exploration" in checked["incomplete_sections"]
+
+
+def test_model_selection_is_request_scoped(modules, monkeypatch):
+    ai = modules["ai_client"]
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "fake")
+    monkeypatch.setenv("DASHSCOPE_API_KEY", "fake")
+    monkeypatch.setenv("AI_PROVIDER", "deepseek")
+    app = modules["main_v2"].app
+    async def scenario():
+        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as client:
+            assert (await client.post("/api/ai/provider", json={"provider":"qwen"})).status_code == 200
+            assert (await client.get("/api/ai/provider")).json()["provider"] == "deepseek"
+            assert (await client.get("/api/ai/provider", headers={"X-AI-Provider":"qwen"})).json()["provider"] == "qwen"
+            assert (await client.get("/api/ai/provider", headers={"X-AI-Provider":"invalid"})).status_code == 400
+    run(scenario())
+
+def test_retry_only_generates_requested_section(modules, monkeypatch):
+    report = modules["module4_report"]
+    monkeypatch.setattr(report, "get_paths", lambda _: ([], []))
+    calls = []
+    async def fake(key, *args):
+        calls.append(key)
+        return "有效的摘要内容"
+    monkeypatch.setattr(report, "_gen_section", fake)
+    req = report.ReportRequest(student_info={}, student_profile={}, target_job="test", section_keys=["executive_summary"])
+    result = run(report.generate_report(req))
+    assert calls == ["executive_summary"]
+    assert result["report"]["executive_summary"] == "有效的摘要内容"
+
+
+def test_stream_emits_section_events_and_final_report(modules, monkeypatch):
+    report = modules["module4_report"]
+    monkeypatch.setattr(report, "get_paths", lambda _: ([], []))
+    async def fake(key, *args):
+        await asyncio.sleep(0.01)
+        return "有效的章节内容"
+    monkeypatch.setattr(report, "_gen_section", fake)
+    async def scenario():
+        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=modules["main_v2"].app), base_url="http://test") as client:
+            response = await client.post("/api/report/generate?stream=true", json={"student_info":{}, "student_profile":{}, "target_job":"test", "section_keys":["executive_summary", "conclusion"]})
+            assert response.status_code == 200
+            assert "ndjson" in response.headers["content-type"]
+            events = [json.loads(line) for line in response.text.splitlines()]
+            assert {event["key"] for event in events[:-1]} == {"executive_summary", "conclusion"}
+            assert all(event["ok"] for event in events[:-1])
+            assert events[-1]["type"] == "complete"
+            assert not events[-1]["data"]["has_errors"]
+    run(scenario())
+
+
+def test_parallel_model_context_reaches_worker_threads(modules, monkeypatch):
+    ai = modules["ai_client"]
+    from starlette.concurrency import run_in_threadpool
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "fake")
+    monkeypatch.setenv("DASHSCOPE_API_KEY", "fake")
+    async def selected(pid):
+        token = ai.request_provider.set(pid)
+        try:
+            await asyncio.sleep(0.01)
+            return await run_in_threadpool(lambda: ai._get_provider()["provider_id"])
+        finally:
+            ai.request_provider.reset(token)
+    async def scenario():
+        return await asyncio.gather(selected("qwen"), selected("deepseek"))
+    assert run(scenario()) == ["qwen", "deepseek"]
