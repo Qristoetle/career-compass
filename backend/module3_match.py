@@ -6,21 +6,46 @@ module3_match.py — 模块3：人岗匹配
 """
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from validation import RequiredText
 from typing import List, Optional, Dict
-import json, os
+import json, os, math
+from copy import deepcopy
 
 from ai_client import chat, clean_json
+from starlette.concurrency import run_in_threadpool
 
 router = APIRouter()
-DATA_DIR = os.environ.get("DATA_DIR", "./data")
+from settings import DATA_DIR
 
 MATCH_LEVELS = [(85,"高度匹配"),(70,"较好匹配"),(55,"基本匹配"),(40,"有差距"),(0,"暂不建议")]
+MATCH_WEIGHTS = {"basic_requirements": 25, "professional_skills": 40, "professional_quality": 20, "development_potential": 15}
 
 def score_to_level(s):
     for thr, lv in MATCH_LEVELS:
         if s >= thr: return lv
     return "暂不建议"
+
+
+def normalize_match_result(result):
+    """Canonical scores always derive from finite, bounded raw dimension scores."""
+    data = deepcopy(result) if isinstance(result, dict) else {}
+    dims = data.get("dimensions")
+    dims = dims if isinstance(dims, dict) else {}
+    computed = 0
+    for key, weight in MATCH_WEIGHTS.items():
+        dimension = dims.get(key)
+        dimension = dimension if isinstance(dimension, dict) else {}
+        try:
+            raw = float(dimension.get("raw_score", 0))
+        except (ValueError, TypeError, OverflowError):
+            raw = 0
+        raw = min(100, max(0, raw)) if math.isfinite(raw) else 0
+        dimension.update(raw_score=raw, weight=weight, weighted_score=round(raw * weight / 100, 2))
+        dims[key] = dimension
+        computed += raw * weight / 100
+    data.update(dimensions=dims, overall_score=round(computed, 1), overall_score_computed=round(computed, 1), match_level=score_to_level(round(computed, 1)))
+    return data
 
 def load_profiles():
     path = os.path.join(DATA_DIR, "job_profiles.json")
@@ -37,13 +62,13 @@ def get_profile(job_name):
 class MatchRequest(BaseModel):
     student_profile:      Dict
     student_info:         Dict
-    target_job:           str
+    target_job:           RequiredText
     job_profile_override: Optional[Dict] = None
 
 class BatchMatchRequest(BaseModel):
     student_profile: Dict
     student_info:    Dict
-    target_jobs:     List[str]
+    target_jobs:     List[RequiredText] = Field(min_length=1, max_length=5)
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -89,16 +114,10 @@ async def match_score(req: MatchRequest):
 }}"""
 
     try:
-        text       = chat(prompt, system=system, max_tokens=2500)
+        text       = await run_in_threadpool(chat, prompt, system=system, max_tokens=2500)
         match_data = json.loads(clean_json(text))
 
-        # 服务端校验加权分
-        dims = match_data.get("dimensions", {})
-        computed = sum(
-            dims.get(k, {}).get("weighted_score", 0)
-            for k in ["basic_requirements","professional_skills","professional_quality","development_potential"]
-        )
-        match_data["overall_score_computed"] = round(computed, 1)
+        match_data = normalize_match_result(match_data)
 
         return {"target_job": req.target_job, "has_profile": job_profile is not None, "match_result": match_data}
     except json.JSONDecodeError as e:

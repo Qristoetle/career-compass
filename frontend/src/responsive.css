@@ -1,0 +1,33 @@
+/* Keep the original instrument palette while adapting the five-step flow. */
+main, main *, .brand-header > *, .responsive-grid > * { min-width: 0; }
+main { overflow-wrap: anywhere; }
+main input, main textarea, main select { max-width: 100%; }
+main svg { max-width: 100%; }
+.action-group { flex-wrap: wrap; }
+.step-navigation { max-width: 100%; overflow-x: auto; scrollbar-width: thin; }
+.step-item { flex-shrink: 0; }
+.form-tabs { overflow-x: auto; }
+.form-tabs button { white-space: nowrap; flex-shrink: 0; }
+.report-tabs { max-width: 100%; }
+.responsive-row { gap: 12px; flex-wrap: wrap; }
+button:focus-visible { outline: 2px solid #e8b84b; outline-offset: 3px; }
+
+@media (max-width: 700px) {
+  main { padding: 20px 14px 40px !important; }
+  .brand-header { padding: 12px 14px !important; gap: 12px; flex-wrap: wrap; }
+  .version-caption { display: none; }
+  .step-navigation { padding: 0 14px !important; gap: 16px; }
+  .step-item { flex: 0 0 auto !important; }
+  .step-item > div { display: none; }
+  .responsive-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .responsive-row { align-items: flex-start !important; }
+  .action-group { gap: 8px; }
+  .form-tabs button { padding: 10px 12px !important; }
+  .report-tabs button { padding: 10px 12px !important; }
+  .match-overview { flex-wrap: wrap; gap: 16px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}

@@ -13,14 +13,16 @@ module1_jobs.py — 模块1：岗位数据接口
 
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
+from validation import RequiredText
 from typing import Optional, List, Dict
 import json, os
 from functools import lru_cache
 from ai_client import chat, clean_json
+from starlette.concurrency import run_in_threadpool
 
 router = APIRouter()
 
-DATA_DIR = os.environ.get("DATA_DIR", "./data")
+from settings import DATA_DIR
 
 
 @lru_cache(maxsize=1)
@@ -196,7 +198,7 @@ async def get_job_path(job_name: str):
 
 
 class JobNameRequest(BaseModel):
-    job_name: str
+    job_name: RequiredText
 
 @router.post("/graph/query")
 async def get_job_path_post(req: JobNameRequest):
@@ -346,7 +348,7 @@ async def recommend_jobs(req: RecommendRequest):
 }}"""
 
     try:
-        text = chat(prompt, system=system, max_tokens=2000)
+        text = await run_in_threadpool(chat, prompt, system=system, max_tokens=2000)
         result = json.loads(clean_json(text))
         recommendations = result.get("recommendations", [])
         # 验证数据完整性

@@ -17,24 +17,7 @@ ai_client.py — 统一 AI 调用层 v3.0
 
 import os, re, json, time
 
-# ── 自动加载 .env ─────────────────────────────────────────────────
-def _load_dotenv():
-    for candidate in [
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"),
-        os.path.join(os.getcwd(), ".env"),
-    ]:
-        if not os.path.exists(candidate):
-            continue
-        with open(candidate, encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line or line.startswith("#") or "=" not in line:
-                    continue
-                k, v = line.split("=", 1)
-                os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
-        break
-
-_load_dotenv()
+from settings import _load_dotenv  # settings loads .env before provider configuration
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -89,13 +72,16 @@ _AUTO_ORDER = ["deepseek", "claude", "qwen", "kimi", "glm"]
 # ══════════════════════════════════════════════════════════════════
 # Provider 解析
 # ══════════════════════════════════════════════════════════════════
+from contextvars import ContextVar
+request_provider = ContextVar("request_provider", default=None)
+
 def _get_provider() -> dict:
-    explicit = os.environ.get("AI_PROVIDER", "").strip().lower()
+    explicit = request_provider.get() or os.environ.get("AI_PROVIDER", "").strip().lower()
 
     if explicit:
         if explicit not in PROVIDERS:
             raise ValueError(
-                f"AI_PROVIDER='{explicit}' 无效。\n"
+                "AI_PROVIDER 配置无效。\n"
                 f"可选值: {', '.join(PROVIDERS.keys())}"
             )
         cfg = PROVIDERS[explicit]
@@ -197,55 +183,88 @@ def _call_anthropic(cfg, prompt, system, max_tokens, temperature, retries):
 # 工具函数
 # ══════════════════════════════════════════════════════════════════
 def clean_json(text):
-    """
-    从 AI 回复中提取合法 JSON。
-    兼容 GLM / Kimi 等模型的常见格式问题：
-      - markdown 代码块包裹
-      - 中文标点（，。！）混入
-      - 尾部多余逗号
-      - 单引号代替双引号
-      - 注释行（// ...）
-      - 数字值带单位（"85分" → 85）
-    """
+    """Prefer valid JSON; repair common model syntax only outside quoted strings."""
+    import ast
+
     text = text.strip()
-
-    # 1. 去掉 markdown 代码块
-    text = re.sub(r"^```(?:json)?\s*\n?", "", text, flags=re.MULTILINE)
-    text = re.sub(r"\n?```\s*$",           "", text, flags=re.MULTILINE)
-    text = text.strip()
-
-    # 2. 去掉 // 注释行（GLM偶尔会加）
-    text = re.sub(r"//[^\n]*", "", text)
-
-    # 3. 中文标点 → 英文标点
-    text = text.replace("，", ",").replace("。", ".").replace("：", ":") \
-               .replace(""", '"').replace(""", '"').replace("'", "'").replace("'", "'") \
-               .replace("！", "!").replace("？", "?")
-
-    # 4. 尾部多余逗号（,} 或 ,]）
-    text = re.sub(r",\s*([}\]])", r"\1", text)
-
-    # 5. 提取最外层 JSON 对象或数组
-    for s, e in [('{', '}'), ('[', ']')]:
-        si = text.find(s)
-        ei = text.rfind(e)
-        if si != -1 and ei > si:
-            candidate = text[si:ei+1]
-            try:
-                json.loads(candidate)
-                return candidate
-            except json.JSONDecodeError:
-                pass
-
-    # 6. 最后兜底：尝试修复单引号
+    text = re.sub(r"^```(?:json)?\s*", "", text, flags=re.IGNORECASE)
+    text = re.sub(r"\s*```$", "", text).strip()
+    decoder = json.JSONDecoder()
     try:
-        fixed = re.sub(r"(?<![\\])'", '"', text)
+        json.loads(text)
+        return text
+    except json.JSONDecodeError:
+        pass
+    # A surrounding explanation must not trigger repairs to an already valid value.
+    starts = [p for p in (text.find("{"), text.find("[")) if p >= 0]
+    if starts:
+        start = min(starts)
+        try:
+            _, end = decoder.raw_decode(text, start)
+            return text[start:end]
+        except json.JSONDecodeError:
+            pass
+        end = text.rfind("}" if text[start] == "{" else "]")
+        if end > start:
+            text = text[start:end + 1]
+    result, quote, escaped, i = [], None, False, 0
+    while i < len(text):
+        char = text[i]
+        if quote:
+            result.append(char)
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            i += 1
+            continue
+        if char in ('"', "'"):
+            quote = char
+            result.append(char)
+        elif text.startswith("//", i):
+            end = text.find("\n", i)
+            i = len(text) if end < 0 else end
+            continue
+        elif text.startswith("/*", i):
+            end = text.find("*/", i + 2)
+            i = len(text) if end < 0 else end + 2
+            continue
+        else:
+            result.append({"，": ",", "：": ":"}.get(char, char))
+        i += 1
+    # Remove trailing commas with a second string-aware pass.
+    text = "".join(result)
+    result, quote, escaped = [], None, False
+    for i, char in enumerate(text):
+        if quote:
+            result.append(char)
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+        elif char in ('"', "'"):
+            quote = char
+            result.append(char)
+        elif char == "," and text[i + 1:].lstrip().startswith(("}", "]")):
+            continue
+        else:
+            result.append(char)
+    fixed = "".join(result)
+    try:
         json.loads(fixed)
         return fixed
-    except Exception:
-        pass
-
-    return text
+    except json.JSONDecodeError:
+        try:
+            parsed = ast.literal_eval(fixed)
+            if isinstance(parsed, (dict, list)):
+                return json.dumps(parsed, ensure_ascii=False)
+        except (ValueError, SyntaxError):
+            pass
+    return fixed
 
 
 def get_provider_info():
@@ -256,7 +275,6 @@ def get_provider_info():
             "name":        cfg["name"],
             "model":       cfg["model"],
             "key_set":     True,
-            "key_preview": cfg["api_key"][:8] + "****",
         }
     except Exception as e:
         return {"provider": "none", "name": "未配置", "model": "—",
@@ -271,7 +289,7 @@ if __name__ == "__main__":
     print(f"\n{'='*50}")
     print(f"  当前模型 : {info['name']}")
     print(f"  版本     : {info.get('model', '—')}")
-    print(f"  Key      : {info.get('key_preview', '未设置')}")
+    print(f"  Key      : {'已配置' if info['key_set'] else '未设置'}")
     print(f"{'='*50}\n")
     if not info["key_set"]:
         print("❌ 未配置 API Key，请检查 .env 文件")

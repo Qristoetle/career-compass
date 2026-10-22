@@ -7,9 +7,12 @@ main_v2.py — 后端主入口
 """
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
+from ai_client import request_provider
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn, os
+from settings import DATA_DIR
 
 from module1_jobs   import router as jobs_router
 from module2_student import router as student_router
@@ -46,7 +49,7 @@ async def root():
 
 @app.get("/health")
 async def health():
-    data_dir = os.environ.get("DATA_DIR", "./data")
+    data_dir = DATA_DIR
     files    = ["jobs_cleaned.json", "job_profiles.json", "job_graph.json"]
     checks   = {f: os.path.exists(os.path.join(data_dir, f)) for f in files}
     ai_info  = get_provider_info()
@@ -57,6 +60,18 @@ async def health():
         "data_files": checks,
         "ai":        ai_info,
     }
+
+
+@app.middleware("http")
+async def select_request_provider(request, call_next):
+    selected = request.headers.get("X-AI-Provider", "").strip().lower()
+    if selected and (selected not in PROVIDERS or not os.environ.get(PROVIDERS[selected]["env_key"], "").strip()):
+        return JSONResponse(status_code=400, content={"detail": "所选模型不可用，请选择已配置的模型"})
+    token = request_provider.set(selected or None)
+    try:
+        return await call_next(request)
+    finally:
+        request_provider.reset(token)
 
 
 # ── 模型切换接口 ───────────────────────────────────────────────────
@@ -72,7 +87,7 @@ async def get_ai_provider():
 
 @app.post("/api/ai/provider")
 async def switch_ai_provider(body: ProviderSwitch):
-    """切换 AI 模型（运行时生效，无需重启）"""
+    """校验客户端的模型选择；不会更改其他请求"""
     pid = body.provider.strip().lower()
     if pid not in PROVIDERS:
         raise HTTPException(
@@ -86,14 +101,12 @@ async def switch_ai_provider(body: ProviderSwitch):
             status_code=400,
             detail=f"{cfg['name']} 未配置 API Key（{cfg['env_key']}），请先在 .env 中填写"
         )
-    # 运行时切换：设置环境变量，ai_client 每次调用都重新读取
-    os.environ["AI_PROVIDER"] = pid
+    # Validate selection only; clients send it with each subsequent request.
     return {
         "provider":    pid,
         "name":        cfg["name"],
         "model":       cfg["model"],
         "key_set":     True,
-        "key_preview": key[:8] + "****",
         "message":     f"已切换到 {cfg['name']}",
     }
 
@@ -101,7 +114,7 @@ async def switch_ai_provider(body: ProviderSwitch):
 async def list_ai_providers():
     """列出所有支持的模型及其配置状态"""
     result = []
-    current = os.environ.get("AI_PROVIDER", "")
+    current = get_provider_info()["provider"]
     for pid in _AUTO_ORDER:
         cfg = PROVIDERS[pid]
         key = os.environ.get(cfg["env_key"], "").strip()
@@ -110,7 +123,7 @@ async def list_ai_providers():
             "name":      cfg["name"],
             "model":     cfg["model"],
             "available": bool(key),
-            "current":   (pid == current) or (not current and bool(key) and pid == _AUTO_ORDER[0]),
+            "current":   pid == current,
         })
     return {"providers": result}
 

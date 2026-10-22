@@ -8,15 +8,19 @@ module4_report.py — 模块4：职业报告生成
 """
 
 from fastapi import APIRouter, HTTPException, Response
-from pydantic import BaseModel
-from typing import List, Optional, Dict
+from pydantic import BaseModel, Field
+from validation import RequiredText
+from module3_match import normalize_match_result
+from typing import List, Optional, Dict, Literal
+from fastapi.responses import StreamingResponse
 import json, os, re, asyncio
 from datetime import datetime
 
 from ai_client import chat, clean_json
+from starlette.concurrency import run_in_threadpool
 
 router   = APIRouter()
-DATA_DIR = os.environ.get("DATA_DIR", "./data")
+from settings import DATA_DIR
 
 REQUIRED_SECTIONS = [
     "executive_summary","section1_career_exploration","section2_career_goals",
@@ -37,9 +41,10 @@ def get_paths(job_name):
 
 
 class ReportRequest(BaseModel):
+    section_keys: Optional[List[Literal["executive_summary", "section1_career_exploration", "section2_career_goals", "section3_action_plan", "section4_competitive_strategy", "section5_resources", "conclusion"]]] = Field(default=None, min_length=1, max_length=7)
     student_info:    Dict
     student_profile: Dict
-    target_job:      str
+    target_job:      RequiredText
     match_result:    Optional[Dict] = None
     career_goals:    Optional[str]  = None
     personal_values: Optional[List[str]] = []
@@ -60,7 +65,7 @@ def _build_ctx(req, path_ctx, match_ctx):
         "job":     req.target_job,
         "info":    json.dumps(req.student_info,    ensure_ascii=False),
         "profile": json.dumps(req.student_profile, ensure_ascii=False)[:600],
-        "match":   match_ctx[:500],
+        "match":   match_ctx,
         "path":    path_ctx[:500],
         "goals":   req.career_goals or "未填写",
         "values":  ", ".join(req.personal_values) if req.personal_values else "未填写",
@@ -79,16 +84,39 @@ def _safe_parse(text: str) -> dict:
         except json.JSONDecodeError as e:
             raise HTTPException(status_code=500, detail="报告解析失败: " + str(e))
 
+def _has_section_content(key, value):
+    if key in ("executive_summary", "conclusion"):
+        return isinstance(value, str) and bool(value.strip()) and not value.strip().startswith("[该章节生成失败")
+    def substantive(item):
+        if isinstance(item, str):
+            return bool(item.strip())
+        if isinstance(item, list):
+            return any(substantive(child) for child in item)
+        if isinstance(item, dict):
+            return any(substantive(child) for name, child in item.items()
+                       if name not in {"title", "error", "message", "status", "code"})
+        return False
+    return isinstance(value, dict) and substantive(value)
+
+
 async def _gen_section(key: str, prompt: str, system: str, max_tokens: int, retries: int = 2):
     """生成单章节，失败自动重试一次"""
+    def validated(value):
+        if key in ("executive_summary", "conclusion"):
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError("章节正文必须是非空文字")
+        elif not _has_section_content(key, value):
+            raise ValueError("章节内容必须是非空JSON对象")
+        return value
+
     last_err = None
     for attempt in range(retries):
         try:
-            text   = chat(prompt, system=system, max_tokens=max_tokens)
+            text   = await run_in_threadpool(chat, prompt, system=system, max_tokens=max_tokens)
             parsed = _safe_parse(text)
             # 情况1：AI 返回 {"section4_competitive_strategy": {...}} → 提取内部值
-            if key in parsed:
-                return parsed[key]
+            if isinstance(parsed, dict) and key in parsed:
+                return validated(parsed[key])
             # 情况2：AI 直接返回内部对象（不含外层 key）→ 直接使用
             # 用特征字段判断：如果包含该章节的已知子字段，说明是直接返回的内容
             KNOWN_SUBKEYS = {
@@ -101,20 +129,18 @@ async def _gen_section(key: str, prompt: str, system: str, max_tokens: int, retr
                 "conclusion":                   [],          # 字符串，无子字段
             }
             subkeys = KNOWN_SUBKEYS.get(key, [])
-            if subkeys and any(sk in parsed for sk in subkeys):
-                return parsed  # AI 直接返回了内容层
+            if isinstance(parsed, dict) and subkeys and any(sk in parsed for sk in subkeys):
+                return validated(parsed)  # AI 直接返回了内容层
             # 情况3：字符串类型章节（executive_summary / conclusion）
             if key in ("executive_summary", "conclusion") and isinstance(parsed, dict):
                 # 尝试找值为字符串的字段
                 for v in parsed.values():
                     if isinstance(v, str) and len(v) > 20:
-                        return v
-            return parsed
-        except HTTPException:
-            raise
+                        return validated(v)
+            return validated(parsed)
         except Exception as e:
             last_err = e
-            if attempt == 0:
+            if attempt < retries - 1:
                 await asyncio.sleep(0.5)
     raise HTTPException(status_code=500, detail=f"{key} 生成失败: {last_err}")
 
@@ -122,10 +148,41 @@ async def _gen_section(key: str, prompt: str, system: str, max_tokens: int, retr
 # POST /api/report/generate
 # ═══════════════════════════════════════════════════════════════════
 @router.post("/generate")
-async def generate_report(req: ReportRequest):
+async def generate_report(req: ReportRequest, stream: bool = False):
+    if not stream:
+        return await _generate_report(req)
+    async def events():
+        queue = asyncio.Queue()
+        async def work():
+            try:
+                result = await _generate_report(req, queue.put)
+                await queue.put({"type": "complete", "data": result})
+            except Exception:
+                await queue.put({"type": "error", "message": "报告生成失败，请稍后重试"})
+        task = asyncio.create_task(work())
+        try:
+            while True:
+                item = await queue.get()
+                yield json.dumps(item, ensure_ascii=False) + "\n"
+                if item["type"] in ("complete", "error"):
+                    break
+        finally:
+            task.cancel()
+            await asyncio.gather(task, return_exceptions=True)
+    return StreamingResponse(events(), media_type="application/x-ndjson", headers={"X-Accel-Buffering": "no", "Cache-Control": "no-cache"})
+
+
+async def _generate_report(req: ReportRequest, progress=None):
     vpath, lpath = get_paths(req.target_job)
     path_ctx  = json.dumps({"vertical": vpath, "lateral": lpath}, ensure_ascii=False)
-    match_ctx = json.dumps(req.match_result, ensure_ascii=False) if req.match_result else "（未进行人岗匹配）"
+    canonical_match = normalize_match_result(req.match_result) if req.match_result else None
+    if canonical_match:
+        # Scores precede optional detail so context limits cannot remove them.
+        match_ctx = json.dumps({"overall_score": canonical_match["overall_score"], "match_level": canonical_match["match_level"], "dimensions": canonical_match["dimensions"]}, ensure_ascii=False)[:1200]
+        score_instruction = f"【权威匹配评分】综合匹配分：{canonical_match['overall_score']}；等级：{canonical_match['match_level']}。不得重新计算、修改或杜撰综合匹配分；涉及匹配评分时必须使用上述分数。\n"
+    else:
+        match_ctx = "（未进行人岗匹配）"
+        score_instruction = "未进行人岗匹配，不得杜撰综合匹配分。\n"
     today     = datetime.now().strftime("%Y年%m月%d日")
     ctx       = _build_ctx(req, path_ctx, match_ctx)
     system    = "你是资深职业规划顾问。严格按JSON格式输出，只输出JSON不输出其他内容。"
@@ -190,6 +247,8 @@ async def generate_report(req: ReportRequest):
     report_data = {
         "report_title": f"{ctx['name']}职业生涯发展规划报告",
         "generated_at": today,
+        "match_score": canonical_match["overall_score"] if canonical_match else None,
+        "match_level": canonical_match["match_level"] if canonical_match else None,
     }
     errors = []
 
@@ -199,15 +258,19 @@ async def generate_report(req: ReportRequest):
     async def _safe_gen(key, prompt, max_tokens):
         """包装一层异常处理，确保单章失败不影响其他章节"""
         try:
-            result = await _gen_section(key, prompt, system, max_tokens)
+            result = await _gen_section(key, score_instruction + prompt, system, max_tokens)
+            if progress:
+                await progress({"type": "section", "key": key, "ok": True})
             return key, result, None
         except Exception as e:
+            if progress:
+                await progress({"type": "section", "key": key, "ok": False})
             return key, f"[该章节生成失败，可点击重试或手动编辑]", str(e)[:80]
 
     # 并发执行
     results = await asyncio.gather(*[
         _safe_gen(key, prompt, max_tokens)
-        for key, max_tokens, prompt in section_tasks
+        for key, max_tokens, prompt in section_tasks if req.section_keys is None or key in req.section_keys
     ])
 
     for key, result, err in results:
@@ -237,9 +300,29 @@ async def polish_section(req: PolishRequest):
     }
     instruction = instructions.get(req.polish_type, instructions["comprehensive"])
     prompt = f"请对以下职业规划报告章节进行润色，要求：{instruction}\n直接返回润色后的内容，不添加任何说明。\n\n原内容：\n{req.section_content}"
+    try:
+        original_data = json.loads(req.section_content)
+    except json.JSONDecodeError:
+        original_data = None
+    structured = isinstance(original_data, (dict, list))
+    if structured:
+        prompt = f"请润色以下JSON中的文字内容，要求：{instruction}。严格保持全部字段名称、层级、数组长度、数值和数据类型，只返回JSON。\n{req.section_content}"
+
+    def preserves_structure(original, updated):
+        if type(original) is not type(updated):
+            return False
+        if isinstance(original, dict):
+            return original.keys() == updated.keys() and all(preserves_structure(v, updated[k]) for k, v in original.items())
+        if isinstance(original, list):
+            return len(original) == len(updated) and all(preserves_structure(a, b) for a, b in zip(original, updated))
+        return isinstance(original, str) or original == updated
 
     try:
-        polished = chat(prompt, max_tokens=2000)
+        polished = await run_in_threadpool(chat, prompt, max_tokens=2000)
+        if structured:
+            polished = json.loads(clean_json(polished))
+            if not preserves_structure(original_data, polished):
+                raise ValueError("润色结果改变了章节结构或数值，请重试")
         return {
             "section_key": req.section_key,
             "polish_type": req.polish_type,
@@ -260,6 +343,7 @@ async def check_completeness(report: Dict):
 
     def empty(v):
         if v is None: return True
+        if isinstance(v, str) and v.strip().startswith("[该章节生成失败"): return True
         if isinstance(v, str)  and len(v.strip()) < 10: return True
         if isinstance(v, list) and len(v) == 0: return True
         if isinstance(v, dict) and len(v) == 0: return True
@@ -267,7 +351,11 @@ async def check_completeness(report: Dict):
 
     for sec in REQUIRED_SECTIONS:
         if sec not in data:           missing.append(sec)
-        elif empty(data[sec]):        incomplete.append(sec)
+        elif sec in ("executive_summary", "conclusion") and not isinstance(data[sec], str):
+            incomplete.append(sec)
+        elif sec not in ("executive_summary", "conclusion") and not isinstance(data[sec], dict):
+            incomplete.append(sec)
+        elif empty(data[sec]) or not _has_section_content(sec, data[sec]): incomplete.append(sec)
         else:                         ok.append(sec)
 
     s3 = data.get("section3_action_plan", {})
@@ -309,12 +397,17 @@ async def export_markdown(report: Dict):
         if isinstance(v, str): return v
         return ""
 
+    def records(value):
+        return [item for item in value if isinstance(item, dict)] if isinstance(value, list) else []
+
     L = []
     L.append(f"# {data.get('report_title', f'{name}职业生涯发展规划报告')}\n\n")
     L.append(f"> 生成时间：{data.get('generated_at','')}　目标岗位：**{job}**\n\n---\n\n")
+    if data.get("match_score") is not None:
+        L.append(f"> 综合匹配分（系统计算）：**{data['match_score']} / 100**　匹配等级：**{data.get('match_level', '')}**\n\n")
     L.append(f"## 执行摘要\n\n{data.get('executive_summary','')}\n\n")
 
-    s1 = data.get("section1_career_exploration", {})
+    s1 = sd(data.get("section1_career_exploration", {}))
     if s1:
         L.append(f"## {s1.get('title','第一章')}\n\n")
         L.append(f"{s1.get('match_overview','')}\n\n")
@@ -322,53 +415,53 @@ async def export_markdown(report: Dict):
         L.append(f"**行业机遇**：{s1.get('opportunity_analysis','')}\n\n")
         L.append(f"**竞争风险**：{s1.get('risk_analysis','')}\n\n")
 
-    s2 = data.get("section2_career_goals", {})
+    s2 = sd(data.get("section2_career_goals", {}))
     if s2:
         L.append(f"## {s2.get('title','第二章')}\n\n")
-        st = s2.get("short_term_goal", {})
+        st = sd(s2.get("short_term_goal", {}))
         if st:
             L.append(f"### 短期目标（{st.get('timeline','')}）\n\n**{st.get('position','')}**\n\n{st.get('description','')}\n\n")
             L.append("**里程碑：**\n"); L.append(li(st.get("key_milestones",[])))
-        mt = s2.get("mid_term_goal", {})
+        mt = sd(s2.get("mid_term_goal", {}))
         if mt:
             L.append(f"\n### 中期目标（{mt.get('timeline','')}）\n\n**{mt.get('position','')}**\n\n{mt.get('description','')}\n\n")
         L.append(f"\n**长期愿景**：{s2.get('long_term_vision','')}\n\n")
         if s2.get("salary_growth_forecast"):
             L.append("### 薪资成长预测\n\n| 阶段 | 预期薪资 |\n|------|----------|\n")
-            for r in s2["salary_growth_forecast"]:
+            for r in records(s2["salary_growth_forecast"]):
                 L.append(f"| {r.get('period','')} | {r.get('expected_salary','')} |\n")
             L.append("\n")
 
-    s3 = data.get("section3_action_plan", {})
+    s3 = sd(data.get("section3_action_plan", {}))
     if s3:
         L.append(f"## {s3.get('title','第三章')}\n\n")
         for pk, pl in [("short_term_plan","短期计划（6个月）"),("mid_term_plan","中期计划（6个月-2年）")]:
-            plan = s3.get(pk, {})
+            plan = sd(s3.get(pk, {}))
             if plan:
                 L.append(f"### {pl}\n\n")
                 L.append(li(plan.get("goals",[])))
                 L.append("\n| 类别 | 行动 | 资源 | 时间 | 衡量指标 |\n|------|------|------|------|----------|\n")
-                for a in plan.get("actions",[]):
+                for a in records(plan.get("actions",[])):
                     L.append(f"| {a.get('category','')} | {a.get('action','')} | {a.get('resource','')} | {a.get('deadline','')} | {a.get('success_metric','')} |\n")
                 L.append("\n")
         L.append(f"**评估周期**：{s3.get('evaluation_cycle','')}\n\n")
         L.append("**评估指标：**\n"); L.append(li(s3.get("evaluation_metrics",[])))
         L.append(f"\n**调整策略**：{s3.get('adjustment_strategy','')}\n\n")
 
-    s4 = data.get("section4_competitive_strategy", {})
+    s4 = sd(data.get("section4_competitive_strategy", {}))
     if s4:
         L.append(f"## {s4.get('title','第四章')}\n\n")
         L.append(li(s4.get("core_advantages",[])))
         L.append(f"\n{s4.get('differentiation_strategy','')}\n\n")
 
-    s5 = data.get("section5_resources", {})
+    s5 = sd(data.get("section5_resources", {}))
     if s5:
         L.append(f"## {s5.get('title','第五章')}\n\n")
         L.append("| 平台 | 课程 | 目的 |\n|------|------|------|\n")
-        for c in s5.get("online_courses",[]):
+        for c in records(s5.get("online_courses",[])):
             L.append(f"| {c.get('platform','')} | {c.get('course','')} | {c.get('purpose','')} |\n")
         L.append("\n| 证书 | 机构 | 优先级 |\n|------|------|--------|\n")
-        for c in s5.get("certifications",[]):
+        for c in records(s5.get("certifications",[])):
             L.append(f"| {c.get('cert_name','')} | {c.get('issuing_body','')} | {c.get('priority','')} |\n")
         L.append("\n")
 
@@ -519,6 +612,8 @@ async def export_word(report: Dict):
     sub_run.font.name = "微软雅黑"
     sub_run.font.size = Pt(11)
     set_color(sub_run, "595959")
+    if data.get("match_score") is not None:
+        add_paragraph(f"综合匹配分（系统计算）：{data['match_score']} / 100　匹配等级：{data.get('match_level', '')}", bold=True)
     doc.add_paragraph()
 
     # ══ 执行摘要 ══

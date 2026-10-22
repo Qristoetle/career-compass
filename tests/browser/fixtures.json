@@ -1,0 +1,656 @@
+{
+  "profile": {
+    "student_name": "测试同学",
+    "major": "计算机科学与技术",
+    "target_job": "前端开发工程师",
+    "profile": {
+      "completeness_score": 65,
+      "competitiveness_score": 62,
+      "dimensions": {
+        "professional_skills": {
+          "score": 65,
+          "level": "初级",
+          "strengths": [
+            "掌握JavaScript/TypeScript基础",
+            "熟悉React框架",
+            "了解HTML/CSS"
+          ],
+          "gaps": [
+            "缺乏Vue.js经验",
+            "无Node.js/Webpack/Vite工程化实践",
+            "性能优化经验不足"
+          ],
+          "details": "技术栈覆盖基础前端,但深度和工程化实践不足,项目复杂度一般."
+        },
+        "certificates": {
+          "score": 40,
+          "owned": [
+            "大学英语六级"
+          ],
+          "recommended": [
+            "前端框架官方认证（如Vue认证）",
+            "软考证书"
+          ],
+          "details": "仅有英语证书,缺乏技术认证,学历专业相关."
+        },
+        "innovation_ability": {
+          "score": 50,
+          "evidence": [
+            "有React+TypeScript项目经历",
+            "自我描述愿意学习工程化工具"
+          ],
+          "details": "创新案例较少,未体现技术选型或优化经历."
+        },
+        "learning_ability": {
+          "score": 70,
+          "evidence": [
+            "GPA3.6体现学习基础",
+            "掌握多种技术栈",
+            "愿意学习工程化工具"
+          ],
+          "details": "学习态度积极,但缺乏主动学习新技术的具体案例."
+        },
+        "stress_resistance": {
+          "score": 55,
+          "evidence": [
+            "有实习经历",
+            "项目周期内完成开发"
+          ],
+          "details": "抗压能力证据不足,需更多复杂问题排查经历."
+        },
+        "communication_ability": {
+          "score": 60,
+          "evidence": [
+            "团队协作经验",
+            "英语六级"
+          ],
+          "details": "沟通能力基本具备,但缺乏技术分享和文档编写证明."
+        },
+        "internship_experience": {
+          "score": 55,
+          "highlights": [
+            "有前端开发实习经历（2026年7-9月）"
+          ],
+          "details": "实习经历较简短,未描述具体职责和成果."
+        },
+        "career_intention": {
+          "score": 85,
+          "target_jobs": [
+            "前端开发工程师"
+          ],
+          "clarity_level": "明确",
+          "feasibility": "中",
+          "details": "目标明确,城市和薪资合理,但竞争力需提升."
+        }
+      },
+      "radar_data": [
+        {
+          "axis": "专业技能",
+          "student": 65,
+          "benchmark": 80
+        },
+        {
+          "axis": "证书",
+          "student": 40,
+          "benchmark": 60
+        },
+        {
+          "axis": "创新能力",
+          "student": 50,
+          "benchmark": 70
+        },
+        {
+          "axis": "学习能力",
+          "student": 70,
+          "benchmark": 75
+        },
+        {
+          "axis": "抗压能力",
+          "student": 55,
+          "benchmark": 70
+        },
+        {
+          "axis": "沟通能力",
+          "student": 60,
+          "benchmark": 70
+        },
+        {
+          "axis": "实习经历",
+          "student": 55,
+          "benchmark": 65
+        },
+        {
+          "axis": "就业意愿",
+          "student": 85,
+          "benchmark": 80
+        }
+      ],
+      "overall_analysis": "该生具备前端开发基础,技术栈覆盖React和TypeScript,学习态度积极,就业目标明确.但专业技能深度不足,缺乏工程化实践和性能优化经验,实习和项目经历描述简略,创新能力、抗压能力和沟通能力证据不足.整体竞争力中等,需加强技术深度和项目复杂度.",
+      "competitive_advantages": [
+        "目标明确,就业意愿强",
+        "掌握React和TypeScript基础",
+        "GPA较高,学习基础好"
+      ],
+      "improvement_areas": [
+        "深入学习Vue.js和Node.js,积累工程化实践",
+        "参与性能优化或用户体验提升项目",
+        "丰富实习和项目描述,突出个人贡献"
+      ],
+      "suitable_jobs": [
+        "前端开发工程师",
+        "Web前端开发实习生",
+        "JavaScript开发工程师"
+      ],
+      "market_positioning": "初级前端开发,具备基础技能和学习潜力,需提升工程化经验和项目复杂度以增强竞争力."
+    }
+  },
+  "report": {
+    "student_name": "测试同学",
+    "target_job": "前端开发",
+    "report": {
+      "report_title": "测试同学职业生涯发展规划报告",
+      "generated_at": "2026年10月22日",
+      "executive_summary": "该生核心竞争力在于计算机专业背景与JavaScript/TypeScript、React基础,学习能力较强（70分）,基本符合前端岗位学历要求,整体适配度为基本匹配（59.8分）.关键能力缺口集中在工程化实践（Node.js/Webpack/Vite）、Vue.js经验、性能优化及技术认证缺失,专业竞争力仅62分.最优先行动建议:立即补齐工程化工具链实践并完成一个复杂React项目,同时系统学习Vue.js并考取一项框架官方认证,以快速提升岗位匹配度与简历竞争力.",
+      "section1_career_exploration": {
+        "title": "第一章 职业探索与岗位匹配",
+        "match_overview": "该生目标岗位为前端开发,整体匹配度59.8分,处于“基本匹配”水平.优势在于学历专业完全对口（计算机科学与技术本科,2027年毕业可申请实习或应届岗）,且已掌握JavaScript/TypeScript基础与React框架,学习能力较强（70分）.但专业技能维度仅60分,工程化实践、Vue.js经验及性能优化能力明显不足,证书维度仅40分,缺乏技术认证支撑.综合来看,具备入行基础,需在6-12个月内补齐工程化与框架深度短板,方可达到主流初级前端岗位要求.",
+        "skill_gap_analysis": "核心缺口一:工程化工具链缺失.学生无Node.js、Webpack、Vite等构建工具实践,而当前67%的前端JD明确要求掌握至少一种工程化方案,直接影响项目交付能力.核心缺口二:框架深度与广度不足.虽熟悉React,但缺乏Vue.js经验,且React项目复杂度一般,未体现状态管理、路由守卫、组件封装等进阶能力,难以满足企业多框架选型需求.核心缺口三:性能优化与创新实践空白.无性能监控、懒加载、缓存策略等优化经历,创新案例较少,在面试中难以展示技术选型与问题解决能力,制约竞争力从62分向75分以上突破.",
+        "opportunity_analysis": "前端开发岗位市场需求稳定,数据集显示初级岗位（5-10k）有67条JD、中级岗位（10-15k）有48条JD,覆盖大量中小企业与外包项目,入行门槛相对友好.随着Web应用复杂化,具备TypeScript与React/Vue双栈能力、懂工程化配置的初级工程师更受青睐,学生当前技术栈方向与市场主流需求一致,抓住实习窗口期即可切入.",
+        "risk_analysis": "竞争风险主要来自三方面:一是初级前端岗位供大于求,大量计算机专业应届生竞争同一岗位,学生项目经历描述简略、缺乏实习背书,简历筛选阶段易被淘汰；二是技术认证缺失（仅英语六级）,在证书维度40分明显低于竞争者；三是Vue.js经验空白与工程化零实践,面对要求“熟悉Vue+Webpack”的JD时匹配率骤降,若不补齐短板,可能错失60%以上的岗位机会.",
+        "visualization_data": [
+          {
+            "dimension": "专业技能",
+            "student_score": 65,
+            "job_requirement": 85
+          },
+          {
+            "dimension": "证书资质",
+            "student_score": 40,
+            "job_requirement": 70
+          },
+          {
+            "dimension": "创新能力",
+            "student_score": 50,
+            "job_requirement": 75
+          },
+          {
+            "dimension": "学习能力",
+            "student_score": 70,
+            "job_requirement": 80
+          },
+          {
+            "dimension": "基本要求",
+            "student_score": 80,
+            "job_requirement": 85
+          }
+        ],
+        "transfer_options": [
+          {
+            "target": "Web前端实习生",
+            "difficulty": "较易",
+            "reason": "学历专业完全匹配,React与TypeScript基础可直接用于实习岗位,企业对应届实习生技术深度要求较低,适合作为入行跳板积累项目经验."
+          },
+          {
+            "target": "小程序开发工程师",
+            "difficulty": "较易",
+            "reason": "小程序开发以JavaScript/HTML/CSS为基础,技术栈迁移成本低,学生现有React经验可快速上手,且市场对初级小程序开发需求分散、竞争压力小于纯Web前端."
+          },
+          {
+            "target": "前端测试工程师",
+            "difficulty": "中等",
+            "reason": "具备前端技术基础有助于理解测试对象,学习能力较强可快速掌握自动化测试工具,但需补充测试理论与用例设计能力,适合作为技术栈延伸的过渡方向."
+          }
+        ]
+      },
+      "section2_career_goals": {
+        "title": "第二章 职业目标与发展路径",
+        "short_term_goal": {
+          "timeline": "毕业后1-2年",
+          "position": "前端开发助理/初级工程师",
+          "description": "以扎实掌握前端基础技术栈为核心,熟练运用HTML/CSS/JavaScript及Vue或React任一主流框架,在团队中独立完成简单模块开发与bug修复,养成良好代码规范与协作习惯,顺利从校园过渡到职场,积累1-2个完整项目经验.",
+          "key_milestones": [
+            "独立完成3个以上简单业务模块开发并通过代码评审",
+            "掌握Vue或React框架并完成1-2个完整项目上线",
+            "通过团队代码规范考核,bug返工率低于10%"
+          ]
+        },
+        "mid_term_goal": {
+          "timeline": "3-5年",
+          "position": "前端开发工程师/高级前端开发工程师",
+          "description": "成长为能够独立负责中型项目前端全流程的工程师,主导技术选型与组件库建设,产出可复用组件并推动团队效率提升,具备性能优化与跨端适配能力,开始指导初级成员,向高级工程师标准靠拢.",
+          "key_milestones": [
+            "独立负责2个以上中型项目前端全流程并按时交付",
+            "主导建设团队可复用组件库,覆盖80%以上常用场景",
+            "完成至少1次核心页面性能优化,首屏加载时间降低30%"
+          ]
+        },
+        "long_term_vision": "成为具备架构思维与团队影响力的资深前端工程师,推动前端工程化与技术创新,持续为业务创造价值.",
+        "career_path_description": "职业发展沿前端技术序列纵向晋升:从初级工程师起步,夯实基础与框架能力；1-3年晋升为前端开发工程师,独立负责中型项目全流程与技术选型；3-5年向高级前端开发工程师迈进,主导组件库建设与性能优化,具备跨端与工程化能力；后续可向资深工程师或前端架构师方向发展,逐步承担技术决策与团队培养职责,实现技术深度与管理广度的双重成长.",
+        "salary_growth_forecast": [
+          {
+            "period": "入职期0-2年",
+            "expected_salary": "5-10k"
+          },
+          {
+            "period": "成长期2-4年",
+            "expected_salary": "10-15k"
+          },
+          {
+            "period": "成熟期4-6年",
+            "expected_salary": "15-25k"
+          }
+        ]
+      },
+      "section3_action_plan": {
+        "title": "第三章 行动计划",
+        "short_term_plan": {
+          "timeline": "未来6个月",
+          "goals": [
+            "补齐Vue.js与前端工程化（Node.js/Webpack/Vite）核心技能,完成2个可展示的复杂项目",
+            "获得1项前端相关技术认证,提升简历竞争力"
+          ],
+          "actions": [
+            {
+              "category": "技能提升",
+              "action": "系统学习Vue.js 3组合式API与Pinia状态管理,完成官方教程并实现一个后台管理系统的前端模块",
+              "resource": "Vue.js官方文档、Vue Mastery课程、Pinia官方指南",
+              "deadline": "2个月内",
+              "success_metric": "独立完成一个包含路由、状态管理、API交互的Vue项目,代码提交至GitHub并撰写README"
+            },
+            {
+              "category": "技能提升",
+              "action": "学习Node.js基础与Webpack/Vite工程化配置,掌握构建优化、代码分割、环境变量等实践",
+              "resource": "《Node.js实战》、Webpack官方文档、Vite官方文档、慕课网工程化课程",
+              "deadline": "3个月内",
+              "success_metric": "能够从零配置一个React/Vue项目的Webpack或Vite构建流程,并输出构建性能对比报告"
+            },
+            {
+              "category": "技能提升",
+              "action": "学习前端性能优化核心手段（懒加载、代码分割、缓存策略、Lighthouse分析）,并在现有React项目中实践",
+              "resource": "Google Web.dev性能指南、Lighthouse文档、React官方性能优化章节",
+              "deadline": "4个月内",
+              "success_metric": "将现有React项目的Lighthouse性能评分提升至90分以上,并记录优化前后的关键指标对比"
+            },
+            {
+              "category": "认证考取",
+              "action": "备考并获取Vue.js官方认证（或同等前端框架认证）,同步准备软考初级/中级相关科目",
+              "resource": "Vue认证考试大纲、软考官方教材、历年真题",
+              "deadline": "6个月内",
+              "success_metric": "至少获得1项技术认证证书"
+            },
+            {
+              "category": "项目实践",
+              "action": "参与1个开源前端项目贡献代码,或独立开发一个包含工程化配置的完整个人项目并部署上线",
+              "resource": "GitHub开源社区、Vercel/Netlify部署平台",
+              "deadline": "6个月内",
+              "success_metric": "完成至少5次有效PR合并,或个人项目成功部署且可公开访问"
+            }
+          ]
+        },
+        "mid_term_plan": {
+          "timeline": "6个月-2年",
+          "goals": [
+            "积累1-2段前端开发实习经历,参与真实商业项目开发",
+            "建立完整的作品集（3-5个项目）,达到初级前端开发工程师的岗位要求"
+          ],
+          "actions": [
+            {
+              "category": "实践提升",
+              "action": "投递前端开发实习岗位,优先选择有Vue/React技术栈和工程化实践的公司,争取6个月以上实习经历",
+              "resource": "BOSS直聘、实习僧、牛客网、学校就业指导中心",
+              "deadline": "第7-12个月",
+              "success_metric": "获得至少1段前端实习offer并完成实习,实习评价良好"
+            },
+            {
+              "category": "项目提升",
+              "action": "在实习或自主项目中主导一个模块的技术选型与性能优化,形成可量化的优化案例",
+              "resource": "公司项目资源、技术博客平台（掘金/CSDN）",
+              "deadline": "第10-18个月",
+              "success_metric": "产出1篇技术优化总结文章,阅读量达到500以上,或优化方案被团队采纳"
+            },
+            {
+              "category": "技术深度",
+              "action": "深入学习浏览器渲染原理、HTTP协议、前端安全等底层知识,提升技术深度",
+              "resource": "《浏览器工作原理与实践》、MDN文档、极客时间专栏",
+              "deadline": "第12-24个月",
+              "success_metric": "能够清晰解释从输入URL到页面渲染的完整流程,并通过模拟面试检验"
+            },
+            {
+              "category": "作品集建设",
+              "action": "整理3-5个高质量项目（含实习项目脱敏版）,制作在线作品集网站,突出技术栈与个人贡献",
+              "resource": "GitHub Pages、Vercel、个人域名",
+              "deadline": "第18-24个月",
+              "success_metric": "作品集网站上线,包含项目介绍、技术难点、成果数据,获得至少3位同行正面反馈"
+            },
+            {
+              "category": "求职冲刺",
+              "action": "系统刷题（前端八股文+算法）、模拟面试,针对目标公司定制简历与项目描述",
+              "resource": "LeetCode、前端面试题库、牛客网面经",
+              "deadline": "第20-24个月",
+              "success_metric": "完成至少20次模拟面试,简历通过率提升至50%以上,获得至少2个前端开发岗位offer"
+            }
+          ]
+        },
+        "evaluation_cycle": "每3个月复盘一次,结合市场动态调整",
+        "evaluation_metrics": [
+          "技能目标完成率（认证获取、项目上线数量、技术栈掌握程度）",
+          "实习/项目进展（是否获得实习、项目复杂度与个人贡献度）",
+          "市场反馈指标（简历投递回复率、面试邀请数量、面试通过率）",
+          "作品集质量（项目数量、技术深度、在线访问量）"
+        ],
+        "adjustment_triggers": [
+          "连续3个月技能学习进度落后于计划50%以上",
+          "投递简历后2个月内未获得任何面试邀请",
+          "目标岗位市场需求发生明显变化（如技术栈偏好转移）",
+          "获得高质量实习机会但需要调整学习重心"
+        ],
+        "adjustment_strategy": "每3个月对照目标完成度与市场反馈进行复盘.若技能学习滞后,削减非核心任务、集中突破关键短板；若简历回复率低,优化项目描述与关键词匹配,增加内推渠道；若市场技术栈需求变化,优先补充高需求技能（如Vue3或TypeScript深度）.同时保留20%弹性时间应对突发机会,确保计划可执行、可迭代."
+      },
+      "section4_competitive_strategy": {
+        "title": "第四章 差异化竞争策略",
+        "core_advantages": [
+          "具备扎实的JavaScript/TypeScript基础与React框架实战经验,拥有React+TypeScript项目经历,能够快速上手现代前端开发.同时学习能力较强,自我驱动力好,愿意主动学习工程化工具,在团队中具备较好的成长潜力与可塑性.",
+          "英语六级证书体现良好的英文文档阅读能力,能够无障碍查阅官方文档与开源社区资料,在前端技术快速迭代的环境中具备持续自学与跟进新技术的基础优势."
+        ],
+        "differentiation_strategy": "定位为'基础扎实、成长迅速的前端开发新人',避开与资深候选人在工程化深度上的正面竞争,突出React+TypeScript实战能力与强学习意愿.以'快速上手业务开发+主动补齐工程化短板'为差异化标签,在面试中强调项目学习复盘与技术热情,塑造高性价比、可培养性强的候选人形象,契合团队对初级前端'能干活、肯成长'的核心诉求.",
+        "improvement_priority": [
+          {
+            "rank": 1,
+            "item": "前端工程化实践能力",
+            "method": "系统学习Webpack/Vite构建配置与Node.js基础,独立完成一个包含打包优化、环境配置的完整项目并部署上线",
+            "expected_outcome": "能够独立配置前端工程化环境,补齐岗位硬性要求,工程化能力达到初级前端合格水平"
+          },
+          {
+            "rank": 2,
+            "item": "Vue.js技术栈与性能优化经验",
+            "method": "通过官方文档与实战项目掌握Vue3组合式API,并针对React项目开展懒加载、代码分割等性能优化实践",
+            "expected_outcome": "形成React+Vue双框架能力,具备可量化的性能优化案例,提升简历竞争力"
+          },
+          {
+            "rank": 3,
+            "item": "技术认证与项目成果沉淀",
+            "method": "考取前端框架官方认证,整理项目复盘文档并输出技术博客",
+            "expected_outcome": "弥补证书短板,形成可展示的作品集与技术影响力,增强面试说服力"
+          }
+        ]
+      },
+      "section5_resources": {
+        "title": "第五章 学习资源推荐",
+        "online_courses": [
+          {
+            "platform": "Coursera",
+            "course": "Meta Front-End Developer Professional Certificate",
+            "purpose": "系统巩固React与前端工程化基础,完成企业级项目实践",
+            "duration_weeks": 16
+          },
+          {
+            "platform": "Vue Mastery",
+            "course": "Vue 3 Fundamentals",
+            "purpose": "补齐Vue.js框架经验,掌握组合式API与生态工具",
+            "duration_weeks": 6
+          },
+          {
+            "platform": "Udemy",
+            "course": "Node.js, Express, MongoDB & More: The Complete Bootcamp",
+            "purpose": "学习Node.js后端开发与全栈工程化实践",
+            "duration_weeks": 10
+          },
+          {
+            "platform": "Frontend Masters",
+            "course": "Web Performance Fundamentals",
+            "purpose": "掌握前端性能优化核心方法与工具链",
+            "duration_weeks": 4
+          },
+          {
+            "platform": "极客时间",
+            "course": "Vite 从入门到精通",
+            "purpose": "学习Vite构建工具与现代化前端工程化配置",
+            "duration_weeks": 5
+          }
+        ],
+        "certifications": [
+          {
+            "cert_name": "Meta Front-End Developer Professional Certificate",
+            "issuing_body": "Coursera/Meta",
+            "priority": "高",
+            "prep_weeks": 16
+          },
+          {
+            "cert_name": "JavaScript Specialist Certification",
+            "issuing_body": "Certiport",
+            "priority": "中",
+            "prep_weeks": 8
+          },
+          {
+            "cert_name": "Vue.js Certified Developer",
+            "issuing_body": "Vue.js官方",
+            "priority": "中",
+            "prep_weeks": 6
+          }
+        ],
+        "practice_projects": [
+          "使用Vue 3 + Vite搭建一个带状态管理的任务管理应用,并部署到Vercel",
+          "基于React + Node.js开发一个全栈博客系统,包含用户认证与RESTful API",
+          "对现有前端项目进行性能优化实践,使用Lighthouse分析并输出优化报告"
+        ],
+        "communities": [
+          "GitHub",
+          "Stack Overflow",
+          "Vue.js官方论坛",
+          "Reactiflux Discord社区",
+          "掘金前端社区"
+        ],
+        "networking_advice": "积极参与GitHub开源项目贡献,在掘金和Stack Overflow输出技术文章与解答,定期参加本地前端技术Meetup,建立行业人脉."
+      },
+      "conclusion": "测试同学,回顾你的核心优势,你具备扎实的测试思维与严谨的验证习惯,对细节敏感、对质量负责,这在前端开发中尤为珍贵.你能从用户视角发现潜在问题,将测试经验转化为代码的健壮性保障.虽然职业目标尚未填写,但目标岗位前端开发已为你指明方向.请相信,测试背景不是转行的短板,而是你独特的竞争力.保持学习热情,主动补齐前端技能,用你的严谨与耐心打磨每一行代码.未来可期,勇敢迈出第一步,你定能在前端领域绽放光彩!"
+    },
+    "errors": [],
+    "has_errors": false
+  },
+  "match": {
+    "target_job": "前端开发",
+    "has_profile": true,
+    "match_result": {
+      "overall_score": 59.8,
+      "match_level": "基本匹配",
+      "dimensions": {
+        "basic_requirements": {
+          "weight": 25,
+          "raw_score": 80,
+          "weighted_score": 20.0,
+          "matched_items": [
+            "本科学历,计算机科学与技术专业,符合学历和专业要求",
+            "2027年毕业,可申请实习或应届生岗位"
+          ],
+          "gap_items": [
+            "缺乏前端相关实习或项目经历的详细描述",
+            "未体现主流框架（Vue/React）的深度掌握"
+          ],
+          "analysis": "学历专业完全匹配,毕业时间符合实习或应届生要求,但实习经历描述简略,需补充具体职责和成果."
+        },
+        "professional_skills": {
+          "weight": 40,
+          "raw_score": 60,
+          "weighted_score": 24.0,
+          "skill_coverage_rate": 50,
+          "matched_skills": [
+            "JavaScript/TypeScript基础",
+            "React框架",
+            "HTML/CSS"
+          ],
+          "missing_skills": [
+            "Vue.js",
+            "Node.js",
+            "Webpack/Vite",
+            "性能优化",
+            "跨端开发"
+          ],
+          "analysis": "掌握React和TypeScript基础,但缺乏Vue.js、Node.js及工程化工具实践,性能优化经验不足,技能覆盖率为50%,需重点补强工程化和框架深度."
+        },
+        "professional_quality": {
+          "weight": 20,
+          "raw_score": 60,
+          "weighted_score": 12.0,
+          "strengths": [
+            "学习态度积极,GPA较高",
+            "有团队协作经验",
+            "英语六级"
+          ],
+          "weaknesses": [
+            "抗压能力证据不足",
+            "沟通能力缺乏技术分享和文档证明",
+            "创新能力案例较少"
+          ],
+          "analysis": "学习基础好,但抗压、沟通和创新方面证据不足,需在项目和实习中积累复杂问题解决和技术分享经验."
+        },
+        "development_potential": {
+          "weight": 15,
+          "raw_score": 65,
+          "weighted_score": 9.75,
+          "potential_indicators": [
+            "GPA3.6体现学习能力",
+            "掌握React+TypeScript基础",
+            "愿意学习工程化工具",
+            "就业目标明确"
+          ],
+          "analysis": "学习基础扎实,技术栈有扩展空间,目标明确,但缺乏主动学习新技术的具体案例,需加强实践以释放潜力."
+        }
+      },
+      "match_summary": "该生学历专业符合前端开发岗位基本要求,掌握React和TypeScript基础,学习态度积极,就业目标明确.但专业技能深度不足,缺乏Vue.js、Node.js及工程化实践,性能优化经验欠缺,实习和项目经历描述简略,抗压、沟通和创新证据不足.整体与岗位基本匹配,需重点提升技术深度和项目复杂度,积累工程化经验.",
+      "top_recommendations": [
+        {
+          "priority": 1,
+          "action": "深入学习Vue.js和Node.js,完成一个包含工程化配置（Webpack/Vite）的完整项目",
+          "expected_impact": "提升框架和工程化能力,技能覆盖率提升至70%以上",
+          "timeline": "1-2个月"
+        },
+        {
+          "priority": 2,
+          "action": "参与性能优化或用户体验提升项目,并输出技术文档或分享",
+          "expected_impact": "增强创新和沟通能力证据,提升职业素养评分",
+          "timeline": "2-3个月"
+        },
+        {
+          "priority": 3,
+          "action": "丰富实习经历描述,突出个人贡献和成果,并考取前端相关认证（如Vue认证）",
+          "expected_impact": "提升简历竞争力,弥补证书和实习短板",
+          "timeline": "3-6个月"
+        }
+      ],
+      "improvement_potential": "完成推荐行动后预估分数:75.0",
+      "alternative_jobs": [
+        "Web前端开发实习生",
+        "JavaScript开发工程师"
+      ],
+      "overall_score_computed": 65.8
+    }
+  },
+  "recommend": {
+    "student_name": "测试同学",
+    "recommendations": [
+      {
+        "job_title": "前端开发工程师",
+        "match_score": 92,
+        "match_level": "高度匹配",
+        "reason": "学生掌握React和TypeScript基础,熟悉HTML/CSS,与岗位核心技能高度契合,且有明确前端就业意愿,GPA高学习能力强,能快速上手.",
+        "strengths": [
+          "React框架",
+          "TS基础",
+          "学习能力强"
+        ],
+        "skill_gaps": [
+          "Vue.js",
+          "工程化工具"
+        ],
+        "action": "深入学习Vue.js并完成一个前端项目",
+        "salary_range": "8k-12k"
+      },
+      {
+        "job_title": "软件测试工程师",
+        "match_score": 78,
+        "match_level": "较好匹配",
+        "reason": "学生计算机专业背景,掌握JavaScript等编程基础,学习能力强,适合转向测试领域,薪资要求适中,就业机会多.",
+        "strengths": [
+          "编程基础",
+          "学习能力",
+          "就业意愿强"
+        ],
+        "skill_gaps": [
+          "测试用例设计",
+          "Python"
+        ],
+        "action": "学习软件测试基础并考取ISTQB证书",
+        "salary_range": "7k-11k"
+      },
+      {
+        "job_title": "IT运营专员",
+        "match_score": 72,
+        "match_level": "基本匹配",
+        "reason": "学生有计算机背景,熟悉Office和数据分析基础,沟通能力较好,适合IT运营类岗位,薪资要求适中,入门门槛较低.",
+        "strengths": [
+          "计算机背景",
+          "Office技能",
+          "沟通能力"
+        ],
+        "skill_gaps": [
+          "数据分析工具",
+          "运营平台操作"
+        ],
+        "action": "学习数据分析工具和主流运营平台操作",
+        "salary_range": "5k-8k"
+      },
+      {
+        "job_title": "实施工程师",
+        "match_score": 70,
+        "match_level": "基本匹配",
+        "reason": "学生有计算机和数据库基础,学习能力强,适合实施类岗位,薪资适中,出差和沟通能力可培养.",
+        "strengths": [
+          "数据库基础",
+          "学习能力",
+          "适应性强"
+        ],
+        "skill_gaps": [
+          "ArcGIS/CASS",
+          "Linux系统操作"
+        ],
+        "action": "学习Linux系统和GIS基础软件",
+        "salary_range": "6k-10k"
+      },
+      {
+        "job_title": "Java开发工程师",
+        "match_score": 68,
+        "match_level": "基本匹配",
+        "reason": "学生有编程基础和学习能力,但Java技术栈需从头学起,岗位薪资较高,适合作为长期发展目标.",
+        "strengths": [
+          "编程基础",
+          "学习能力",
+          "目标明确"
+        ],
+        "skill_gaps": [
+          "Java",
+          "Spring框架"
+        ],
+        "action": "系统学习Java和Spring Boot并做项目",
+        "salary_range": "11k-21k"
+      },
+      {
+        "job_title": "技术支持工程师",
+        "match_score": 65,
+        "match_level": "基本匹配",
+        "reason": "学生计算机专业背景,有一定技术基础,沟通能力可培养,适合技术支持岗位,薪资适中,入门门槛较低.",
+        "strengths": [
+          "计算机背景",
+          "学习能力",
+          "服务意识"
+        ],
+        "skill_gaps": [
+          "PLC编程",
+          "网络设备调试"
+        ],
+        "action": "学习网络基础和PLC编程入门知识",
+        "salary_range": "6k-11k"
+      }
+    ],
+    "total": 6
+  }
+}
