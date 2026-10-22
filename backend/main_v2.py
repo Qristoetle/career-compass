@@ -10,6 +10,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn, os
+from settings import DATA_DIR
 
 from module1_jobs   import router as jobs_router
 from module2_student import router as student_router
@@ -46,7 +47,7 @@ async def root():
 
 @app.get("/health")
 async def health():
-    data_dir = os.environ.get("DATA_DIR", "./data")
+    data_dir = DATA_DIR
     files    = ["jobs_cleaned.json", "job_profiles.json", "job_graph.json"]
     checks   = {f: os.path.exists(os.path.join(data_dir, f)) for f in files}
     ai_info  = get_provider_info()
@@ -93,7 +94,6 @@ async def switch_ai_provider(body: ProviderSwitch):
         "name":        cfg["name"],
         "model":       cfg["model"],
         "key_set":     True,
-        "key_preview": key[:8] + "****",
         "message":     f"已切换到 {cfg['name']}",
     }
 
@@ -101,7 +101,7 @@ async def switch_ai_provider(body: ProviderSwitch):
 async def list_ai_providers():
     """列出所有支持的模型及其配置状态"""
     result = []
-    current = os.environ.get("AI_PROVIDER", "")
+    current = get_provider_info()["provider"]
     for pid in _AUTO_ORDER:
         cfg = PROVIDERS[pid]
         key = os.environ.get(cfg["env_key"], "").strip()
@@ -110,7 +110,7 @@ async def list_ai_providers():
             "name":      cfg["name"],
             "model":     cfg["model"],
             "available": bool(key),
-            "current":   (pid == current) or (not current and bool(key) and pid == _AUTO_ORDER[0]),
+            "current":   pid == current,
         })
     return {"providers": result}
 

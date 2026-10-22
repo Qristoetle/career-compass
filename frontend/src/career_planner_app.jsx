@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import "./responsive.css";
 
 /* ═══════════════════════════════════════════════════════════════
    职途罗盘 — 完整前端 v3
@@ -7,6 +8,15 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 ═══════════════════════════════════════════════════════════════ */
 
 const API = "/api";
+
+function errorMessage(detail, fallback = "请求失败，请重试") {
+  if (typeof detail === "string") return detail;
+  if (Array.isArray(detail)) return detail.map(item => {
+    const field = (item.loc || []).filter(value => value !== "body").join(".");
+    return `${field ? field + "：" : ""}${item.msg || "输入格式不正确"}`;
+  }).join("；");
+  return fallback;
+}
 
 // ── 设计 Token ──────────────────────────────────────────────────
 const T = {
@@ -41,7 +51,7 @@ async function api(path, opts = {}, timeoutMs = 30000) {
     clearTimeout(timer);
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.detail || `HTTP ${res.status}`);
+      throw new Error(errorMessage(err.detail, `请求失败（${res.status}），请稍后重试`));
     }
     return res.json();
   } catch (e) {
@@ -182,7 +192,7 @@ function Bar({ value, max = 100, color = T.gold, h = 5, label, sublabel, animate
   return (
     <div style={{ marginBottom: 8 }}>
       {(label || sublabel) && (
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+        <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
           {label && <span style={{ fontSize: 12, color: T.text1 }}>{label}</span>}
           {sublabel && <span style={{ fontSize: 12, color: color, fontFamily: "JetBrains Mono, monospace" }}>{sublabel}</span>}
         </div>
@@ -294,10 +304,11 @@ function Field({ label, children, tip }) {
     </div>
   );
 }
-function Input({ value, onChange, placeholder, type = "text", style }) {
+function Input({ value, onChange, placeholder, type = "text", style, ...props }) {
   return (
     <input
       type={type} value={value} onChange={onChange} placeholder={placeholder}
+      {...props}
       style={{ width: "100%", padding: "9px 12px", fontSize: 13, ...style }}
     />
   );
@@ -413,10 +424,10 @@ function ProfileLoading() {
         <p style={{ fontSize: 15, fontWeight: 600, color: T.text1, marginBottom: 4 }}>AI 正在分析就业能力画像</p>
         <p style={{ fontSize: 12, color: T.text2 }}>{tip}</p>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 20px" }}>
+      <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 20px" }}>
         {dims.map((d, i) => (
           <div key={d.label}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+            <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
               <span style={{ fontSize: 12, color: progresses[i] >= 100 ? T.green : i === currentIdx ? T.gold : T.text2 }}>{d.icon} {d.label}</span>
               <span style={{ fontSize: 11, color: T.text2 }}>{Math.round(progresses[i])}%</span>
             </div>
@@ -479,7 +490,7 @@ function MatchLoading() {
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {dims.map((d, i) => (
           <div key={d.label}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+            <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
               <span style={{ fontSize: 13, color: progresses[i] >= 100 ? T.green : i === currentIdx ? T.cyan : T.text2 }}>{d.icon} {d.label} ({d.weight})</span>
               <span style={{ fontSize: 11, color: T.text2 }}>{Math.round(progresses[i])}%</span>
             </div>
@@ -575,7 +586,7 @@ function ReportLoading() {
           const done = p >= 100;
           return (
             <div key={s.label} style={{ opacity: done || active ? 1 : 0.4, transition: "opacity 0.5s" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 6 }}>
+              <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 6 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <span style={{ fontSize: 18, color: done ? T.green : active ? T.gold : T.text2 }}>{s.icon}</span>
                   <div>
@@ -610,7 +621,7 @@ function ReportLoading() {
 function ErrBanner({ msg, onRetry }) {
   if (!msg) return null;
   return (
-    <div style={{ padding: "10px 14px", background: T.red + "15", border: `1px solid ${T.red}44`, borderRadius: 6, marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div className="responsive-row" style={{ padding: "10px 14px", background: T.red + "15", border: `1px solid ${T.red}44`, borderRadius: 6, marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
       <span style={{ fontSize: 13, color: T.red }}>⚠ {msg}</span>
       {onRetry && <Btn onClick={onRetry} variant="ghost" size="sm">重试</Btn>}
     </div>
@@ -731,7 +742,7 @@ const STEPS = [
   { id: 5, label: "职业报告", icon: "◇" },
 ];
 
-function Header({ step, setStep }) {
+function Header({ step, setStep, maxStep }) {
   return (
     <header style={{
       position: "sticky", top: 0, zIndex: 200,
@@ -739,7 +750,7 @@ function Header({ step, setStep }) {
       borderBottom: `1px solid ${T.line2}`,
     }}>
       {/* Logo行 */}
-      <div style={{ padding: "10px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${T.line}` }}>
+      <div className="responsive-row brand-header" style={{ padding: "10px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${T.line}` }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           {/* Logo 图形 */}
           <svg width="32" height="32" viewBox="0 0 32 32">
@@ -757,23 +768,25 @@ function Header({ step, setStep }) {
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ fontSize: 11, color: T.text2, fontFamily: "JetBrains Mono, monospace" }}>v3.0 · AI-Powered</div>
+          <div className="version-caption" style={{ fontSize: 11, color: T.text2, fontFamily: "JetBrains Mono, monospace" }}>v3.0 · AI-Powered</div>
           <ModelSelector />
         </div>
       </div>
 
       {/* 步骤导航 */}
-      <div style={{ padding: "0 28px", display: "flex", alignItems: "center" }}>
+      <div className="step-navigation" style={{ padding: "0 28px", display: "flex", alignItems: "center" }}>
         {STEPS.map((s, idx) => (
-          <div key={s.id} style={{ display: "flex", alignItems: "center", flex: idx < 4 ? 1 : 0 }}>
+          <div className="step-item" key={s.id} style={{ display: "flex", alignItems: "center", flex: idx < 4 ? 1 : 0 }}>
             <button
-              onClick={() => s.id <= step && setStep(s.id)}
+              onClick={() => s.id <= maxStep && setStep(s.id)}
+              disabled={s.id > maxStep}
+              aria-current={s.id === step ? "step" : undefined}
               style={{
                 display: "flex", alignItems: "center", gap: 7, padding: "12px 0",
                 background: "none", color: step === s.id ? T.gold : s.id < step ? T.green : T.text2,
                 fontSize: 12, fontWeight: step === s.id ? 700 : 400,
-                opacity: s.id > step ? .5 : 1,
-                cursor: s.id <= step ? "pointer" : "default",
+                opacity: s.id > maxStep ? .5 : 1,
+                cursor: s.id <= maxStep ? "pointer" : "default",
                 borderBottom: step === s.id ? `2px solid ${T.gold}` : "2px solid transparent",
                 fontFamily: "Sora, sans-serif",
                 whiteSpace: "nowrap",
@@ -970,7 +983,7 @@ function Step1({ data, setData, onNext }) {
 
       {/* 简历上传 */}
       <Card style={{ marginBottom: 20, borderStyle: "dashed", borderColor: T.line2, background: T.bg0 }} glow={false}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+        <div className="responsive-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
           <div>
             <div style={{ fontSize: 13, color: T.text1, marginBottom: 3 }}>📎 快速填写 — 上传简历自动解析</div>
             <div style={{ fontSize: 11, color: T.text2 }}>支持 PDF / DOCX / TXT，AI 提取后可手动修改</div>
@@ -986,7 +999,7 @@ function Step1({ data, setData, onNext }) {
       </Card>
 
       {/* Tab 导航 */}
-      <div style={{ display: "flex", gap: 2, marginBottom: 20, borderBottom: `1px solid ${T.line2}` }}>
+      <div className="form-tabs" style={{ display: "flex", gap: 2, marginBottom: 20, borderBottom: `1px solid ${T.line2}` }}>
         {TABS.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)} style={{
             padding: "9px 18px", background: "none", fontSize: 13,
@@ -1003,7 +1016,7 @@ function Step1({ data, setData, onNext }) {
 
       {/* 基本信息 */}
       {tab === "basic" && (
-        <div className="fade-up" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <div className="fade-up responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           {[
             ["name", "姓名", "张三"],
             ["major", "专业", "计算机科学与技术"],
@@ -1026,7 +1039,7 @@ function Step1({ data, setData, onNext }) {
 
       {/* 技能证书 */}
       {tab === "skills" && (
-        <div className="fade-up" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        <div className="fade-up responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <TagInput label="专业技能" items={data.skills || []} onAdd={v => addTag("skills", v)} onRemove={i => rmTag("skills", i)} placeholder="如：Python、Vue.js（回车添加）" color={T.gold} />
           <TagInput label="证书 / 资质" items={data.certificates || []} onAdd={v => addTag("certificates", v)} onRemove={i => rmTag("certificates", i)} placeholder="如：CET-6、PMP" color={T.cyan} />
           <div style={{ gridColumn: "1/-1" }}>
@@ -1037,7 +1050,7 @@ function Step1({ data, setData, onNext }) {
 
       {/* 经历项目 */}
       {tab === "exp" && (
-        <div className="fade-up" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        <div className="fade-up responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <TagInput
             label="实习 / 工作经历"
             items={data.internships || []}
@@ -1059,7 +1072,7 @@ function Step1({ data, setData, onNext }) {
 
       {/* 求职意向 */}
       {tab === "intent" && (
-        <div className="fade-up" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <div className="fade-up responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           <div style={{ gridColumn: "1/-1" }}>
             <TagInput label="目标岗位" items={data.target_jobs || []} onAdd={v => addTag("target_jobs", v)} onRemove={i => rmTag("target_jobs", i)} placeholder="如：前端开发工程师（回车添加）" color={T.gold} />
           </div>
@@ -1087,11 +1100,11 @@ function Step1({ data, setData, onNext }) {
       )}
 
       {/* 底部操作 */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 28, paddingTop: 16, borderTop: `1px solid ${T.line}` }}>
+      <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 28, paddingTop: 16, borderTop: `1px solid ${T.line}` }}>
         <span style={{ fontSize: 12, color: T.text2 }}>
-          {data.name && data.major ? `✓ ${data.name} · ${data.major}` : "请至少填写姓名和专业"}
+          {data.name.trim() && data.major.trim() ? `✓ ${data.name.trim()} · ${data.major.trim()}` : "请至少填写姓名和专业"}
         </span>
-        <Btn onClick={() => { saveHistory(data); onNext(); }} disabled={!data.name || !data.major} variant="gold">
+        <Btn onClick={() => { saveHistory(data); onNext(); }} disabled={!data.name.trim() || !data.major.trim()} variant="gold">
           下一步：生成能力画像 →
         </Btn>
       </div>
@@ -1184,7 +1197,7 @@ function Step2({ studentData, profile, setProfile, onNext }) {
       {profile && !loading && (
         <div>
           {/* 顶部总分 */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }} className="fade-up">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }} className="fade-up responsive-grid">
             {[
               { label: "信息完整度", score: profile.completeness_score, color: T.cyan },
               { label: "综合竞争力", score: profile.competitiveness_score, color: T.gold },
@@ -1198,7 +1211,7 @@ function Step2({ studentData, profile, setProfile, onNext }) {
           </div>
 
           {/* 雷达图 + 维度条 */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 16, marginBottom: 16 }} className="fade-up-2">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 16, marginBottom: 16 }} className="fade-up-2 responsive-grid">
             <Card>
               <SectionTitle icon="◉">能力雷达图</SectionTitle>
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -1220,7 +1233,7 @@ function Step2({ studentData, profile, setProfile, onNext }) {
           </div>
 
           {/* 优势 + 提升 */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="fade-up-3">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }} className="fade-up-3 responsive-grid">
             <Card>
               <SectionTitle icon="✦">核心竞争优势</SectionTitle>
               {(profile.competitive_advantages || []).map((a, i) => (
@@ -1258,10 +1271,10 @@ function Step2({ studentData, profile, setProfile, onNext }) {
           {/* 维度详情展开 */}
           <Card style={{ marginBottom: 16 }}>
             <SectionTitle icon="◈">维度详细分析</SectionTitle>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               {dims.map(d => (
                 <div key={d.key} style={{ padding: "10px 12px", background: T.bg0, borderRadius: 6, borderLeft: `3px solid ${getColor(d.score)}` }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                  <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
                     <span style={{ fontSize: 12, fontWeight: 600, color: T.text0 }}>{d.label}</span>
                     <span style={{ fontSize: 12, color: getColor(d.score), fontFamily: "JetBrains Mono, monospace" }}>{d.score}</span>
                   </div>
@@ -1277,7 +1290,7 @@ function Step2({ studentData, profile, setProfile, onNext }) {
             </div>
           </Card>
 
-          <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 12, borderTop: `1px solid ${T.line}` }}>
+          <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", paddingTop: 12, borderTop: `1px solid ${T.line}` }}>
             <Btn onClick={generate} variant="ghost">↺ 重新生成</Btn>
             <Btn onClick={onNext} variant="gold">下一步：探索岗位 →</Btn>
           </div>
@@ -1412,7 +1425,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
 
   return (
     <div className="fade-up">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+      <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
         <div>
           <h2 style={{ fontSize: 20, fontWeight: 700, fontFamily: "Sora, sans-serif", marginBottom: 4 }}>岗位探索</h2>
           <p style={{ fontSize: 13, color: T.text2 }}>共 {total.toLocaleString()} 条真实岗位数据，选择目标岗位后进行匹配分析</p>
@@ -1443,7 +1456,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
           animation: "fadeUp .3s ease both",
         }}>
           {/* 面板标题 */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div>
               <div style={{ fontSize: 15, fontWeight: 700, color: T.cyan, fontFamily: "Sora, sans-serif" }}>
                 ✦ AI 为 {studentData?.name || "你"} 推荐的岗位方向
@@ -1452,7 +1465,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
                 基于你的能力画像、专业背景和技能特长，从 10 个标准岗位方向中智能匹配
               </div>
             </div>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className="action-group" style={{ display: "flex", gap: 8 }}>
               <Btn onClick={fetchRecommend} disabled={recLoading} variant="outline" size="sm"
                 style={{ borderColor: T.cyan, color: T.cyan }}>
                 {recLoading ? "⟳ 分析中…" : "↺ 重新推荐"}
@@ -1465,7 +1478,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
           {recErr && <ErrBanner msg={recErr} onRetry={fetchRecommend} />}
 
           {!recLoading && recJobs.length > 0 && (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+            <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
               {recJobs.map((rec, i) => {
                 const scoreColor = rec.match_score >= 75 ? T.green : rec.match_score >= 55 ? T.goldL : T.red;
                 const scoreBg = rec.match_score >= 75 ? T.green : rec.match_score >= 55 ? T.gold : T.red;
@@ -1494,7 +1507,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
                     }}>{i + 1}</div>
 
                     {/* 岗位名 + 匹配分 */}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, paddingLeft: 26 }}>
+                    <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, paddingLeft: 26 }}>
                       <div style={{ fontSize: 14, fontWeight: 700, color: T.text0 }}>{rec.job_title}</div>
                       <div style={{
                         fontSize: 12, fontWeight: 700, padding: "3px 9px", borderRadius: 20,
@@ -1565,7 +1578,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
         <div>
           {/* 搜索筛选区 */}
           <Card style={{ marginBottom: 16, padding: "14px 16px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1.8fr 1fr 1fr 1fr auto", gap: 10, alignItems: "end" }}>
+            <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1.8fr 1fr 1fr 1fr auto", gap: 10, alignItems: "end" }}>
               <Field label="关键词搜索">
                 <Input value={keyword} onChange={e => setKeyword(e.target.value)}
                   placeholder="岗位名称、描述…"
@@ -1591,7 +1604,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
 
           {!loading && (
             <>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 16 }}>
+              <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 16 }}>
                 {jobs.map(job => {
                   const selected = selectedJob?.job_id === job.job_id;
                   return (
@@ -1606,7 +1619,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
                         boxShadow: selected ? `0 0 16px ${T.gold}20` : "none",
                       }}
                     >
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                      <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
                         <div>
                           <div style={{ fontSize: 13, fontWeight: 600, color: T.text0, marginBottom: 3 }}>{job.title}</div>
                           <div style={{ fontSize: 11, color: T.text2 }}>{job.company_name} · {job.city || "—"}</div>
@@ -1624,7 +1637,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
                         ))}
                         {job.company_scale && <Tag color={T.text2}>{job.company_scale}</Tag>}
                       </div>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <span style={{ fontSize: 10, color: T.text2 }}>{job.updated_at || ""}</span>
                         {selected && <span style={{ fontSize: 11, color: T.gold, fontWeight: 600 }}>✓ 已选</span>}
                       </div>
@@ -1657,7 +1670,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
             background: `linear-gradient(135deg, ${T.gold}0a, ${T.cyan}06)`,
             borderColor: T.gold + "33"
           }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: T.gold, marginBottom: 4 }}>
                   ✦ AI 智能岗位推荐
@@ -1688,7 +1701,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
 
           {/* 推荐岗位卡片列表 */}
           {!recLoading && recJobs.length > 0 && (
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+            <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
               {recJobs.map((rec, idx) => {
                 const isSelected = selectedJob?.title === rec.job_title;
                 return (
@@ -1834,10 +1847,10 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
               {/* 转岗路径卡片 */}
               <Card>
                 <SectionTitle icon="↔">横向转岗路径</SectionTitle>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
+                <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
                   {(pathData.lateral_paths || []).map((l, i) => (
                     <div key={i} style={{ padding: "14px 16px", background: T.bg0, borderRadius: 8, border: `1px solid ${T.line2}`, borderLeft: `3px solid ${DIFF_COLOR[l.difficulty] || T.gold}` }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                      <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
                         <span style={{ fontSize: 13, fontWeight: 600, color: T.text0 }}>→ {l.target_job || l.target}</span>
                         <Tag color={DIFF_COLOR[l.difficulty] || T.gold}>{l.difficulty}</Tag>
                       </div>
@@ -1865,7 +1878,7 @@ function Step3({ selectedJob, setSelectedJob, onNext, profile, studentData }) {
       )}
 
       {/* 底部 */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 20, paddingTop: 16, borderTop: `1px solid ${T.line}` }}>
+      <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 20, paddingTop: 16, borderTop: `1px solid ${T.line}` }}>
         <span style={{ fontSize: 12, color: T.text2 }}>
           {selectedJob
             ? <span style={{ color: T.gold }}>✓ 已选：{selectedJob.title}</span>
@@ -1956,7 +1969,7 @@ function Step4({ studentData, profile, selectedJob, matchResult, setMatchResult,
         <div>
           {/* 综合评分大图 */}
           <Card style={{ marginBottom: 16, padding: "24px" }} glow>
-            <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+            <div className="match-overview" style={{ display: "flex", alignItems: "center", gap: 28 }}>
               <Ring score={Math.round(score)} size={110} color={LEVEL_COLOR[level] || T.gold} thickness={10} />
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 26, fontWeight: 700, color: LEVEL_COLOR[level] || T.gold, marginBottom: 4, fontFamily: "Sora, sans-serif" }}>
@@ -1974,7 +1987,7 @@ function Step4({ studentData, profile, selectedJob, matchResult, setMatchResult,
                   if (!dim) return null;
                   return (
                     <div key={d.key} style={{ marginBottom: 10 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
+                      <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
                         <span style={{ fontSize: 11, color: T.text2 }}>{d.label}</span>
                         <span style={{ fontSize: 11, color: d.color, fontFamily: "JetBrains Mono, monospace" }}>
                           {dim.weighted_score?.toFixed(1) || "—"}
@@ -1989,14 +2002,14 @@ function Step4({ studentData, profile, selectedJob, matchResult, setMatchResult,
           </Card>
 
           {/* 四个维度卡片 */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+          <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
             {DIM_CFG.map(d => {
               const dim = matchResult.dimensions?.[d.key];
               if (!dim) return null;
               const rawScore = dim.raw_score ?? dim.score ?? 0;
               return (
                 <Card key={d.key} style={{ borderLeft: `3px solid ${d.color}` }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                  <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                       <span style={{ fontSize: 16, color: d.color }}>{d.icon}</span>
                       <span style={{ fontSize: 13, fontWeight: 600, color: T.text0 }}>{d.label}</span>
@@ -2047,7 +2060,7 @@ function Step4({ studentData, profile, selectedJob, matchResult, setMatchResult,
           {matchResult.top_recommendations?.length > 0 && (
             <Card style={{ marginBottom: 16 }}>
               <SectionTitle icon="→">优先提升行动</SectionTitle>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+              <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
                 {matchResult.top_recommendations.map((r, i) => (
                   <div key={i} style={{ padding: "12px 14px", background: T.bg0, borderRadius: 8, borderTop: `2px solid ${T.gold}` }}>
                     <div style={{ fontSize: 10, color: T.gold, marginBottom: 6, letterSpacing: ".6px" }}>P{r.priority} 优先</div>
@@ -2068,7 +2081,7 @@ function Step4({ studentData, profile, selectedJob, matchResult, setMatchResult,
             </Card>
           )}
 
-          <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 12, borderTop: `1px solid ${T.line}` }}>
+          <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", paddingTop: 12, borderTop: `1px solid ${T.line}` }}>
             <Btn onClick={doMatch} variant="ghost">↺ 重新分析</Btn>
             <Btn onClick={onNext} variant="gold">生成职业规划报告 →</Btn>
           </div>
@@ -2087,17 +2100,25 @@ function Step4({ studentData, profile, selectedJob, matchResult, setMatchResult,
 // ══════════════════════════════════════════════════════════════════
 // 步骤5：职业报告
 // ══════════════════════════════════════════════════════════════════
-function Step5({ studentData, profile, selectedJob, matchResult }) {
-  const [report, setReport] = useState(null);
+function Step5({ studentData, profile, selectedJob, matchResult, report, setReport, reportWarning, setReportWarning }) {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
   const [tab, setTab] = useState("summary");
   const [editing, setEditing] = useState(null);   // key of section being edited
   const [editBuf, setEditBuf] = useState("");
   const [polishing, setPolishing] = useState(false);
+  const [retryAction, setRetryAction] = useState(null);
+
+  const updateSection = (key, value) => {
+    const [section, field] = key.split(".");
+    setReport(previous => field
+      ? { ...previous, [section]: { ...previous[section], [field]: value } }
+      : { ...previous, [section]: value });
+  };
 
   const generate = async () => {
     setLoading(true); setErr("");
+    setRetryAction(null);
     try {
       const res = await api("/report/generate", {
         method: "POST",
@@ -2111,8 +2132,9 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
         }),
       }, 180000);  // 7章串行约90-150秒，设180秒
       setReport(res.report);
+      setReportWarning(res.has_errors ? "部分章节生成失败，已保留成功内容；可重新生成或手动补充。" : "");
       setTab("summary");
-    } catch (e) { setErr(e.message); }
+    } catch (e) { setErr(e.message); setRetryAction(() => generate); }
     setLoading(false);
   };
 
@@ -2166,23 +2188,25 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
   };
   const saveEdit = key => {
     try {
-      let val = editBuf;
-      try { val = JSON.parse(editBuf); } catch { }
-      setReport(prev => ({ ...prev, [key]: val }));
-    } catch { }
+      updateSection(key, editBuf);
+    } catch (e) { setErr(e.message || "保存失败，请重试"); }
     setEditing(null);
   };
 
   const polishSection = async (key, content) => {
     if (!content) return;
+    setErr("");
     setPolishing(true);
     try {
       const res = await api("/report/polish", {
         method: "POST",
         body: JSON.stringify({ section_key: key, section_content: typeof content === "string" ? content : JSON.stringify(content), polish_type: "comprehensive" }),
       }, 45000);
-      setReport(prev => ({ ...prev, [key]: res.polished }));
-    } catch { }
+      updateSection(key, res.polished);
+    } catch (e) {
+      setErr(e.message || "润色失败，请稍后重试");
+      setRetryAction(() => () => polishSection(key, content));
+    }
     setPolishing(false);
   };
 
@@ -2196,7 +2220,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
   ];
 
   // 章节内容编辑框
-  const EditableSection = ({ skey, content, label }) => {
+  const renderEditableSection = ({ skey, content }) => {
     const isEditing = editing === skey;
     const text = typeof content === "string" ? content : "";
     return (
@@ -2231,7 +2255,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
     <div>
       {actions.map((a, i) => (
         <div key={i} style={{ padding: "10px 14px", background: T.bg0, borderRadius: 8, marginBottom: 8, borderLeft: `3px solid ${T.gold}` }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+          <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
             <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
               <Tag color={T.cyan}>{a.category || "行动"}</Tag>
               <span style={{ fontSize: 13, color: T.text0, fontWeight: 500 }}>{a.action}</span>
@@ -2249,13 +2273,13 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
 
   return (
     <div className="fade-up">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+      <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
         <div>
           <h2 style={{ fontSize: 20, fontWeight: 700, fontFamily: "Sora, sans-serif", marginBottom: 4 }}>职业生涯发展报告</h2>
           <p style={{ fontSize: 13, color: T.text2 }}>AI 生成个性化规划报告，支持手动编辑与 AI 润色</p>
         </div>
         {report && (
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className="action-group" style={{ display: "flex", gap: 8 }}>
             <Btn onClick={generate} variant="ghost" size="sm">↺ 重新生成</Btn>
             <Btn onClick={exportMd} variant="ghost" size="sm">⬇ Markdown</Btn>
             <Btn onClick={exportWord} variant="gold" size="sm">⬇ Word</Btn>
@@ -2264,12 +2288,14 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
       </div>
 
       {loading && <ReportLoading />}
-      <ErrBanner msg={err} onRetry={generate} />
+      <ErrBanner msg={err} onRetry={retryAction} />
+
+      {reportWarning && <p role="status" style={{ color: T.orange, fontSize: 13, lineHeight: 1.8 }}>{reportWarning}</p>}
 
       {!report && !loading && (
         <div>
           {/* 报告预览卡 */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 28 }}>
+          <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 28 }}>
             {[
               { icon: "◎", label: "执行摘要", desc: "核心竞争力与关键结论" },
               { icon: "◆", label: "职业目标", desc: "短期/中期/长期路径规划" },
@@ -2288,7 +2314,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
 
           {/* 信息确认卡 */}
           <Card style={{ marginBottom: 24, padding: "16px 20px", background: T.gold + "08", borderColor: T.gold + "33" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+            <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
               {[
                 ["学生", studentData.name || "—"],
                 ["专业", studentData.major || "—"],
@@ -2313,7 +2339,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
         <div>
           {/* 报告头 */}
           <Card style={{ marginBottom: 16, padding: "20px 24px", background: `linear-gradient(135deg, ${T.gold}0a, ${T.cyan}05)`, borderColor: T.gold + "33" }} glow>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+            <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
               <div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: T.text0, fontFamily: "Sora, sans-serif", marginBottom: 4 }}>
                   {report.report_title || `${studentData.name} · 职业生涯发展规划报告`}
@@ -2322,14 +2348,14 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
                   {report.generated_at} · 目标岗位：{selectedJob?.title}
                 </div>
               </div>
-              <div style={{ display: "flex", gap: 8 }}>
+              <div className="action-group" style={{ display: "flex", gap: 8 }}>
                 <Tag color={T.gold}>{matchResult?.match_level || "未匹配"}</Tag>
               </div>
             </div>
           </Card>
 
           {/* Tab 导航 */}
-          <div style={{ display: "flex", gap: 2, marginBottom: 16, borderBottom: `1px solid ${T.line2}`, overflowX: "auto" }}>
+          <div className="report-tabs" style={{ display: "flex", gap: 2, marginBottom: 16, borderBottom: `1px solid ${T.line2}`, overflowX: "auto" }}>
             {TABS.map(t => (
               <button key={t.id} onClick={() => setTab(t.id)} style={{
                 padding: "9px 16px", background: "none", fontSize: 12, whiteSpace: "nowrap",
@@ -2348,11 +2374,11 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
             <div className="fade-up">
               <Card style={{ marginBottom: 14 }}>
                 <SectionTitle icon="◎">执行摘要</SectionTitle>
-                <EditableSection skey="executive_summary" content={report.executive_summary} />
+                {renderEditableSection({ skey: "executive_summary", content: report.executive_summary })}
               </Card>
 
               {/* 关键数字 */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginBottom: 14 }}>
+              <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginBottom: 14 }}>
                 {[
                   { label: "匹配评分", val: `${(matchResult?.overall_score_computed ?? matchResult?.overall_score ?? 0).toFixed(1)}`, unit: "分", color: T.gold },
                   { label: "竞争力", val: `${profile?.competitiveness_score ?? "—"}`, unit: "", color: T.cyan },
@@ -2381,9 +2407,9 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
               <div className="fade-up">
                 <Card style={{ marginBottom: 12 }}>
                   <SectionTitle icon="◉">{s.title || "第一章 职业探索与岗位匹配"}</SectionTitle>
-                  <EditableSection skey="section1_career_exploration.match_overview" content={s.match_overview} />
+                  {renderEditableSection({ skey: "section1_career_exploration.match_overview", content: s.match_overview })}
                 </Card>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+                <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
                   <Card>
                     <SectionTitle icon="✦">行业机遇</SectionTitle>
                     <p style={{ fontSize: 13, color: T.text1, lineHeight: 1.8 }}>{s.opportunity_analysis}</p>
@@ -2402,7 +2428,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
                 {s.transfer_options?.length > 0 && (
                   <Card>
                     <SectionTitle icon="↔">转岗方向建议</SectionTitle>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+                    <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
                       {s.transfer_options.map((t, i) => (
                         <div key={i} style={{ padding: "10px 12px", background: T.bg0, borderRadius: 6, borderLeft: `3px solid ${T.cyan}` }}>
                           <div style={{ fontSize: 12, fontWeight: 600, color: T.text0, marginBottom: 4 }}>→ {t.target}</div>
@@ -2424,7 +2450,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
             const mt = s.mid_term_goal || {};
             return (
               <div className="fade-up">
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+                <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
                   {[
                     { data: st, color: T.gold, icon: "◆", title: "短期目标" },
                     { data: mt, color: T.cyan, icon: "◉", title: "中期目标" },
@@ -2465,7 +2491,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
                 {s.salary_growth_forecast?.length > 0 && (
                   <Card>
                     <SectionTitle icon="◎">薪资成长预测</SectionTitle>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+                    <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
                       {s.salary_growth_forecast.map((row, i) => (
                         <div key={i} style={{ padding: "12px 14px", background: T.bg0, borderRadius: 8, textAlign: "center", borderTop: `2px solid ${T.gold}` }}>
                           <div style={{ fontSize: 11, color: T.text2, marginBottom: 6 }}>{row.period}</div>
@@ -2485,7 +2511,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
             return (
               <div className="fade-up">
                 <Card style={{ marginBottom: 12 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                  <div className="responsive-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
                     <SectionTitle icon="◈">短期行动计划（{s.short_term_plan?.timeline}）</SectionTitle>
                   </div>
                   <ActionTable actions={s.short_term_plan?.actions || []} />
@@ -2494,7 +2520,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
                   <SectionTitle icon="◉">中期行动计划（{s.mid_term_plan?.timeline}）</SectionTitle>
                   <ActionTable actions={s.mid_term_plan?.actions || []} />
                 </Card>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                   <Card>
                     <SectionTitle icon="✦">评估机制</SectionTitle>
                     <p style={{ fontSize: 13, color: T.text1, lineHeight: 1.8, marginBottom: 12 }}>{s.evaluation_cycle}</p>
@@ -2544,7 +2570,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
                 {s.improvement_priority?.length > 0 && (
                   <Card>
                     <SectionTitle icon="◉">重点提升计划</SectionTitle>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                    <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                       {s.improvement_priority.map((p, i) => (
                         <div key={i} style={{ padding: "12px 14px", background: T.bg0, borderRadius: 8, borderTop: `2px solid ${T.cyan}` }}>
                           <div style={{ fontSize: 11, color: T.cyan, marginBottom: 4 }}>P{p.rank || i + 1}</div>
@@ -2565,7 +2591,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
             const s = report.section5_resources || {};
             return (
               <div className="fade-up">
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+                <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
                   <Card>
                     <SectionTitle icon="◎">推荐在线课程</SectionTitle>
                     {(s.online_courses || []).map((c, i) => (
@@ -2580,7 +2606,7 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
                   <Card>
                     <SectionTitle icon="✦">推荐证书</SectionTitle>
                     {(s.certifications || []).map((c, i) => (
-                      <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 12px", background: T.bg0, borderRadius: 6, marginBottom: 8 }}>
+                      <div className="responsive-row" key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 12px", background: T.bg0, borderRadius: 6, marginBottom: 8 }}>
                         <div>
                           <div style={{ fontSize: 13, fontWeight: 500, color: T.text0, marginBottom: 2 }}>{c.cert_name}</div>
                           <div style={{ fontSize: 11, color: T.text2 }}>{c.issuing_body}</div>
@@ -2612,9 +2638,9 @@ function Step5({ studentData, profile, selectedJob, matchResult }) {
           })()}
 
           {/* 底部导出栏 */}
-          <div style={{ marginTop: 20, padding: "14px 20px", background: T.bg1, border: `1px solid ${T.line2}`, borderRadius: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div className="responsive-row" style={{ marginTop: 20, padding: "14px 20px", background: T.bg1, border: `1px solid ${T.line2}`, borderRadius: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontSize: 12, color: T.text2 }}>报告生成于 {report.generated_at} · 支持手动编辑和 AI 润色</span>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className="action-group" style={{ display: "flex", gap: 8 }}>
               <Btn onClick={generate} variant="ghost" size="sm">↺ 重新生成</Btn>
               <Btn onClick={exportMd} variant="ghost">⬇ Markdown</Btn>
               <Btn onClick={exportWord} variant="gold">⬇ 导出 Word 报告</Btn>
@@ -2678,6 +2704,22 @@ export default function CareerPlanner() {
   const [profile, setProfile] = useState(null);
   const [selectedJob, setSelectedJob] = useState(null);
   const [matchResult, setMatchResult] = useState(null);
+  const [report, setReport] = useState(null);
+  const [reportWarning, setReportWarning] = useState("");
+
+  const clearReport = () => { setReport(null); setReportWarning(""); };
+  const updateStudent = change => {
+    setStudentData(previous => typeof change === "function" ? change(previous) : change);
+    setProfile(null); setSelectedJob(null); setMatchResult(null); clearReport();
+  };
+  const updateProfile = value => {
+    setProfile(value); setMatchResult(null); clearReport();
+  };
+  const updateJob = value => {
+    setSelectedJob(value); setMatchResult(null); clearReport();
+  };
+  const updateMatch = value => { setMatchResult(value); clearReport(); };
+  const maxStep = matchResult ? 5 : profile && selectedJob ? 4 : profile ? 3 : step === 2 ? 2 : 1;
 
   return (
     <>
@@ -2691,13 +2733,13 @@ export default function CareerPlanner() {
       }} />
 
       <div style={{ position: "relative", zIndex: 1, minHeight: "100vh" }}>
-        <Header step={step} setStep={setStep} />
+        <Header step={step} setStep={setStep} maxStep={maxStep} />
 
         <main style={{ maxWidth: 980, margin: "0 auto", padding: "28px 24px 60px" }}>
           {step === 1 && (
             <Step1
               data={studentData}
-              setData={setStudentData}
+              setData={updateStudent}
               onNext={() => setStep(2)}
             />
           )}
@@ -2705,14 +2747,14 @@ export default function CareerPlanner() {
             <Step2
               studentData={studentData}
               profile={profile}
-              setProfile={setProfile}
+              setProfile={updateProfile}
               onNext={() => setStep(3)}
             />
           )}
           {step === 3 && (
             <Step3
               selectedJob={selectedJob}
-              setSelectedJob={setSelectedJob}
+              setSelectedJob={updateJob}
               onNext={() => setStep(4)}
               profile={profile}
               studentData={studentData}
@@ -2724,7 +2766,7 @@ export default function CareerPlanner() {
               profile={profile}
               selectedJob={selectedJob}
               matchResult={matchResult}
-              setMatchResult={setMatchResult}
+              setMatchResult={updateMatch}
               onNext={() => setStep(5)}
             />
           )}
@@ -2734,6 +2776,10 @@ export default function CareerPlanner() {
               profile={profile}
               selectedJob={selectedJob}
               matchResult={matchResult}
+              report={report}
+              setReport={setReport}
+              reportWarning={reportWarning}
+              setReportWarning={setReportWarning}
             />
           )}
         </main>

@@ -7,13 +7,15 @@ module2_student.py — 模块2：学生画像生成
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from pydantic import BaseModel
+from validation import RequiredText
 from typing import List, Optional, Dict
 import json, os, io
 
 from ai_client import chat, clean_json
+from starlette.concurrency import run_in_threadpool
 
 router = APIRouter()
-DATA_DIR = os.environ.get("DATA_DIR", "./data")
+from settings import DATA_DIR
 
 
 def load_profiles():
@@ -47,9 +49,9 @@ class ProjectItem(BaseModel):
     outcome:     Optional[str] = ""
 
 class StudentInput(BaseModel):
-    name:                str
-    major:               str
-    university:          str
+    name:                RequiredText
+    major:               RequiredText
+    university:          str = ""
     education_level:     str  = "本科"
     graduation_year:     str  = "2025"
     gpa:                 Optional[float] = None
@@ -59,7 +61,7 @@ class StudentInput(BaseModel):
     projects:            List[ProjectItem] = []
     awards:              List[str] = []
     self_introduction:   Optional[str] = None
-    target_jobs:         List[str] = []
+    target_jobs:         List[RequiredText] = []
     target_cities:       List[str] = []
     expected_salary:     Optional[str] = None
     willing_to_relocate: bool = False
@@ -87,7 +89,7 @@ async def analyze_student(student: StudentInput):
 {profile_ctx}
 
 【学生信息】
-{json.dumps(student.dict(), ensure_ascii=False, indent=2)}
+{json.dumps(student.model_dump(), ensure_ascii=False, indent=2)}
 
 只输出以下JSON格式，不添加任何说明：
 {{
@@ -121,7 +123,7 @@ async def analyze_student(student: StudentInput):
 }}"""
 
     try:
-        text = chat(prompt, system=system, max_tokens=3000)
+        text = await run_in_threadpool(chat, prompt, system=system, max_tokens=3000)
         return {
             "student_name": student.name,
             "major":        student.major,
@@ -188,7 +190,7 @@ async def upload_resume(file: UploadFile = File(...)):
 {resume_text[:4000]}"""
 
     try:
-        text   = chat(prompt, system=system, max_tokens=2000)
+        text   = await run_in_threadpool(chat, prompt, system=system, max_tokens=2000)
         parsed = json.loads(clean_json(text))
         return {"filename": filename, "char_count": len(resume_text), "parsed_data": parsed}
     except json.JSONDecodeError as e:

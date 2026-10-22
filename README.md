@@ -62,3 +62,13 @@ npm run dev
 ## 使用与归属
 
 本项目用于学习与作品展示，职业建议需要结合个人情况判断。没有额外授予第三方素材或团队代码的开放许可；相关权益仍归原作者或权利人所有。
+
+## 维护与回归检查
+
+`DATA_DIR` 未设置时使用 `backend/data`；相对路径始终以 `backend` 为基准，绝对路径可用于指定自己的完整数据目录。不要提交真实密钥和完整私有数据。
+
+后台离线检查：安装 `backend/requirements-dev.txt`，在仓库根目录执行 `python -m pytest tests/backend -q`。
+
+页面检查：先在 `frontend` 执行 `npm ci`，再安装 `tests/browser/requirements.txt`、执行 `python -m playwright install chromium`，回到仓库根目录执行 `python -m pytest tests/browser -q`。页面测试使用虚构数据，不调用真实模型；本机可通过 `PLAYWRIGHT_CHROMIUM_EXECUTABLE` 指定浏览器。
+
+[本轮维护与测试结果](docs/testing/2026-10-22-maintenance-results.md)。
